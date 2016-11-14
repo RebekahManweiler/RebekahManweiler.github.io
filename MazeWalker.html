@@ -43,88 +43,141 @@
 
             // createScene function that creates and return the scene
             var createScene = function () {
-				
-				//stephen's code doesn't work at the moment
-				// This creates a basic Babylon Scene object (non-mesh)
-				var scene = new BABYLON.Scene(engine);
 
-				// This creates and positions a free camera (non-mesh)
-				var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(8, 2, 4), scene);
+    // This creates a basic Babylon Scene object (non-mesh)
+    var scene = new BABYLON.Scene(engine);
 
-				// This targets the camera to scene origin
-				camera.setTarget(BABYLON.Vector3.Zero());
-				camera.speed = 0.25;
+    // This creates and positions a free camera (non-mesh)
+    var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(8, 2, 4), scene);
 
-				// This attaches the camera to the canvas
-				camera.attachControl(canvas, true);
+    // This targets the camera to scene origin
+    camera.setTarget(new BABYLON.Vector3(0,2,4));
+	camera.speed = 0.25;
 
-				// This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-				var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
-
-				// Default intensity is 1. Let's dim the light a small amount
-				light.intensity = 0.7;
-
-				// Our built-in 'sphere' shape. Params: name, subdivs, size, scene
-				var maze = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-				var cubes = [];
-				var cubecount = 0;
-				var cubes2 = [];
-				var x = 12.5;
-				var z = 12.5;
-				var y = 1;
+    // This attaches the camera to the canvas
+    camera.attachControl(canvas, true);
 	
-				for (var i = 0; i < 7; i++)
-				{
-					for (var j = 0; j < 7; j++)
-					{
-						if (maze[j + i * 7] == 0){
-							var temp = x;
-							var temp2 = z;
-				
-							//var fire = new BABYLON.FireProceduralTexture2("firePT", 256, scene);
-							//sphere.material.diffuseTexture = fire;
-							
-							
-							cubes[cubecount] = BABYLON.Mesh.CreateBox("cube", 4, scene);
-							cubes2[cubecount] = BABYLON.Mesh.CreateBox("cube", 4, scene);
-							cubes[cubecount].position.x = x;
-							cubes2[cubecount].position.x = x;
-							cubes[cubecount].position.z = z;
-							cubes2[cubecount].position.z = z;
-							cubes[cubecount].position.y = 2;
-							cubes2[cubecount].position.y = 6;
-							//cubes[cubecount].material.diffuseTexture = new BABYLON.FireProceduralTexture2("firePT", 256, scene);
-							//cubes2[cubecount].material.diffuseTexture = new BABYLON.FireProceduralTexture2("firePT", 256, scene);
-							cubes[cubecount].material = new BABYLON.StandardMaterial("texture1", scene);
-							cubes2[cubecount].material = new BABYLON.StandardMaterial("texture1", scene);
-							cubes[cubecount].material.diffuseTexture = new BABYLON.Texture("floor.png", scene);//added floor.png to main file
-							cubes2[cubecount].material.diffuseTexture = new BABYLON.Texture("floor.png", scene);
-							cubes[cubecount].checkCollisions = true;
-							cubes2[cubecount].checkCollisions = true;
-							cubecount++;
-					
-						}
-						x-= 4;
-					}
-					x = 12.5;
-					z-= 4;
+	var cameraCube = BABYLON.Mesh.CreateBox("cube", 2, scene);
+	var first = true;
+	cameraCube.outlineWidth = 0.15;
+    cameraCube.renderOutline = true;
+    cameraCube.position.y = 0;
+	cameraCube.position.x = 0;
+	cameraCube.position.z = 0;
+	
+	cameraCube.material = new BABYLON.StandardMaterial("texture1", scene);
+	cameraCube.material.diffuseTexture = new BABYLON.Texture("textures/floor.png", scene);
+	
+	cameraCube.parent = camera;
+	//cameraCube.checkCollisions = true;
+	
+
+    // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
+    var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
+
+    // Default intensity is 1. Let's dim the light a small amount
+    light.intensity = 0.2;
+	scene.fogMode = BABYLON.Scene.FOGMODE_EXP2;
+	scene.fogDensity = 0.25;
+
+    // Our built-in 'sphere' shape. Params: name, subdivs, size, scene
+	var maze = [0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0,
+		0, 2, 1, 1, 1, 0, 0,
+		0, 0, 1, 0, 1, 0, 0,
+		0, 0, 1, 0, 1, 1, 0,
+		0, 0, 3, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0];
+	var cubes = [];
+	var cubecount = 0;
+	var cubes2 = [];
+	var hole;
+	var x = 12.5;
+	var z = 12.5;
+	var y = 1;
+	
+	for (var i = 0; i < 7; i++)
+	{
+		for (var j = 0; j < 7; j++)
+		{
+			if (maze[j + i * 7] == 0){
+				var temp = x;
+				var temp2 = z;
+					cubes[cubecount] = BABYLON.Mesh.CreateBox("cube", 4, scene);
+					cubes2[cubecount] = BABYLON.Mesh.CreateBox("cube", 4, scene);
+					cubes[cubecount].position.x = x;
+					cubes2[cubecount].position.x = x;
+					cubes[cubecount].position.z = z;
+					cubes2[cubecount].position.z = z;
+					cubes[cubecount].position.y = 2;
+					cubes2[cubecount].position.y = 6;
+					cubes[cubecount].material = new BABYLON.StandardMaterial("texture1", scene);
+					cubes2[cubecount].material = new BABYLON.StandardMaterial("texture1", scene);
+					cubes[cubecount].material.diffuseTexture = new BABYLON.Texture("textures/floor.png", scene);
+					cubes2[cubecount].material.diffuseTexture = new BABYLON.Texture("textures/floor.png", scene);
+					cubes[cubecount].checkCollisions = true;
+					cubes2[cubecount].checkCollisions = true;
+					cubecount++;
+			}
+			
+			if (maze[j + i * 7] == 3){
+				var temp = x;
+				var temp2 = z;
+				hole = BABYLON.Mesh.CreateBox("cube", 4, scene);
+				cubes2[cubecount] = BABYLON.Mesh.CreateBox("cube", 4, scene);
+				hole.position.x = x;
+				cubes2[cubecount].position.x = x;
+				hole.position.z = z;
+				cubes2[cubecount].position.z = z;
+				hole.position.y = 2;
+				cubes2[cubecount].position.y = 6;
+				hole.material = new BABYLON.StandardMaterial("texture1", scene);
+				cubes2[cubecount].material = new BABYLON.StandardMaterial("texture1", scene);
+				hole.material.diffuseTexture = new BABYLON.Texture("textures/grass.png", scene);
+				cubes2[cubecount].material.diffuseTexture = new BABYLON.Texture("textures/floor.png", scene);
+				hole.checkCollisions = true;
+				cubes2[cubecount].checkCollisions = true;
+				cubecount++;
+			}
+			x-= 4;
+		}
+		x = 12.5;
+		z-= 4;
 		
-				}
+	}
+    // Move the sphere upward 1/2 its height
 
-				// Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
-				var ground = BABYLON.Mesh.CreateGround("ground1", 28.5, 28.5, 2, scene);
+    // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
+    var ground = BABYLON.Mesh.CreateGround("ground1", 28.5, 28.5, 2, scene);
 	
-				scene.gravity = new BABYLON.Vector3(0, -9.81, 0);
-				camera.applyGravity = true;
-				camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
-				scene.collisionsEnabled = true;
-				camera.checkCollisions = true;
-				ground.checkCollisions = true;
-				//cube.checkCollisions = true;
+	scene.gravity = new BABYLON.Vector3(0, -9.81, 0);
+	camera.applyGravity = true;
+	camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
+	scene.collisionsEnabled = true;
+	camera.checkCollisions = true;
+	ground.checkCollisions = true;
+	
+	scene.registerBeforeRender(function () {
 
-				return scene;
+		if (first == true)
+		{
+			first = false;
+		}
+		else {
+			if (cameraCube.intersectsMesh(hole, false)) {
+            	console.log('hello');
+			}
+			else {
+				cameraCube.outlineWidth = 0.15;
+			}
+		}
+	});
+	
+	
 
-			};
+    return scene;
+
+};
 
             // call the createScene function
             var scene = createScene();

@@ -121,8 +121,8 @@
 					cubes2[cubecount].position.y = 6;
 					cubes[cubecount].material = new BABYLON.StandardMaterial("texture1", scene);
 					cubes2[cubecount].material = new BABYLON.StandardMaterial("texture1", scene);
-					cubes[cubecount].material.diffuseTexture = new BABYLON.Texture("textures/floor.png", scene);
-					cubes2[cubecount].material.diffuseTexture = new BABYLON.Texture("textures/floor.png", scene);
+					cubes[cubecount].material.diffuseTexture = new BABYLON.Texture("floor.png", scene);
+					cubes2[cubecount].material.diffuseTexture = new BABYLON.Texture("floor.png", scene);
 					cubes[cubecount].checkCollisions = true;
 					cubes2[cubecount].checkCollisions = true;
 					cubecount++;
@@ -141,8 +141,8 @@
 				cubes2[cubecount].position.y = 6;
 				hole.material = new BABYLON.StandardMaterial("texture1", scene);
 				cubes2[cubecount].material = new BABYLON.StandardMaterial("texture1", scene);
-				hole.material.diffuseTexture = new BABYLON.Texture("textures/grass.png", scene);
-				cubes2[cubecount].material.diffuseTexture = new BABYLON.Texture("textures/floor.png", scene);
+				hole.material.diffuseTexture = new BABYLON.Texture("grass.png", scene);
+				cubes2[cubecount].material.diffuseTexture = new BABYLON.Texture("floor.png", scene);
 				hole.checkCollisions = true;
 				cubes2[cubecount].checkCollisions = true;
 				cubecount++;

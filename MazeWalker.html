@@ -43,7 +43,15 @@
             var engine = new BABYLON.Engine(canvas, true);
             var lowWalls = [];
             var highWalls = [];
-            var holes = [];
+            var lowerHoles = [];
+            var upperHoles = [];
+            var wallCount = 0;
+
+            var maze = getMaze(19);
+
+            var size = 19*4;
+
+            var holeCount = 0;
 
             // createScene function that creates and return the scene
             var createScene = function () {
@@ -51,11 +59,14 @@
    				 // This creates a basic Babylon Scene object (non-mesh)
     			var scene = new BABYLON.Scene(engine);
 
+    			var startX = 0;
+    			var startZ = 0;
+
     			// This creates and positions a free camera (non-mesh)
     			var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(8, 2, 4), scene);
 
     			// This targets the camera to scene origin
-    			camera.setTarget(new BABYLON.Vector3(0,2,4));
+    			//camera.setTarget(new BABYLON.Vector3(0,2,4));
 				camera.speed = 0.25;
 
     			// This attaches the camera to the canvas
@@ -69,9 +80,6 @@
 				cameraCube.position.x = 0;
 				cameraCube.position.z = 0;
 	
-				cameraCube.material = new BABYLON.StandardMaterial("texture1", scene);
-				cameraCube.material.diffuseTexture = new BABYLON.Texture("textures/floor.png", scene);
-	
 				cameraCube.parent = camera;
 				//cameraCube.checkCollisions = true;
 	
@@ -84,72 +92,68 @@
 				scene.fogMode = BABYLON.Scene.FOGMODE_EXP2;
 				scene.fogDensity = 0.25;
 
+				var x = 2;
+				var z = -2;
+				var lowY = 2;
+				var highY = 6;
+
     			// Our built-in 'sphere' shape. Params: name, subdivs, size, scene
-				var maze = [0, 0, 0, 0, 0, 0, 0,
-							0, 0, 0, 0, 0, 0, 0,
-							0, 2, 1, 1, 1, 0, 0,
-							0, 0, 1, 0, 1, 0, 0,
-							0, 0, 1, 0, 1, 1, 0,
-							0, 0, 3, 0, 0, 0, 0,
-							0, 0, 0, 0, 0, 0, 0];
-				var cubecount = 0;
-				var hole;
-				var x = 12.5;
-				var z = 12.5;
-				var y = 1;
-	
-				for (var i = 0; i < 7; i++)
+				for (var i = 0; i < 19; i++)
 				{
-					for (var j = 0; j < 7; j++)
+					for (var j = 0; j < 19; j++)
 					{
-						if (maze[j + i * 7] == 0){
-							var temp = x;
-							var temp2 = z;
-							lowWalls[cubecount] = BABYLON.Mesh.CreateBox("cube", 4, scene);
-							highWalls[cubecount] = BABYLON.Mesh.CreateBox("cube", 4, scene);
-							lowWalls[cubecount].position.x = x;
-							highWalls[cubecount].position.x = x;
-							lowWalls[cubecount].position.z = z;
-							highWalls[cubecount].position.z = z;
-							lowWalls[cubecount].position.y = 2;
-							highWalls[cubecount].position.y = 6;
-							lowWalls[cubecount].material = new BABYLON.StandardMaterial("texture1", scene);
-							highWalls[cubecount].material = new BABYLON.StandardMaterial("texture1", scene);
-							lowWalls[cubecount].material.diffuseTexture = new BABYLON.Texture("floor.png", scene);
-							highWalls[cubecount].material.diffuseTexture = new BABYLON.Texture("floor.png", scene);
-							lowWalls[cubecount].checkCollisions = true;
-							highWalls[cubecount].checkCollisions = true;
-							cubecount++;
+						if (maze[i * 19 + j] == "W")
+						{
+							lowWalls[wallCount] = BABYLON.Mesh.CreateBox("wall", 4, scene);
+							lowWalls[wallCount].position.x = x;
+							lowWalls[wallCount].position.y = lowY;
+							lowWalls[wallCount].position.z = z;
+							highWalls[wallCount] = BABYLON.Mesh.CreateBox("wall", 4, scene);
+							highWalls[wallCount].position.x = x;
+							highWalls[wallCount].position.y = highY;
+							highWalls[wallCount].position.z = z;
+				
+							lowWalls[wallCount].material = new BABYLON.StandardMaterial("texture1", scene);
+							highWalls[wallCount].material = new BABYLON.StandardMaterial("texture1", scene);
+							lowWalls[wallCount].material.diffuseTexture = new BABYLON.Texture("floor.png", scene);
+							highWalls[wallCount].material.diffuseTexture = new BABYLON.Texture("floor.png", scene);
+				
+							lowWalls[wallCount].checkCollisions = true;
+							highWalls[wallCount].checkCollisions = true;
+							wallCount++;
 						}
-			
-						if (maze[j + i * 7] == 3){
-							var temp = x;
-							var temp2 = z;
-							hole = BABYLON.Mesh.CreateBox("cube", 4, scene);
-							highWalls[cubecount] = BABYLON.Mesh.CreateBox("cube", 4, scene);
-							hole.position.x = x;
-							highWalls[cubecount].position.x = x;
-							hole.position.z = z;
-							highWalls[cubecount].position.z = z;
-							hole.position.y = 2;
-							highWalls[cubecount].position.y = 6;
-							hole.material = new BABYLON.StandardMaterial("texture1", scene);
-							highWalls[cubecount].material = new BABYLON.StandardMaterial("texture1", scene);
-							hole.material.diffuseTexture = new BABYLON.Texture("grass.png", scene);
-							highWalls[cubecount].material.diffuseTexture = new BABYLON.Texture("floor.png", scene);
-							highWalls[cubecount].checkCollisions = true;
-							cubecount++;
+						else if (maze[i * 19 + j] == "H")
+						{
+							lowerHoles[holeCount] = BABYLON.Mesh.CreateBox("wall", 4, scene);
+							lowerHoles[holeCount].position.x = x;
+							lowerHoles[holeCount].position.y = lowY;
+							lowerHoles[holeCount].position.z = z;
+							upperHoles[holeCount] = BABYLON.Mesh.CreateBox("wall", 4, scene);
+							upperHoles[holeCount].position.x = x;
+							upperHoles[holeCount].position.y = highY;
+							upperHoles[holeCount].position.z = z;
+				
+							lowerHoles[holeCount].visibility = 0;
+							upperHoles[holeCount].visibility = 0;
+				
+							lowerHoles[holeCount].checkCollisions = true;
+							upperHoles[holeCount].checkCollisions = true;
+							holeCount++;
 						}
-						x-= 4;
+						else if (maze[i * 19 + j] == "S")
+						{
+							startX = x;
+							startZ = z;
+						}
+						x += 4;
 					}
-					x = 12.5;
-					z-= 4;
-		
+					z = -2 - ((i + 1) * 4);
+					x = 2;
 				}
     			// Move the sphere upward 1/2 its height
 
     			// Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
-    			var ground = BABYLON.Mesh.CreateGround("ground1", 28.5, 28.5, 2, scene);
+    			var ground = BABYLON.Mesh.CreateGround("ground1", size, size, 2, scene);
 	
 				scene.gravity = new BABYLON.Vector3(0, -9.81, 0);
 				camera.applyGravity = true;
@@ -157,10 +161,13 @@
 				scene.collisionsEnabled = true;
 				camera.checkCollisions = true;
 				ground.checkCollisions = true;
+				camera.position.x = startX;
+				camera.position.z = startZ;
+				camera.position.y = 2;
 				
 				scene.registerBeforeRender(function () {
 
-					if (first == true)
+					/*if (first == true)
 					{
 						first = false;
 					}
@@ -171,10 +178,10 @@
 						else {
 							cameraCube.outlineWidth = 0.15;
 						}
-					}
+					}*/
 				});
 	
-	
+			camera.setTarget(new BABYLON.Vector3(startX+2, 2, startZ));
 
     		return scene;
 

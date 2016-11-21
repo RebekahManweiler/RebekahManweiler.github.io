@@ -229,6 +229,15 @@
             window.addEventListener('resize', function(){
                 engine.resize();
             });
+		
+	    // deletes all the walls in the current maze
+	    var deleteWalls = function(){
+	    	for (var i = 0; i < lowWalls.length; i++)
+		{
+			lowWalls[i].dispose();
+			highWalls[i].dispose();
+		}
+	    };
         });
     </script>
 </body>

@@ -33,8 +33,24 @@
 
 </head>
 <body>
+
+	<form name="sentData">
+	<input type="hidden" name="data">
+	</form>
+	
     <canvas id="renderCanvas"></canvas>
     <script>
+		var locate = window.location;
+		document.sentData.data.value = locate;
+		var value = document.sentData.data.value;
+		
+		function getData(str){
+			var index = str.lastIndexOf("=") + 1;
+			return(str.substring(index, str.length));
+		}
+		
+		var finalValue = getData(value);
+		
         window.addEventListener('DOMContentLoaded', function(){
             // get the canvas DOM element
             var canvas = document.getElementById('renderCanvas');
@@ -53,7 +69,7 @@
 
             var mazes = [mazeGen.getMaze(size)];
 
-            var size = 19;
+            var size = finalValue;
 
             var holeCount = 0;
 

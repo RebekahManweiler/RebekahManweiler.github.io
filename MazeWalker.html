@@ -201,11 +201,8 @@
 						{
 							if(holeMesh.intersectsMesh(cameraCube, false))
 							{
-								for(var j = 0; j < wallCount; j++)
-								{
-									highWalls[j].dispose();
-								}
-								holeMesh.visibility = 1;
+								deleteWalls();
+								break;
 							}
 						}
 					}

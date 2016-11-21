@@ -48,7 +48,6 @@
 			var value = document.sentData.data.value;
 		
 			var finalValue = getData(value);
-			alert(finalValue);
             // get the canvas DOM element
             var canvas = document.getElementById('renderCanvas');
 
@@ -64,7 +63,7 @@
 
             var mazeGen = new mazeGenerator();
 
-            var size = 19;
+            var size = finalValue;
 
             var mazes = [mazeGen.getMaze(size)];
 

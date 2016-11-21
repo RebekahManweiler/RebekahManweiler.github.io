@@ -40,18 +40,19 @@
 	
     <canvas id="renderCanvas"></canvas>
     <script>
-		var locate = window.location;
-		document.sentData.data.value = locate;
-		var value = document.sentData.data.value;
-		
-		function getData(str){
-			var index = str.lastIndexOf("=") + 1;
-			return(str.substring(index, str.length));
-		}
-		
-		var finalValue = getData(value);
 		
         window.addEventListener('DOMContentLoaded', function(){
+		
+			var locate = window.location;
+			document.sentData.data.value = locate;
+			var value = document.sentData.data.value;
+		
+			function getData(str){
+				var index = str.lastIndexOf("=") + 1;
+				return(str.substring(index, str.length));
+			}
+		
+			var finalValue = getData(value);
             // get the canvas DOM element
             var canvas = document.getElementById('renderCanvas');
 

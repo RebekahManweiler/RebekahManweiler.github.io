@@ -1,10 +1,11 @@
+function mazeGenerator(){
 	/**
 	 * Returns the size of the given maze
 	 * @param {array} maze - The maze array
 	 * @pre maze is a valid and filled array that is a perfect square length
 	 * @return {int} size of the given maze
 	 */
-	function getMazeSize(maze){
+	this.getMazeSize = function(maze){
 		return Math.floor(Math.sqrt(maze.length));
 	}
 
@@ -14,7 +15,7 @@
 	 * @pre size is not less than 7
 	 * @return {array} the filled 1D maze array
 	 */
-	function getMaze(size) {
+	this.getMaze = function(size) {
 
 		var maze = [];
 		for(var i = 0; i < size; i++)
@@ -51,18 +52,18 @@
 			}
 		}
 
-		maze = makeMaze(maze, [2,2]);
-		var startRow = randomIntFromInterval(2, size-2);
+		maze = this.makeMaze(maze, [2,2]);
+		var startRow = this.randomIntFromInterval(2, size-2);
 		var startCol = 1
-		var endRow = randomIntFromInterval(2, size-2);
+		var endRow = this.randomIntFromInterval(2, size-2);
 		var endCol = size-2;
 		maze[startRow][startCol] = 'S';
 		maze[endRow][endCol] = 'E';
-		maze = recurseMaze(maze, startRow, startCol);
-		maze = placeHoles(maze);
+		maze = this.recurseMaze(maze, startRow, startCol);
+		maze = this.placeHoles(maze);
 		maze[startRow][startCol] = 'S';
 		maze[endRow][endCol] = 'E';
-		return twoToOne(maze);
+		return this.twoToOne(maze);
 
 	}
 
@@ -72,7 +73,7 @@
 	 * @pre maze has been generated
 	 * @return array of coordinate pairs that is the path to solve the maze
 	 */
-	function mazeSolver(maze){
+	this.mazeSolver = function(maze){
 		var curRow = 0;
 		var curCol = 0;
 		for (var i = 0; i < maze.length; i++)
@@ -83,7 +84,7 @@
 				curCol = 1;
 			}
 		}
-		var path = recurseMaze(maze, curRow, curCol);
+		var path = this.recurseMaze(maze, curRow, curCol);
 
 		return path;
 
@@ -96,7 +97,7 @@
 	 * @pre maze has been generated
 	 * @return maze with holes placed at "dead ends" ('H' has been inserted at specific indexes)
 	 */
-	function placeHoles(maze){
+	this.placeHoles = function(maze){
 		for(var i = 0; i < maze.length; i++)
 		{
 			for(var j = 0; j < maze[i].length; j++)
@@ -118,22 +119,22 @@
 	 * @pre maze is generated, curRow and curCol are indexes in the maze
 	 * @return maze with all non-"dead end" paths replaced with 'V'
 	 */
-	function recurseMaze(maze, curRow, curCol){
+	this.recurseMaze = function(maze, curRow, curCol){
 		if((maze[curRow-1][curCol] == 'P' || maze[curRow-1][curCol] == 'E') && maze[curRow-1][curCol] != 'V'){
 			maze[curRow][curCol] = 'V';
-			maze = recurseMaze(maze, curRow-1, curCol);
+			maze = this.recurseMaze(maze, curRow-1, curCol);
 		}
 		if((maze[curRow][curCol+1] == 'P' || maze[curRow][curCol+1] == 'E') && maze[curRow][curCol+1] != 'V'){
 			maze[curRow][curCol] = 'V';
-			maze = recurseMaze(maze, curRow, curCol+1);
+			maze = this.recurseMaze(maze, curRow, curCol+1);
 		}
 		if((maze[curRow+1][curCol] == 'P' || maze[curRow+1][curCol] == 'E') && maze[curRow+1][curCol] != 'V'){
 			maze[curRow][curCol] = 'V';
-			maze = recurseMaze(maze, curRow+1, curCol);
+			maze = this.recurseMaze(maze, curRow+1, curCol);
 		}
 		if((maze[curRow][curCol-1] == 'P' || maze[curRow][curCol-1] == 'E') && maze[curRow][curCol-1] != 'V'){
 			maze[curRow][curCol] = 'V';
-			maze = recurseMaze(maze, curRow, curCol-1);
+			maze = this.recurseMaze(maze, curRow, curCol-1);
 		}
 		return maze;
 
@@ -145,7 +146,7 @@
 	 * @pre maze is generated
 	 * @return maze as a 1D array
 	 */
-	function twoToOne(maze){
+	this.twoToOne = function(maze){
 		var temp = [];
 		var tempCount = 0;
 		for (var i = 0; i < maze.length; i++)
@@ -165,7 +166,7 @@
 	 * @pre maze is generated
 	 * @return none
 	 */
-	function printMaze(maze){
+	this.printMaze = function(maze){
 		var temp="";
 		for(var i = 0; i < maze[0].length; i++) {
  			for(var z = 0; z < maze.length; z++) {
@@ -182,7 +183,7 @@
 	 * @param {int} max - maximum number that the random int can be
 	 * @return random int between min and max
 	 */
-	function randomIntFromInterval(min,max)
+	this.randomIntFromInterval = function(min,max)
 	{
 		var x = 0;
 		do{
@@ -198,7 +199,7 @@
 	 * @pre none
 	 * @return randomly generated 2D maze array
 	 */
-	function makeMaze(maze, curCoords) {
+	this.makeMaze = function(maze, curCoords) {
 
 		var curRow = curCoords[0];
 		var curCol = curCoords[1];
@@ -223,7 +224,7 @@
 					maze[curRow-1][curCol] = 'P';
 					maze[curRow-2][curCol] = 'P';
 					curRow = curRow-2;
-					maze = makeMaze(maze, [curRow, curCol]);
+					maze = this.makeMaze(maze, [curRow, curCol]);
 					j = 0;
 				}
 			}
@@ -234,7 +235,7 @@
 					maze[curRow+1][curCol] = 'P';
 					maze[curRow+2][curCol] = 'P';
 					curRow = curRow+2;
-					maze = makeMaze(maze, [curRow, curCol]);
+					maze = this.makeMaze(maze, [curRow, curCol]);
 					j = 0;
 				}
 			}
@@ -245,7 +246,7 @@
 					maze[curRow][curCol-1] = 'P';
 					maze[curRow][curCol-2] = 'P';
 					curCol = curCol-2;
-					maze = makeMaze(maze, [curRow, curCol]);
+					maze = this.makeMaze(maze, [curRow, curCol]);
 					j = 0;
 				}
 			}
@@ -256,7 +257,7 @@
 					maze[curRow][curCol+1] = 'P';
 					maze[curRow][curCol+2] = 'P';
 					curCol = curCol+2;
-					maze = makeMaze(maze, [curRow, curCol]);
+					maze = this.makeMaze(maze, [curRow, curCol]);
 					j = 0;
 				}
 			}
@@ -271,7 +272,7 @@
 	 *
 	 *
 	 */
-	function pathFinder(){
+	this.pathFinder = function(){
 		var path = [];
 		var tempRow = curRow;
 		var tempCol = curCol;
@@ -285,7 +286,7 @@
 			tempRow = curRow-1;
 			maze[curRow][curCol] = 'V';
 			deadEnd = false;
-			path = recurseMaze(maze, tempRow, tempCol);
+			path = this.recurseMaze(maze, tempRow, tempCol);
 			if (path != true)
 			{
 				path.unshift([curRow, curCol]);
@@ -299,7 +300,7 @@
 			tempCol = curCol+1;
 			maze[curRow][curCol] = 'V';
 			deadEnd = false;
-			path = recurseMaze(maze, tempRow, tempCol);
+			path = this.recurseMaze(maze, tempRow, tempCol);
 			if (path != true)
 			{
 				path.unshift([curRow, curCol]);
@@ -313,7 +314,7 @@
 			tempRow = curRow+1;
 			maze[curRow][curCol] = 'V';
 			deadEnd = false;
-			path = recurseMaze(maze, tempRow, tempCol);
+			path = this.recurseMaze(maze, tempRow, tempCol);
 			if (path != true)
 			{
 				path.unshift([curRow, curCol]);
@@ -326,7 +327,7 @@
 			tempCol = curCol-1;
 			maze[curRow][curCol] = 'V';
 			deadEnd = false;
-			path = recurseMaze(maze, tempRow, tempCol);
+			path = this.recurseMaze(maze, tempRow, tempCol);
 			if (path != true)
 			{
 				path.unshift([curRow, curCol]);
@@ -341,3 +342,5 @@
 		}
 		return true;
 	}
+
+}

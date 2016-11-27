@@ -43,6 +43,7 @@
 		
         window.addEventListener('DOMContentLoaded', function(){
 		
+			//get chosen difficulty from previous page
 			var locate = window.location;
 			document.sentData.data.value = locate;
 			var value = document.sentData.data.value;
@@ -63,7 +64,7 @@
 
             var mazeGen = new mazeGenerator();
 
-            var size = finalValue;
+            var size = finalValue;//scales difficulty of maze
 
             var mazes = [mazeGen.getMaze(size)];
 
@@ -244,14 +245,14 @@
                 engine.resize();
             });
 		
-	    // deletes all the walls in the current maze
-	    var deleteWalls = function(){
-	    	for (var i = 0; i < lowWalls.length; i++)
-		{
-			lowWalls[i].dispose();
-			highWalls[i].dispose();
-		}
-	    };
+			// deletes all the walls in the current maze
+			var deleteWalls = function(){
+				for (var i = 0; i < lowWalls.length; i++)
+				{
+					lowWalls[i].dispose();
+					highWalls[i].dispose();
+				}
+			};
         });
     </script>
 </body>

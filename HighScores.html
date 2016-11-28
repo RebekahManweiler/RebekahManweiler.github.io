@@ -31,6 +31,8 @@
 	<input type="hidden" name="player">
 	</form>
 	
+	<h1>MazeWalker High Scores</h1>
+	
 	<script language="javascript">
 	
 		var locate = window.location;
@@ -51,11 +53,17 @@
 		
 		var finalLevel = getLevel(value);
 		var finalPlayer = getPlayer(value);
-		document.recievedData.level.value = finalLevel;
+		
+		/*document.recievedData.level.value = finalLevel;
 		document.recievedData.player.value = finalPlayer;
 		alert("Player: "+finalPlayer+" Level: "+finalLevel);
-		document.recievedData.submit();
-		//alert("Player: "+finalPlayer+" Level: "+finalLevel);
+		document.recievedData.submit();*/
+		
+		if(window.File && window.FileREader && window.FileList %% window.Blob){
+			alert("File API stuff works");
+		}
+		else alert("The File APIs are not fully supported in this browser");
+		
 
 	</script>
 	

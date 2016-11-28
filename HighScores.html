@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
+    <title>MazeWalker High Scores</title>
+	
+    <style>
+        html, body {
+            overflow: hidden;
+            width   : 100%;
+            height  : 100%;
+            margin  : 0;
+            padding : 0;
+        }
+
+        #renderCanvas {
+            width   : 100%;
+            height  : 100%;
+            touch-action: none;
+        }
+    </style>
+
+</head>
+<body>
+	<form name="sentData">
+	<input type="hidden" name="data">
+	</form>
+	
+	<form name="recievedData" action="HighScores.php" method="post">
+	<input type="hidden" name="level">
+	<input type="hidden" name="player">
+	</form>
+	
+	<script language="javascript">
+	
+		var locate = window.location;
+		document.sentData.data.value = locate;
+		var value = document.sentData.data.value;
+		
+		function getPlayer(str){
+			var index = str.lastIndexOf("=") + 1;
+			return(str.substring(index, str.length));
+		}
+		
+		function getLevel(str){
+			var index = str.lastIndexOf("&");
+			var firstHalf = str.substring(0, index);
+			index = firstHalf.lastIndexOf("=") + 1;
+			return(firstHalf.substring(index, firstHalf.length));
+		}
+		
+		var finalLevel = getLevel(value);
+		var finalPlayer = getPlayer(value);
+		document.recievedData.level.value = finalLevel;
+		document.recievedData.player.value = finalPlayer;
+		alert("Player: "+finalPlayer+" Level: "+finalLevel);
+		document.recievedData.submit();
+		//alert("Player: "+finalPlayer+" Level: "+finalLevel);
+
+	</script>
+	
+	
+</body>
+</html>

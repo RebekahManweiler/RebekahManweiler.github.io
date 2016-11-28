@@ -3,7 +3,10 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
     <title>MazeWalker</title>
+<<<<<<< HEAD
 	<script src="mazeGen.js"></script>
+=======
+>>>>>>> 52b94111e111a9b204f436346d8bd6ba53fd8e97
 	
     <style>
         html, body {
@@ -22,15 +25,25 @@
     </style>
 	
 	<script src="babylon.js"></script>
-	<script src="babylon.fireMaterial.js"></script><!--found in babylon/materialsLibrary/dist-->
 	<script src="hand.js"></script>
+<<<<<<< HEAD
     <script src="cannon.js"></script> <!-- optional physics engine -->
 
+=======
+    <script src="cannon.js"></script> 
+	<script src="mazeGen.js"></script>
+	
+>>>>>>> 52b94111e111a9b204f436346d8bd6ba53fd8e97
 </head>
 <body>
 
 	<form name="sentData">
-	<input type="hidden" name="data">
+		<input type="hidden" name="data">
+	</form>
+	
+	<form name="HighScores" method="link" action="HighScores.html">
+		<input type="hidden" name="level">
+		<input type="hidden" name="player">
 	</form>
 	
     <canvas id="renderCanvas"></canvas>
@@ -38,11 +51,15 @@
 		
         window.addEventListener('DOMContentLoaded', function(){
 		
+			//get chosen difficulty from previous page
+			//get window address with embedded information
 			var locate = window.location;
+			//use hidden form to force 'locate' to be a string
 			document.sentData.data.value = locate;
 			var value = document.sentData.data.value;
-		
+			//extract maze size from window address string
 			var finalValue = getData(value);
+			
             // get the canvas DOM element
             var canvas = document.getElementById('renderCanvas');
 
@@ -74,9 +91,13 @@
 
             // createScene function that creates and return the scene
             var createScene = function () {
+   				 // This creates a basic Babylon Scene object (non-mesh)
+    			var scene = new BABYLON.Scene(engine);
+				
+				var endGame = false;
 
-        		// This creates a basic Babylon Scene object (non-mesh)
-				var scene = new BABYLON.Scene(engine);
+    			var startX = 0;
+    			var startZ = 0;
 
 				// This creates and positions a free camera (non-mesh)
 				var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(8, 2, 4), scene);
@@ -134,6 +155,17 @@
 							{
 								level--;
 								lives--;
+								if(lives == 0)
+								{
+									hitExit = true;//used here so code below only runs once
+									var getName = prompt("Please enter your first name", "John");
+									if(getName != null){//getName will never be null 
+										document.HighScores.level.value = "3";
+										document.HighScores.player.value = getName;
+										document.HighScores.submit();
+									}
+									break;
+								}
 								size -= 2;
 								deleteWalls();
 								first = true;
@@ -267,7 +299,6 @@
     			ground = BABYLON.Mesh.CreateGround("ground1", size*4, size*4, 2, scene);
     			ground.position.x = size*2;
     			ground.position.z = -(size*2);
-
     			ground.checkCollisions = true;
 
     			camera.position.x = startX;
@@ -291,7 +322,6 @@
 				plane.position.x = -(window.innerWidth * .000276);
 				plane.position.y = (window.innerHeight * .000789);
             });
-		
 	    	// deletes all the walls in the current maze
 	    	var deleteWalls = function(){
 	    		for (var i = 0; i < lowWalls.length; i++)

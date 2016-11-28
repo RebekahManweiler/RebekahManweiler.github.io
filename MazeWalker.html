@@ -35,7 +35,12 @@
 <body>
 
 	<form name="sentData">
-	<input type="hidden" name="data">
+		<input type="hidden" name="data">
+	</form>
+	
+	<form name="HighScores" method="link" action="HighScores.html">
+		<input type="hidden" name="level">
+		<input type="hidden" name="player">
 	</form>
 	
     <canvas id="renderCanvas"></canvas>
@@ -44,11 +49,14 @@
         window.addEventListener('DOMContentLoaded', function(){
 		
 			//get chosen difficulty from previous page
+			//get window address with embedded information
 			var locate = window.location;
+			//use hidden form to force 'locate' to be a string
 			document.sentData.data.value = locate;
 			var value = document.sentData.data.value;
-		
+			//extract maze size from window address string
 			var finalValue = getData(value);
+			
             // get the canvas DOM element
             var canvas = document.getElementById('renderCanvas');
 
@@ -64,7 +72,8 @@
 
             var mazeGen = new mazeGenerator();
 
-            var size = finalValue;//scales difficulty of maze
+			//scales difficulty of maze
+            var size = finalValue;
 
             var mazes = [mazeGen.getMaze(size)];
 
@@ -77,6 +86,8 @@
 
    				 // This creates a basic Babylon Scene object (non-mesh)
     			var scene = new BABYLON.Scene(engine);
+				
+				var endGame = false;
 
     			var startX = 0;
     			var startZ = 0;
@@ -212,9 +223,17 @@
 					else {
 						for(let holeMesh of lowerHoles)
 						{
-							if(holeMesh.intersectsMesh(cameraCube, false))
+							//cameraCube intersection will only be detected once
+							if(holeMesh.intersectsMesh(cameraCube, false) && (!endGame))
 							{
 								deleteWalls();
+								endGame = true;//used here so code below only runs once
+								var getName = prompt("Please enter your first name", "John");
+								if(getName != null){//getName will never be null 
+									document.HighScores.level.value = "3";
+									document.HighScores.player.value = getName;
+									document.HighScores.submit();
+								}
 								break;
 							}
 						}
@@ -227,6 +246,8 @@
 
 			};
 
+			//takes in a window address string and returns the substring after '=' in the address
+			//extracts the maze size from the window address
 			function getData(str){
 					var index = str.lastIndexOf("=") + 1;
 					return(str.substring(index, str.length));

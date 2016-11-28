@@ -22,6 +22,8 @@
 
 </head>
 <body>
+	<h1>MazeWalker High Scores</h1>
+	
 	<form name="sentData">
 	<input type="hidden" name="data">
 	</form>
@@ -31,7 +33,6 @@
 	<input type="text" name="player">
 	</form>
 	
-	<h1>MazeWalker High Scores</h1>
 	
 	<script language="javascript">
 	
@@ -50,8 +51,9 @@
 			index = firstHalf.lastIndexOf("=") + 1;
 			return(firstHalf.substring(index, firstHalf.length));
 		}
-		
+
 		var finalLevel = getLevel(value);
+		alert(finalLevel);
 		var finalPlayer = getPlayer(value);
 		
 		document.recievedData.level.value = finalLevel;

@@ -27,8 +27,8 @@
 	</form>
 	
 	<form name="recievedData" action="HighScores.php" method="post">
-	<input type="hidden" name="level">
-	<input type="hidden" name="player">
+	<input type="text" name="level">
+	<input type="text" name="player">
 	</form>
 	
 	<h1>MazeWalker High Scores</h1>
@@ -54,9 +54,9 @@
 		var finalLevel = getLevel(value);
 		var finalPlayer = getPlayer(value);
 		
-		/*document.recievedData.level.value = finalLevel;
+		document.recievedData.level.value = finalLevel;
 		document.recievedData.player.value = finalPlayer;
-		alert("Player: "+finalPlayer+" Level: "+finalLevel);
+		/*alert("Player: "+finalPlayer+" Level: "+finalLevel);
 		document.recievedData.submit();*/
 		
 		if(window.File && window.FileREader && window.FileList %% window.Blob){

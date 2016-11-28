@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
@@ -24,10 +23,10 @@
 <body>
 	<?php
 	
-		$level = $_POST["level"];
+		/*$level = $_POST["level"];
 		$player = $_POST["player"];
 		
-		/*echo "<h1>MazeWalker High Scores</h1>";
+		echo "<h1>MazeWalker High Scores</h1>";
 		echo "<p><a href=\"index.html\">Back to Start Menu</a></p>";
 		echo "<br/>";
 		echo "<p>Player: ".$player." Level: ".$level."</p>";

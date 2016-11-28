@@ -27,7 +27,7 @@
 		$level = $_POST["level"];
 		$player = $_POST["player"];
 		
-		echo "<h1>MazeWalker High Scores</h1>";
+		/*echo "<h1>MazeWalker High Scores</h1>";
 		echo "<p><a href=\"index.html\">Back to Start Menu</a></p>";
 		echo "<br/>";
 		echo "<p>Player: ".$player." Level: ".$level."</p>";
@@ -39,7 +39,7 @@
 		
 		$mysqli = new mysqli("mysql.eecs.ku.edu", "rmanweiler", "hello", "rmanweiler");
 
-		/* check connection */
+		/* check connection 
 		if ($mysqli->connect_errno) {
    			printf("Connect failed: %s\n", $mysqli->connect_error);
     		exit();
@@ -59,7 +59,7 @@
 		}
 		
 		echo "</table>";
-		$mysqli->close();
+		$mysqli->close();*/
 
 	?>
 </body>

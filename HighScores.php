@@ -23,8 +23,8 @@
 </head>
 	<?php
 	
-		$level = $_POST["level"];
-		$player = $_POST["player"];
+		$level = $_GET["level"];
+		$player = $_GET["player"];
 		
 		echo "<h1>MazeWalker High Scores</h1>";
 		echo "<p><a href=\"index.html\">Back to Start Menu</a></p>";

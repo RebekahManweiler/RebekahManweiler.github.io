@@ -1,4 +1,4 @@
-<html>
+<!--<html>
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
     <title>MazeWalker High Scores</title>
@@ -20,7 +20,7 @@
     </style>
 
 </head>
-<body>
+<body>-->
 	<?php
 	
 		/*$level = $_POST["level"];
@@ -61,5 +61,5 @@
 		$mysqli->close();*/
 
 	?>
-</body>
-</html>
+<!--</body>
+</html>-->

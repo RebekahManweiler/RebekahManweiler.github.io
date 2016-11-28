@@ -3,10 +3,6 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
     <title>MazeWalker</title>
-    <script src="http://www.babylonjs.com/hand.minified-1.2.js"></script>
-	<script src="http://www.babylonjs.com/cannon.js"></script>
-	<script src="http://www.babylonjs.com/oimo.js"></script>
-	<script src="http://www.babylonjs.com/babylon.js"></script>
 	<script src="mazeGen.js"></script>
 	
     <style>
@@ -29,7 +25,6 @@
 	<script src="babylon.fireMaterial.js"></script><!--found in babylon/materialsLibrary/dist-->
 	<script src="hand.js"></script>
     <script src="cannon.js"></script> <!-- optional physics engine -->
-	<!--<script src="Babylon.js-master/proceduralTexturesLibrary/proceduralTextures/fire/babylon.fireProceduralTexture.ts"></script>-->
 
 </head>
 <body>
@@ -53,64 +48,127 @@
 
             // load the 3D engine
             var engine = new BABYLON.Engine(canvas, true);
+            var ground;
+            var exit;
+            var plane;
+            var cameraCube;
             var lowWalls = [];
             var highWalls = [];
             var lowerHoles = [];
             var upperHoles = [];
             var wallCount = 0;
 
+            var hitExit = false;
+
             var level = 0;
 
             var mazeGen = new mazeGenerator();
 
-            var size = finalValue;
+            var size = parseInt(finalValue);
 
             var mazes = [mazeGen.getMaze(size)];
 
             var holeCount = 0;
 
-            var lives;
+            var lives = 5;
 
             // createScene function that creates and return the scene
             var createScene = function () {
 
-   				 // This creates a basic Babylon Scene object (non-mesh)
-    			var scene = new BABYLON.Scene(engine);
+        		// This creates a basic Babylon Scene object (non-mesh)
+				var scene = new BABYLON.Scene(engine);
 
-    			var startX = 0;
-    			var startZ = 0;
+				// This creates and positions a free camera (non-mesh)
+				var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(8, 2, 4), scene);
 
-    			// This creates and positions a free camera (non-mesh)
-    			var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(8, 2, 4), scene);
-
-    			// This targets the camera to scene origin
-    			//camera.setTarget(new BABYLON.Vector3(0,2,4));
+				// This targets the camera to scene origin
+				//camera.setTarget(new BABYLON.Vector3(0,2,4));
 				camera.speed = 0.25;
 
-    			// This attaches the camera to the canvas
-    			camera.attachControl(canvas, true);
-	
+				// This attaches the camera to the canvas
+				camera.attachControl(canvas, true);
+
 				// This cube is used to detect collision with holes, set to be a bit larger than the camera so all collisions are considered
-				var cameraCube = BABYLON.Mesh.CreateBox("cube", 2, scene);
+				cameraCube = BABYLON.Mesh.CreateBox("cube", 2, scene);
 				var first = true;
 
-    			//Cube position set to 0 so that when attached to camera the camera exists inside the cube
-    			cameraCube.position.y = 0;
+				//Cube position set to 0 so that when attached to camera the camera exists inside the cube
+				cameraCube.position.y = 0;
 				cameraCube.position.x = 0;
 				cameraCube.position.z = 0;
 	
 				//attach cube to camera so that it moves with camera
 				cameraCube.parent = camera;
 
-    			// This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-    			var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
+				// This creates a light, aiming 0,1,0 - to the sky (non-mesh)
+				var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
 
-    			// Default intensity is 1. Let's dim the light a small amount
-    			light.intensity = 0.2;
+
+				// Default intensity is 1. Let's dim the light a small amount
+				light.intensity = 0.2;
 				scene.fogMode = BABYLON.Scene.FOGMODE_EXP2;
 				scene.fogDensity = 0.25;
 
-				var plane = BABYLON.Mesh.CreatePlane("plane", 0.2, scene, false, BABYLON.Mesh.DEFAULTSIDE);
+				lowerHoles = [];
+
+				setupScene(camera, scene);
+	
+				scene.gravity = new BABYLON.Vector3(0, -9.81, 0);
+				camera.applyGravity = true;
+				camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
+				scene.collisionsEnabled = true;
+				camera.checkCollisions = true;
+				camera.position.y = 2;
+				
+				scene.registerBeforeRender(function () {
+
+					if (first == true)
+					{
+						first = false;
+						hitExit = false;
+					}
+					else {
+						for(let holeMesh of lowerHoles)
+						{
+							if(holeMesh.intersectsMesh(cameraCube, false) && hitExit == false)
+							{
+								level--;
+								lives--;
+								size -= 2;
+								deleteWalls();
+								first = true;
+								setupScene(camera, scene);
+								hitExit = true;
+								break;
+							}
+						}
+						if(exit.intersectsMesh(cameraCube, false) && hitExit == false)
+						{
+							level++;
+							size += 2;
+							if(level == mazes.length)
+							{
+								mazes[level] = mazeGen.getMaze(size);
+							}
+							deleteWalls();
+							first = true;
+							setupScene(camera, scene);
+							hitExit = true;
+						}
+					}
+				});
+
+    		return scene;
+
+			};
+
+			function getData(str){
+					var index = str.lastIndexOf("=") + 1;
+					return(str.substring(index, str.length));
+			}
+
+			function setupScene(camera, scene){
+				plane = BABYLON.Mesh.CreatePlane("plane", 0.2, scene, false, BABYLON.Mesh.DEFAULTSIDE);
 				plane.material = new BABYLON.StandardMaterial("outputplane", scene);
 
 				var planeTexture = new BABYLON.DynamicTexture("dynamic texture", 512, scene, true);
@@ -119,13 +177,19 @@
 				plane.material.emissiveColor = new BABYLON.Color3(1, 1, 1);
 				plane.material.backFaceCulling = false;
 
-				planeTexture.drawText("level: " + (level+1), null, 140, "bold 50px verdana", "white", "#0000AA");
+				planeTexture.drawText("lives: " + (lives), null, 220, "bold 50px verdana", "white");
+				planeTexture.drawText("level: " + (level+1), null, 140, "bold 50px verdana", "white");
 
 				plane.position.y = 0.2;
-				plane.position.x = -0.53;
-				plane.position.z = 0.75;
+				plane.position.x = -(window.innerWidth * .000276);
+				plane.position.z = (window.innerHeight * .000789);
 				plane.parent = camera;
 
+            	var startX = 0;
+    			var startZ = 0;
+
+    			holeCount = 0;
+    			wallcount = 0;
 
 				//These vars are the starting indexes to build the maze from, lowY and highY are the vertical positions of lower and upper walls respectively
 				var curX = 2;
@@ -137,7 +201,7 @@
 				{
 					for (var j = 0; j < size; j++)
 					{
-						if (mazes[0][i * size + j] == "W")
+						if (mazes[level][i * size + j] == "W")
 						{
 							lowWalls[wallCount] = BABYLON.Mesh.CreateBox("wall", 4, scene);
 							lowWalls[wallCount].position.x = curX;
@@ -157,7 +221,7 @@
 							highWalls[wallCount].checkCollisions = true;
 							wallCount++;
 						}
-						else if (mazes[0][i * size + j] == "H")
+						else if (mazes[level][i * size + j] == "H" && level != 0)
 						{
 							lowerHoles[holeCount] = BABYLON.Mesh.CreateBox("hole", 4, scene);
 							lowerHoles[holeCount].position.x = curX;
@@ -175,10 +239,22 @@
 							upperHoles[holeCount].checkCollisions = true;
 							holeCount++;
 						}
-						else if (mazes[0][i * size + j] == "S")
+						else if (mazes[level][i * size + j] == "S")
 						{
 							startX = curX;
 							startZ = curZ;
+						}
+						else if (mazes[level][i * size + j] == 'E')
+						{
+							exit = BABYLON.Mesh.CreateBox('exit', 4, scene);
+
+							exit.position.x = curX;
+							exit.position.y = lowY;
+							exit.position.z = curZ;
+
+							exit.visibility = 0;
+
+							exit.checkCollisions = true;
 						}
 						curX += 4;
 					}
@@ -188,47 +264,17 @@
     			// Move the sphere upward 1/2 its height
 
     			// Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
-    			var ground = BABYLON.Mesh.CreateGround("ground1", size*4, size*4, 2, scene);
+    			ground = BABYLON.Mesh.CreateGround("ground1", size*4, size*4, 2, scene);
     			ground.position.x = size*2;
     			ground.position.z = -(size*2);
-	
-				scene.gravity = new BABYLON.Vector3(0, -9.81, 0);
-				camera.applyGravity = true;
-				camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
-				scene.collisionsEnabled = true;
-				camera.checkCollisions = true;
-				ground.checkCollisions = true;
-				camera.position.x = startX;
+
+    			ground.checkCollisions = true;
+
+    			camera.position.x = startX;
 				camera.position.z = startZ;
-				camera.position.y = 2;
-				
-				scene.registerBeforeRender(function () {
 
-					if (first == true)
-					{
-						first = false;
-					}
-					else {
-						for(let holeMesh of lowerHoles)
-						{
-							if(holeMesh.intersectsMesh(cameraCube, false))
-							{
-								deleteWalls();
-								break;
-							}
-						}
-					}
-				});
-	
-			camera.setTarget(new BABYLON.Vector3(startX+2, 2, startZ));
-
-    		return scene;
-
-			};
-
-			function getData(str){
-					var index = str.lastIndexOf("=") + 1;
-					return(str.substring(index, str.length));
+				camera.setTarget(new BABYLON.Vector3(startX+2, 2, startZ));
+				hitExit = false;
 			}
 
             // call the createScene function
@@ -242,16 +288,29 @@
             // the canvas/window resize event handler
             window.addEventListener('resize', function(){
                 engine.resize();
+				plane.position.x = -(window.innerWidth * .000276);
+				plane.position.y = (window.innerHeight * .000789);
             });
 		
-	    // deletes all the walls in the current maze
-	    var deleteWalls = function(){
-	    	for (var i = 0; i < lowWalls.length; i++)
-		{
-			lowWalls[i].dispose();
-			highWalls[i].dispose();
-		}
-	    };
+	    	// deletes all the walls in the current maze
+	    	var deleteWalls = function(){
+	    		for (var i = 0; i < lowWalls.length; i++)
+				{
+					lowWalls[i].dispose();
+					highWalls[i].dispose();
+				}
+				for (var j = 0; j < lowerHoles.length; j++)
+				{
+					lowerHoles[j].dispose();
+					upperHoles[j].dispose();
+				}
+				lowerHoles = [];
+				upperHoles = [];
+				exit.dispose();
+				ground.dispose();
+				plane.dispose();
+
+	    	};
         });
     </script>
 </body>

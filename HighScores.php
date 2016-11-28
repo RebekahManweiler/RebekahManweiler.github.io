@@ -21,6 +21,7 @@
     </style>
 
 </head>
+<body>
 	<?php
 	
 		$level = $_POST["level"];
@@ -61,3 +62,5 @@
 		$mysqli->close();
 
 	?>
+</body>
+</html>

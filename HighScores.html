@@ -36,12 +36,14 @@
 		var locate = window.location;
 		document.sentData.data.value = locate;
 		var value = document.sentData.data.value;
-		alert("still works: "+ value);
 		
 		function getPlayer(str){
+		
 			var index = str.lastIndexOf("=") + 1;
 			return(str.substring(index, str.length));
 		}
+		
+		alert("ooo! a function"+value);
 		
 		function getLevel(str){
 			var index = str.lastIndexOf("&");

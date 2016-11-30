@@ -31,6 +31,8 @@
 	<input type="text" name="player">
 	</form>
 	
+	<h1>MazeWalker High Scores</h1>
+	
 	<script language="javascript">
 	
 		var locate = window.location;
@@ -44,7 +46,6 @@
 		
 		function getLevel(str){
 			var index = str.lastIndexOf("&");
-			alert("inside getLevel: "+index);
 			var firstHalf = str.substring(0, index);
 			index = firstHalf.lastIndexOf("=") + 1;
 			return(firstHalf.substring(index, firstHalf.length));

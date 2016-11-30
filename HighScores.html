@@ -32,6 +32,7 @@
 	</form>
 	
 	<h1>MazeWalker High Scores</h1>
+	<div id="playerlevel"></div>
 	
 	<script language="javascript">
 	
@@ -53,8 +54,7 @@
 		
 		var finalLevel = getLevel(value);
 		var finalPlayer = getPlayer(value);
-		document.recievedData.level.value = finalLevel;
-		document.recievedData.player.value = finalPlayer;
+		document.getElementById("playerlevel").innerHTML = finalPlayer + " got " + finalLevel + "!";
 		//document.recievedData.submit();
 
 	</script>

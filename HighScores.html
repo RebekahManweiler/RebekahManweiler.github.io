@@ -28,7 +28,7 @@
 	<input type="hidden" name="data">
 	</form>
 	
-	<form name="recievedData" action="HighScores.php" method="post">
+	<form name="recievedData">
 	<input type="text" name="level">
 	<input type="text" name="player">
 	</form>
@@ -36,6 +36,7 @@
 	
 	<script language="javascript">
 	
+		alert("woo! at least the page works");
 		var locate = window.location;
 		document.sentData.data.value = locate;
 		var value = document.sentData.data.value;

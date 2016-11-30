@@ -151,7 +151,7 @@
 								{
 									var getName = prompt("Please enter your first name", "John");
 									if(getName != null){//getName will never be null 
-										document.HighScores.level.value = level;
+										document.HighScores.level.value = (level + 1);
 										document.HighScores.player.value = getName;
 										document.HighScores.submit();
 									}

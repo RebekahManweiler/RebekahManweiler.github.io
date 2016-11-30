@@ -26,11 +26,6 @@
 	<input type="hidden" name="data">
 	</form>
 	
-	<form name="recievedData" action="HighScores.php" method="post">
-	<input type="number" name="level">
-	<input type="text" name="player">
-	</form>
-	
 	<h1>MazeWalker High Scores</h1>
 	<div id="playerlevel"></div>
 	
@@ -54,8 +49,12 @@
 		
 		var finalLevel = getLevel(value);
 		var finalPlayer = getPlayer(value);
-		document.getElementById("playerlevel").innerHTML = finalPlayer + " got " + finalLevel + "!";
-		//document.recievedData.submit();
+		document.getElementById("playerlevel").innerHTML = finalPlayer + " got to level " + finalLevel + "!";
+		
+		if(window.File && window.FileReader && window.FileList && window.Blob){
+			alert("File API stuff works");
+		}
+		else alert("The File APIs are not fully supported in this browser");
 
 	</script>
 	

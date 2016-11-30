@@ -38,19 +38,17 @@
 		var value = document.sentData.data.value;
 		
 		function getPlayer(str){
-		
 			var index = str.lastIndexOf("=") + 1;
 			return(str.substring(index, str.length));
 		}
 		
 		function getLevel(str){
+			alert("inside getLevel: "+str);
 			var index = str.lastIndexOf("&");
 			var firstHalf = str.substring(0, index);
 			index = firstHalf.lastIndexOf("=") + 1;
 			return(firstHalf.substring(index, firstHalf.length));
 		}
-		
-		alert("ooo! another function "+value);
 		
 		var finalLevel = getLevel(value);
 		var finalPlayer = getPlayer(value);

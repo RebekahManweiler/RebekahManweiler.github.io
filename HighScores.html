@@ -27,8 +27,8 @@
 	</form>
 	
 	<form name="recievedData" action="HighScores.php" method="post">
-	<input type="hidden" name="level">
-	<input type="hidden" name="player">
+	<input type="number" name="level">
+	<input type="text" name="player">
 	</form>
 	
 	<script language="javascript">
@@ -43,8 +43,8 @@
 		}
 		
 		function getLevel(str){
-			alert("inside getLevel: "+str);
 			var index = str.lastIndexOf("&");
+			alert("inside getLevel: "+index);
 			var firstHalf = str.substring(0, index);
 			index = firstHalf.lastIndexOf("=") + 1;
 			return(firstHalf.substring(index, firstHalf.length));

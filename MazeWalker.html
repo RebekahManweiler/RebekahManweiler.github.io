@@ -145,11 +145,10 @@
 						{
 							if(holeMesh.intersectsMesh(cameraCube, false) && hitExit == false)
 							{
-								level--;
 								lives--;
+								hitExit = true;//used here so code below only runs once
 								if(lives == 0)
 								{
-									hitExit = true;//used here so code below only runs once
 									var getName = prompt("Please enter your first name", "John");
 									if(getName != null){//getName will never be null 
 										document.HighScores.level.value = level;
@@ -158,11 +157,11 @@
 									}
 									break;
 								}
+								level--;
 								size -= 2;
 								deleteWalls();
 								first = true;
 								setupScene(camera, scene);
-								hitExit = true;
 								break;
 							}
 						}

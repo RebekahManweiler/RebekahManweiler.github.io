@@ -43,6 +43,7 @@
 	<!--attempt 1 <div id="testapi"></div>-->
 	
 	<input type="file" id="file-input">
+	<button onclick="readFile">Read File</button>
 	<div id="file-content"></div>
 	
 	<p><a href="index.html">Return to the Start Menu</a></p>
@@ -69,33 +70,32 @@
 		var finalPlayer = getPlayer(value);
 		document.getElementById("playerlevel").innerHTML = finalPlayer + " got to level " + finalLevel + "!";
 		
-		document.getElementById("testapi").innerHTML = "Test API: ";
-		
-		if(window.File && window.FileReader && window.FileList && window.Blob){
-			
-			function readSingleFile(e){
-				alert("inside readSingleFile function");
-				var file = e.target.files[0];
-				if(!file){
-					alert("!file is true");
-					return;
+		//document.getElementById("testapi").innerHTML = "Test API: ";
+		function readFile(){
+			if(window.File && window.FileReader && window.FileList && window.Blob){
+				function readSingleFile(e){
+					alert("inside readSingleFile function");
+					var file = e.target.files[0];
+					if(!file){
+						alert("!file is true");
+						return;
+					}
+					var reader = new FileReader();
+					reader.onload = function(e) {
+						var contents = e.target.result;
+						//display file contents
+						displayContents(contents);
+					};
+					reader.readAsText(file);
 				}
-				var reader = new FileReader();
-				reader.onload = function(e) {
-					var contents = e.target.result;
-					//display file contents
-					displayContents(contents);
-				};
-				reader.readAsText(file);
-			}
 			
-			function displayContents(contents){
-				var element = document.getElementById('file-content');
-				element.innerHTML = contents;
-			}
+				function displayContents(contents){
+					var element = document.getElementById('file-content');
+					element.innerHTML = contents;
+				}
 			
-			document.getElementById('file-input').addEventListener('change', readSingleFile, false);
-			
+				document.getElementById('file-input').addEventListener('change', readSingleFile, false);
+			}	
 			/*attempt 1
 			var txt = '';
 			var xmlhttp = new XMLHttpRequest();
@@ -108,8 +108,8 @@
 			xmlhttp.send();
 			
 			document.getElementById("testapi").innerHTML += txt;*/
+			else alert("The File APIs are not fully supported in this browser");
 		}
-		else alert("The File APIs are not fully supported in this browser");
 
 	</script>
 	

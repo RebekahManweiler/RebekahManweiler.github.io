@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
     <title>MazeWalker</title>
 	<script src="mazeGen.js"></script>
-	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <style>
         html, body {
             overflow: hidden;
@@ -14,11 +14,69 @@
             padding : 0;
         }
 
+        @font-face {
+        	font-family: mainFont;
+        	src: url(LemonMilk.otf);
+        }
+
         #renderCanvas {
             width   : 100%;
             height  : 100%;
             touch-action: none;
         }
+
+        .noselect {
+  			-webkit-touch-callout: none; /* iOS Safari */
+    		-webkit-user-select: none; /* Chrome/Safari/Opera */
+     		-khtml-user-select: none; /* Konqueror */
+      	 	-moz-user-select: none; /* Firefox */
+        	-ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  not supported by any browser */
+		}
+		#level {
+			font-family: mainFont;
+			font-size: 50px;
+			position: absolute;
+			color: #00B9F0;
+			left: 80px;
+			z-index: 1;
+		}
+
+		#lives {
+			font-family: mainFont;
+			font-size: 30px;
+			position: absolute;
+			color: #00B9F0;
+			left: 80px;
+			top: 80px;
+			z-index: 1;
+		}
+
+		#introText {
+			font-family: mainFont;
+			font-size: 30px;
+			position: absolute;
+			color: white;
+			margin-left: auto;
+			margin-right: auto;
+			left: 0;
+			right: 0;
+		}
+
+		#playGame {
+			width: 100px;
+			height: 60px;
+			position: absolute;
+			margin-top: auto;
+			margin-bottom: auto;
+			top: 0;
+			bottom: 0;
+		}
+
+		/*canvas.disabled {
+			pointer-events: none;
+		}*/
     </style>
 	
 	<script src="babylon.js"></script>
@@ -35,11 +93,35 @@
 		<input type="hidden" name="level">
 		<input type="hidden" name="player">
 	</form>
-	
+
+	<p id="level" class="noselect">Level 1</p>
+	<p id="lives" class="noselect">Lives 5</p>
+
+	<div id="intro">
+		<center>
+			<p id="introText" class="noselect">You speculate that it's been a few hours...Things aren't looking good.</p>
+			<button id="playGame" onclick='playGame()'>Play Game</button>
+		</center>	
+	</div>
+
     <canvas id="renderCanvas"></canvas>
     <script>
+
+
+    	function playGame(){
+    		document.getElementById("intro").style.display = "none";
+    	}
 		
         window.addEventListener('DOMContentLoaded', function(){
+
+        	//Music: http://freemusicarchive.org/music/DR/Insomnia_1749/2_-_Overdrive
+        	var audio = new Audio('StartingOver.mp3');
+        	audio.loop = true;
+
+        	var exitAud = new Audio('ding.mp3');
+        	
+        	var holeAud = new Audio('hole.mp3');
+			audio.play();
 		
 			//get chosen difficulty from previous page
 			//get window address with embedded information
@@ -77,12 +159,14 @@
 
             var holeCount = 0;
 
-            var lives = 5;
+            var lives = 3;
 
             // createScene function that creates and return the scene
             var createScene = function () {
    				 // This creates a basic Babylon Scene object (non-mesh)
     			var scene = new BABYLON.Scene(engine);
+	
+				scene.clearColor = new BABYLON.Color3(0.9, 1, 1);
 				
 				var endGame = false;
 
@@ -116,9 +200,10 @@
 
 
 				// Default intensity is 1. Let's dim the light a small amount
-				light.intensity = 0.2;
+				light.intensity = 0.5;
 				scene.fogMode = BABYLON.Scene.FOGMODE_EXP2;
-				scene.fogDensity = 0.25;
+				scene.fogDensity = 0.15;
+				scene.fogColor = new BABYLON.Color3(1,1,1);
 
 				lowerHoles = [];
 
@@ -143,19 +228,20 @@
 						{
 							if(holeMesh.intersectsMesh(cameraCube, false) && hitExit == false)
 							{
-								level--;
 								lives--;
+								holeAud.play();
 								if(lives == 0)
 								{
 									hitExit = true;//used here so code below only runs once
 									var getName = prompt("Please enter your first name", "John");
 									if(getName != null){//getName will never be null 
-										document.HighScores.level.value = "3";
+										document.HighScores.level.value = level+1;
 										document.HighScores.player.value = getName;
 										document.HighScores.submit();
 									}
 									break;
 								}
+								level--;
 								size -= 2;
 								deleteWalls();
 								first = true;
@@ -166,6 +252,7 @@
 						}
 						if(exit.intersectsMesh(cameraCube, false) && hitExit == false)
 						{
+							exitAud.play();
 							level++;
 							size += 2;
 							if(level == mazes.length)
@@ -190,22 +277,9 @@
 			}
 
 			function setupScene(camera, scene){
-				plane = BABYLON.Mesh.CreatePlane("plane", 0.2, scene, false, BABYLON.Mesh.DEFAULTSIDE);
-				plane.material = new BABYLON.StandardMaterial("outputplane", scene);
 
-				var planeTexture = new BABYLON.DynamicTexture("dynamic texture", 512, scene, true);
-				plane.material.diffuseTexture = planeTexture;
-				plane.material.specularColor = new BABYLON.Color3(0, 0, 0);
-				plane.material.emissiveColor = new BABYLON.Color3(1, 1, 1);
-				plane.material.backFaceCulling = false;
-
-				planeTexture.drawText("lives: " + (lives), null, 220, "bold 50px verdana", "white");
-				planeTexture.drawText("level: " + (level+1), null, 140, "bold 50px verdana", "white");
-
-				plane.position.y = 0.2;
-				plane.position.x = -(window.innerWidth * .000276);
-				plane.position.z = (window.innerHeight * .000789);
-				plane.parent = camera;
+				$("#level").text('Level ' + (level+1));
+				$("#lives").text('Lives ' + lives);
 
             	var startX = 0;
     			var startZ = 0;
@@ -236,8 +310,8 @@
 				
 							lowWalls[wallCount].material = new BABYLON.StandardMaterial("texture1", scene);
 							highWalls[wallCount].material = new BABYLON.StandardMaterial("texture1", scene);
-							lowWalls[wallCount].material.diffuseTexture = new BABYLON.Texture("floor.png", scene);
-							highWalls[wallCount].material.diffuseTexture = new BABYLON.Texture("floor.png", scene);
+							lowWalls[wallCount].material.diffuseTexture = new BABYLON.Texture("ivy.png", scene);
+							highWalls[wallCount].material.diffuseTexture = new BABYLON.Texture("ivy.png", scene);
 				
 							lowWalls[wallCount].checkCollisions = true;
 							highWalls[wallCount].checkCollisions = true;
@@ -246,6 +320,8 @@
 						else if (mazes[level][i * size + j] == "H" && level != 0)
 						{
 							lowerHoles[holeCount] = BABYLON.Mesh.CreateBox("hole", 4, scene);
+							lowerHoles[holeCount].material = new BABYLON.StandardMaterial("texture1", scene);
+							lowerHoles[holeCount].material.diffuseTexture = new BABYLON.Texture("exit.png", scene);
 							lowerHoles[holeCount].position.x = curX;
 							lowerHoles[holeCount].position.y = lowY;
 							lowerHoles[holeCount].position.z = curZ;
@@ -254,7 +330,7 @@
 							upperHoles[holeCount].position.y = highY;
 							upperHoles[holeCount].position.z = curZ;
 				
-							lowerHoles[holeCount].visibility = 0;
+							//lowerHoles[holeCount].visibility = 0;
 							upperHoles[holeCount].visibility = 0;
 				
 							lowerHoles[holeCount].checkCollisions = true;
@@ -287,6 +363,8 @@
 
     			// Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
     			ground = BABYLON.Mesh.CreateGround("ground1", size*4, size*4, 2, scene);
+    			ground.material = new BABYLON.StandardMaterial("texture1", scene);
+				ground.material.diffuseTexture = new BABYLON.Texture("floor.png", scene);
     			ground.position.x = size*2;
     			ground.position.z = -(size*2);
     			ground.checkCollisions = true;
@@ -309,8 +387,8 @@
             // the canvas/window resize event handler
             window.addEventListener('resize', function(){
                 engine.resize();
-				plane.position.x = -(window.innerWidth * .000276);
-				plane.position.y = (window.innerHeight * .000789);
+				//plane.position.x = -(window.innerWidth * .000276);
+				//plane.position.y = (window.innerHeight * .000789);
             });
 	    	// deletes all the walls in the current maze
 	    	var deleteWalls = function(){
@@ -328,7 +406,7 @@
 				upperHoles = [];
 				exit.dispose();
 				ground.dispose();
-				plane.dispose();
+				//plane.dispose();
 
 	    	};
         });

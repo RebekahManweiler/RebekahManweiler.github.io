@@ -159,14 +159,10 @@
             var mazes = [mazeGen.getMaze(size)];
 
             var holeCount = 0;
-
-<<<<<<< HEAD
-            var lives = 3;
-=======
+            
             var lives;
 			if(size < 13) lives = 1;
-			else lives = 5;
->>>>>>> 06743549564378e9bed534d361d666cd57cbd671
+			else lives = 3;
 
             // createScene function that creates and return the scene
             var createScene = function () {

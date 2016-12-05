@@ -40,7 +40,7 @@
 	
 	<h1>MazeWalker High Scores</h1>
 	<div id="playerlevel"></div>
-	<div id="testapi"></div>
+	<div id="HighScore"></div>
 		
 	<p><a href="index.html">Return to the Start Menu</a></p>
 	
@@ -68,7 +68,7 @@
 		
 		
 		if(window.File && window.FileReader && window.FileList && window.Blob){
-				
+			//Stack Overflow Javascript - read local text file	
 			function readTextFile(file){
 				var rawFile = new XMLHttpRequest();
 				rawFile.open("GET", file, false);
@@ -76,7 +76,13 @@
 					if(rawFile.readyState === 4){
 						if(rawFile.status === 200 || rawFile.status == 0){
 							var allText = rawFile.responseText;
-							alert(allText);
+							var filevalue = parseInt(allText);
+							var playervalue = parseInt(finalLevel);
+							if(playervalue > filevalue){
+								document.getElementById("HighScore").innerHTML = "You beat the high score of " + filevalue;
+								//write new high score to file 
+							}
+							else document.getElementById("HighScore").innerHTML = "Sorry! The high score is " + filevalue;
 						}
 					}
 				}
@@ -85,18 +91,6 @@
 			
 			readTextFile("HighScore.txt");
 				
-			/*attempt 1
-			var txt = '';
-			var xmlhttp = new XMLHttpRequest();
-			xmlhttp.onreadystatechange = function(){
-				if(xmlhttp.status == 200 && xmlhttp.readyState == 4){
-					txt = xmlhttp.responseText;
-				}
-			};
-			xmlhttp.open("GET", "HighScore.txt", true);
-			xmlhttp.send();
-			
-			document.getElementById("testapi").innerHTML += txt;*/
 		}
 		else alert("The File APIs are not fully supported in this browser");
 

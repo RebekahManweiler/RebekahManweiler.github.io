@@ -40,6 +40,7 @@
 	
 	<h1>MazeWalker High Scores</h1>
 	<div id="playerlevel"></div>
+	<div id="testapi"></div>
 	<p><a href="index.html">Return to the Start Menu</a></p>
 	
 	<script language="javascript">
@@ -65,7 +66,17 @@
 		document.getElementById("playerlevel").innerHTML = finalPlayer + " got to level " + finalLevel + "!";
 		
 		if(window.File && window.FileReader && window.FileList && window.Blob){
-			//alert("File API stuff works");
+			var txt = '';
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function(){
+				if(xmlhttp.status == 200 && xmlhttp.readyState == 4){
+					txt = xmlhttp.responseText;
+				}
+			};
+			xmlhttp.open("GET", "HighScore.txt", true);
+			xmlhttp.send();
+			
+			document.getElementById("testapi").innerHTML = txt;
 		}
 		else alert("The File APIs are not fully supported in this browser");
 

@@ -65,6 +65,8 @@
 		var finalPlayer = getPlayer(value);
 		document.getElementById("playerlevel").innerHTML = finalPlayer + " got to level " + finalLevel + "!";
 		
+		document.getElementById("testapi").innerHTML = "Test API: ";
+		
 		if(window.File && window.FileReader && window.FileList && window.Blob){
 			var txt = '';
 			var xmlhttp = new XMLHttpRequest();
@@ -76,7 +78,7 @@
 			xmlhttp.open("GET", "HighScore.txt", true);
 			xmlhttp.send();
 			
-			document.getElementById("testapi").innerHTML = txt;
+			document.getElementById("testapi").innerHTML += txt;
 		}
 		else alert("The File APIs are not fully supported in this browser");
 

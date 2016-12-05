@@ -150,6 +150,7 @@
             var hitExit = false;
 
             var level = 0;
+			var highestLevel = 0;
 
             var mazeGen = new mazeGenerator();
 
@@ -159,7 +160,13 @@
 
             var holeCount = 0;
 
+<<<<<<< HEAD
             var lives = 3;
+=======
+            var lives;
+			if(size < 13) lives = 1;
+			else lives = 5;
+>>>>>>> 06743549564378e9bed534d361d666cd57cbd671
 
             // createScene function that creates and return the scene
             var createScene = function () {
@@ -178,7 +185,7 @@
 
 				// This targets the camera to scene origin
 				//camera.setTarget(new BABYLON.Vector3(0,2,4));
-				camera.speed = 0.25;
+				camera.speed = 0.15;
 
 				// This attaches the camera to the canvas
 				camera.attachControl(canvas, true);
@@ -230,12 +237,12 @@
 							{
 								lives--;
 								holeAud.play();
+								hitExit = true;//used here so code below only runs once
 								if(lives == 0)
 								{
-									hitExit = true;//used here so code below only runs once
 									var getName = prompt("Please enter your first name", "John");
 									if(getName != null){//getName will never be null 
-										document.HighScores.level.value = level+1;
+										document.HighScores.level.value = (highestLevel + 1);
 										document.HighScores.player.value = getName;
 										document.HighScores.submit();
 									}
@@ -246,7 +253,6 @@
 								deleteWalls();
 								first = true;
 								setupScene(camera, scene);
-								hitExit = true;
 								break;
 							}
 						}
@@ -254,6 +260,7 @@
 						{
 							exitAud.play();
 							level++;
+							highestLevel++;
 							size += 2;
 							if(level == mazes.length)
 							{

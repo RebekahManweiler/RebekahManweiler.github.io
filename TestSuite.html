@@ -3,35 +3,99 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
     <title>MazeWalker Test Suite</title>
+	<script src="mazeGen.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
 	
     <style>
-        body {
+        html, body {
             overflow: hidden;
             width   : 100%;
             height  : 100%;
             margin  : 0;
             padding : 0;
-			
-
-			background: url("StartMenuBackground.png") no-repeat 50% 50% fixed; 
-			-webkit-background-size: cover;
-			-moz-background-size: cover;
-			-o-background-size: cover;
-			background-size: cover;
-			
-			text-align: center;
-			font-family: verdana;
         }
-		h1, p, label, a:link, a:visited {
-			color: white;
-		}
+
         #renderCanvas {
             width   : 100%;
             height  : 100%;
             touch-action: none;
         }
     </style>
-	
+
+	<script src="babylon.js"></script>
+	<script src="hand.js"></script>
+    	<script src="cannon.js"></script>
+	<script>
+		var mazeGen = new mazeGenerator();
+		var passTest = true;
+		testSolver();
+		testGenerator();
+		/*--------------------------------TEST SOLVER----------------------------*/
+		function testSolver(){
+			console.log("-----------------------------TEST SOLVER--------------------");
+			var mazeSolvable = [['W', 'W', 'W', 'W', 'W', 'W', 'W'],
+				    ['W', 'W', 'W', 'W', 'W', 'W', 'W'], 
+				    ['W', 'S', 'V', 'V', 'V', 'W', 'W'], 
+				    ['W', 'W', 'V', 'W', 'V', 'W', 'W'], 
+				    ['W', 'W', 'V', 'W', 'V', 'E', 'W'], 
+				    ['W', 'W', 'W', 'W', 'W', 'W', 'W'], 
+				    ['W', 'W', 'W', 'W', 'W', 'W', 'W']];
+			var mazeUnsolvable = [['W', 'W', 'W', 'W', 'W', 'W', 'W'],
+				    ['W', 'W', 'W', 'W', 'W', 'W', 'W'], 
+				    ['W', 'S', 'V', 'V', 'V', 'W', 'W'], 
+				    ['W', 'W', 'V', 'W', 'V', 'W', 'W'], 
+				    ['W', 'W', 'V', 'W', 'V', 'W', 'W'], 
+				    ['W', 'W', 'W', 'W', 'W', 'W', 'W'], 
+				    ['W', 'W', 'W', 'W', 'W', 'W', 'W']];
+
+			/*------Test Solve------*/
+			var solution = [[2,1],[2,2],[2,3],[2,4],[3,4],[4,4],[4,5]];
+			var mazeGenSolution = mazeGen.mazeSolver(mazeSolvable);
+			if(mazeGenSolution.length == solution.length)
+			{
+				for(var i = 0; i < mazeGenSolution.length; i++)
+				{
+					for(var j = 0; j < 2; j++)
+					{
+						if(mazeGenSolution[i][j] != solution[i][j])
+						{
+							passTest = false;
+						}
+					}
+				}
+			}else{passTest = false;}
+			console.log("Test Solved Maze Passed: " + passTest);
+
+			/*------Test Unsolvable------*/
+			var mazeGenSolution = mazeGen.mazeSolver(mazeUnsolvable);
+			if(mazeGenSolution.length == 0){
+				console.log("Test Unsolved Maze Passed: true");
+			}else{console.log("Test Unsolved Maze Passed: false");}
+			passTest = true;
+		}
+
+		/*--------------------------------TEST GENERATOR---------------------------*/
+		/*We know that solver is functional now, so we can use it to verify correctness of generated mazes*/
+		function testGenerator(){
+			console.log("-----------------------------TEST GENERATOR-----------------");
+
+			var solution = [];
+			for(var i = 0; i < 100; i++)
+			{
+				solution = mazeGen.mazeSolver(mazeGen.generateMaze(13));
+				if(solution.length != 0){
+					console.log("Maze Generation Successful");
+				}else{
+					console.log("Maze Generation Unsuccessful");
+				}
+			}
+		}
+
+
+		
+
+	</script>
 </head>
 <body>
 	<h1>MazeWalker Test Suite</h1>

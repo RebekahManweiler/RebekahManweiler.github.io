@@ -1,4 +1,5 @@
 function mazeGenerator(){
+	this.mazes = [];
 	/**
 	 * Returns the size of the given maze
 	 * @param {array} maze - The maze array
@@ -9,13 +10,17 @@ function mazeGenerator(){
 		return Math.floor(Math.sqrt(maze.length));
 	}
 
+	this.getMaze = function(size){
+		return this.twoToOne(this.generateMaze(size));
+	}
+
 	/**
 	 * Returns a randomized maze of the given size
 	 * @param {int} size - The given size of the maze
 	 * @pre size is not less than 7
 	 * @return {array} the filled 1D maze array
 	 */
-	this.getMaze = function(size) {
+	this.generateMaze = function(size) {
 
 		var maze = [];
 		for(var i = 0; i < size; i++)
@@ -63,7 +68,13 @@ function mazeGenerator(){
 		maze = this.placeHoles(maze);
 		maze[startRow][startCol] = 'S';
 		maze[endRow][endCol] = 'E';
-		return this.twoToOne(maze);
+		if(this.mazeSolver(maze).length == 0)
+		{
+			maze = this.generateMaze(size);
+			this.mazes.push(maze);
+		}
+		else{this.mazes.push(maze);}
+		return maze;
 
 	}
 
@@ -74,20 +85,28 @@ function mazeGenerator(){
 	 * @return array of coordinate pairs that is the path to solve the maze
 	 */
 	this.mazeSolver = function(maze){
-		var curRow = 0;
-		var curCol = 0;
+
+		var startRow = 0;
+		var startCol = 1;
+		var endRow = 0;
+		var endCol = maze.length-2;
+
 		for (var i = 0; i < maze.length; i++)
 		{
 			if(maze[i][1] == 'S')
 			{
-				curRow = i;
-				curCol = 1;
+				startRow = i;
+			}
+			if(maze[i][maze.length-2] == 'E')
+			{
+				endRow = i;
 			}
 		}
-		var path = this.recurseMaze(maze, curRow, curCol);
+
+		var path = this.pathFinder(maze, startRow, startCol);
+		this.resetMaze(maze, startRow, startCol, endRow, endCol);
 
 		return path;
-
 
 	}
 
@@ -266,81 +285,76 @@ function mazeGenerator(){
 
 	}
 
+	this.resetMaze = function(maze, startRow, startCol, endRow, endCol){
+		for(var i = 0; i < maze.length; i++)
+		{
+			for(var j = 0; j < maze[i].length; j++)
+			{
+				if(maze[i][j] == 'X')
+				{
+					maze[i][j] = 'V';
+				}
+			}
+		}
+		maze[startRow][startCol] = 'S';
+		maze[endRow][endCol] = 'E';
+	}
+
 	/**
 	 * Returns the 2D array of coordinate pairs that solves the maze
 	 * @return path
 	 *
 	 *
 	 */
-	this.pathFinder = function(){
+	this.pathFinder = function(maze, curRow, curCol){
 		var path = [];
 		var tempRow = curRow;
 		var tempCol = curCol;
-		if(maze[curRow][curCol] == 'E')
+		if(maze[tempRow][tempCol] == 'E')
 		{
-			maze[curRow][curCol] = 'V';
-			path.push([curRow, curCol]);
+			path.unshift([tempRow, tempCol]);
 			return path;
 		}
-		if((maze[curRow-1][curCol] == 'P' || maze[curRow-1][curCol] == 'E') && maze[curRow-1][curCol] != 'V'){
-			tempRow = curRow-1;
-			maze[curRow][curCol] = 'V';
-			deadEnd = false;
-			path = this.recurseMaze(maze, tempRow, tempCol);
-			if (path != true)
-			{
-				path.unshift([curRow, curCol]);
-				return path;
-			}
-			else{
-				tempRow = curRow;
-			}
-		}
-		if((maze[curRow][curCol+1] == 'P' || maze[curRow][curCol+1] == 'E') && maze[curRow][curCol+1] != 'V'){
-			tempCol = curCol+1;
-			maze[curRow][curCol] = 'V';
-			deadEnd = false;
-			path = this.recurseMaze(maze, tempRow, tempCol);
-			if (path != true)
-			{
-				path.unshift([curRow, curCol]);
-				return path;
-			}
-			else{
-				tempCol = curCol;
-			}
-		}
-		if((maze[curRow+1][curCol] == 'P' || maze[curRow+1][curCol] == 'E') && maze[curRow+1][curCol] != 'V'){
-			tempRow = curRow+1;
-			maze[curRow][curCol] = 'V';
-			deadEnd = false;
-			path = this.recurseMaze(maze, tempRow, tempCol);
-			if (path != true)
-			{
-				path.unshift([curRow, curCol]);
-				return path;
-			}else{
-				tempRow = curRow;
-			}
-		}
-		if((maze[curRow][curCol-1] == 'P' || maze[curRow][curCol-1] == 'E') && maze[curRow][curCol-1] != 'V'){
-			tempCol = curCol-1;
-			maze[curRow][curCol] = 'V';
-			deadEnd = false;
-			path = this.recurseMaze(maze, tempRow, tempCol);
-			if (path != true)
-			{
-				path.unshift([curRow, curCol]);
-				return path;
-			}else{
-				tempCol = curCol;
-			}
-		}
-		if(path == true)
+		if(maze[tempRow-1][tempCol] == 'V' || maze[tempRow-1][tempCol] == 'E')
 		{
-			return true;
+			maze[tempRow][tempCol] = 'X';
+			path = this.pathFinder(maze, tempRow-1, tempCol);
+			if(path.length != 0)
+			{
+				path.unshift([tempRow, tempCol]);
+				return path;
+			}
 		}
-		return true;
+		if(maze[tempRow][tempCol-1] == 'V' || maze[tempRow][tempCol-1] == 'E')
+		{
+			maze[tempRow][tempCol] = 'X';
+			path = this.pathFinder(maze, tempRow, tempCol-1);
+			if(path.length != 0)
+			{
+				path.unshift([tempRow, tempCol]);
+				return path;
+			}
+		}
+		if(maze[tempRow+1][tempCol] == 'V' || maze[tempRow+1][tempCol] == 'E')
+		{
+			maze[tempRow][tempCol] = 'X';
+			path = this.pathFinder(maze, tempRow+1, tempCol);
+			if(path.length != 0)
+			{
+				path.unshift([tempRow, tempCol]);
+				return path;
+			}
+		}
+		if(maze[tempRow][tempCol+1] == 'V' || maze[tempRow][tempCol+1] == 'E')
+		{
+			maze[tempRow][tempCol] = 'X';
+			path = this.pathFinder(maze, tempRow, tempCol+1);
+			if(path.length != 0)
+			{
+				path.unshift([tempRow, tempCol]);
+				return path;
+			}
+		}
+		return path;
 	}
-
 }

@@ -3,34 +3,6 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
     <title>MazeWalker High Scores</title>
-	
-    <style>
-        body {
-            overflow: hidden;
-            width   : 100%;
-            height  : 100%;
-            margin  : 0;
-            padding : 0;
-			
-
-			background: url("StartMenuBackground.png") no-repeat 50% 50% fixed; 
-			-webkit-background-size: cover;
-			-moz-background-size: cover;
-			-o-background-size: cover;
-			background-size: cover;
-			
-			text-align: center;
-			font-family: verdana;
-        }
-		h1, p, label, a:link, a:visited, div {
-			color: white;
-		}
-        #renderCanvas {
-            width   : 100%;
-            height  : 100%;
-            touch-action: none;
-        }
-    </style>
 
 </head>
 <body>
@@ -38,11 +10,10 @@
 	<input type="hidden" name="data">
 	</form>
 	
-	<h1>MazeWalker High Scores</h1>
-	<div id="playerlevel"></div>
-	<div id="HighScore"></div>
-		
-	<p><a href="index.html">Return to the Start Menu</a></p>
+	<form name="recievedData" action="HighScores.php" method="post">
+	<input type="hidden" name="level">
+	<input type="hidden" name="player">
+	</form>
 	
 	<script language="javascript">
 	
@@ -64,115 +35,12 @@
 		
 		var finalLevel = getLevel(value);
 		var finalPlayer = getPlayer(value);
-		document.getElementById("playerlevel").innerHTML = finalPlayer + " got to level " + finalLevel + "!";
-		
-		
-		if(window.File && window.FileReader && window.FileList && window.Blob){
-			//Stack Overflow Javascript - read local text file	
-			function readTextFile(file){
-				var rawFile = new XMLHttpRequest();
-				rawFile.open("GET", file, false);
-				rawFile.onreadystatechange = function (){
-					if(rawFile.readyState === 4){
-						if(rawFile.status === 200 || rawFile.status == 0){
-							var allText = rawFile.responseText;
-							var filevalue = parseInt(allText);
-							alert(filevalue);
-							var playervalue = parseInt(finalLevel);
-							if(playervalue > filevalue){
-								document.getElementById("HighScore").innerHTML = "You beat the high score of " + filevalue;
-								//write new high score to file 
-							}
-							else document.getElementById("HighScore").innerHTML = "Sorry! The high score is " + filevalue;
-						}
-					}
-				}
-				rawFile.send(null);
-			}	
-			
-			readTextFile("HighScore.txt");
-				
-		}
-		else alert("The File APIs are not fully supported in this browser");
+		document.recievedData.level.value = finalLevel;
+		document.recievedData.player.value = finalPlayer;
+		document.recievedData.submit();
 
 	</script>
 	
 	
 </body>
 </html>
-
-<!--<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
-    <title>MazeWalker High Scores</title>
-	
-    <style>
-        html, body {
-            overflow: hidden;
-            width   : 100%;
-            height  : 100%;
-            margin  : 0;
-            padding : 0;
-        }
-
-        #renderCanvas {
-            width   : 100%;
-            height  : 100%;
-            touch-action: none;
-        }
-    </style>
-
-</head>
-<body>
-	<h1>MazeWalker High Scores</h1>
-	
-	<form name="sentData">
-	<input type="hidden" name="data">
-	</form>
-	
-	<form name="recievedData">
-	<input type="text" name="level">
-	<input type="text" name="player">
-	</form>
-	
-	
-	<script language="javascript">
-	
-		alert("woo! at least the page works");
-		var locate = window.location;
-		document.sentData.data.value = locate;
-		var value = document.sentData.data.value;
-		
-		function getPlayer(str){
-			var index = str.lastIndexOf("=") + 1;
-			return(str.substring(index, str.length));
-		}
-		
-		function getLevel(str){
-			var index = str.lastIndexOf("&");
-			var firstHalf = str.substring(0, index);
-			index = firstHalf.lastIndexOf("=") + 1;
-			return(firstHalf.substring(index, firstHalf.length));
-		}
-
-		var finalLevel = getLevel(value);
-		alert(finalLevel);
-		var finalPlayer = getPlayer(value);
-		
-		document.recievedData.level.value = finalLevel;
-		document.recievedData.player.value = finalPlayer;
-		/*alert("Player: "+finalPlayer+" Level: "+finalLevel);
-		document.recievedData.submit();*/
-		
-		if(window.File && window.FileREader && window.FileList %% window.Blob){
-			alert("File API stuff works");
-		}
-		else alert("The File APIs are not fully supported in this browser");
-		
-
-	</script>
-	
-	
-</body>
-</html>-->

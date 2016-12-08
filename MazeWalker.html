@@ -16,7 +16,7 @@
 
         @font-face {
         	font-family: mainFont;
-        	src: url(LemonMilk.otf);
+        	src: url(resources/fonts/LemonMilk.otf);
         }
 
         #renderCanvas {
@@ -41,6 +41,7 @@
 			color: #00B9F0;
 			left: 80px;
 			z-index: 1;
+			display: none;
 		}
 
 		#lives {
@@ -51,13 +52,23 @@
 			left: 80px;
 			top: 80px;
 			z-index: 1;
+			display: none;
+		}
+
+		#mute {
+			width: 100px;
+			height: 40px;
+			position: absolute;
+			display: none;
+			right: 80px;
+			top: 80px;
 		}
 
 		#introText {
 			font-family: mainFont;
 			font-size: 30px;
 			position: absolute;
-			color: white;
+			color: #00B9F0;
 			margin-left: auto;
 			margin-right: auto;
 			left: 0;
@@ -70,8 +81,12 @@
 			position: absolute;
 			margin-top: auto;
 			margin-bottom: auto;
+			margin-left: auto;
+			margin-right: auto;
 			top: 0;
 			bottom: 0;
+			left: 0;
+			right: 0;
 		}
 
 		/*canvas.disabled {
@@ -96,32 +111,46 @@
 
 	<p id="level" class="noselect">Level 1</p>
 	<p id="lives" class="noselect">Lives 5</p>
+	<button id="mute" style="position: absolute; z-index: 1; display: none;">Mute</button>
 
-	<div id="intro">
+	<div id="intro" style="background:rgba(0,0,0,0);">
 		<center>
-			<p id="introText" class="noselect">You speculate that it's been a few hours...Things aren't looking good.</p>
+			<p id="introText" class="noselect">Welcome to the Maze.<br> Use the arrow keys to move, and the mouse to turn the camera.<br>Try to get to the highest level possible without losing lives.<br>You lose lives by falling through holes (false exits).<br>Good luck!<br></p>
 			<button id="playGame" onclick='playGame()'>Play Game</button>
 		</center>	
 	</div>
 
     <canvas id="renderCanvas"></canvas>
     <script>
-
+	var audio = new Audio('resources/sounds/StartingOver.mp3');
+	audio.loop = true;
 
     	function playGame(){
     		document.getElementById("intro").style.display = "none";
+		document.getElementById("level").style.display = "inline";
+		document.getElementById("lives").style.display = "inline";
+		document.getElementById("mute").style.display = "inline";
+		audio.play();
     	}
+
+	$("#mute").click(function(){
+		if(audio.muted == true)
+		{
+			audio.muted = false;
+		}
+		else
+		{
+			audio.muted = true;
+		}
+	});
 		
         window.addEventListener('DOMContentLoaded', function(){
 
         	//Music: http://freemusicarchive.org/music/DR/Insomnia_1749/2_-_Overdrive
-        	var audio = new Audio('StartingOver.mp3');
-        	audio.loop = true;
 
-        	var exitAud = new Audio('ding.mp3');
+        	var exitAud = new Audio('resources/sounds/ding.mp3');
         	
-        	var holeAud = new Audio('hole.mp3');
-			audio.play();
+        	var holeAud = new Audio('resources/sounds/hole.mp3');
 		
 			//get chosen difficulty from previous page
 			//get window address with embedded information
@@ -134,11 +163,13 @@
 			
             // get the canvas DOM element
             var canvas = document.getElementById('renderCanvas');
+		
 
             // load the 3D engine
             var engine = new BABYLON.Engine(canvas, true);
             var ground;
             var exit;
+	    var topExit;
             var plane;
             var cameraCube;
             var lowWalls = [];
@@ -155,11 +186,17 @@
             var mazeGen = new mazeGenerator();
 
             var size = parseInt(finalValue);
+	    if(size != 13 && size != 23 && size != 33)
+	    {
+		window.location.replace("http://people.eecs.ku.edu/~sfulton/MazeWalker/index.html");
+	    }
 
             var mazes = [mazeGen.getMaze(size)];
 
             var holeCount = 0;
-            
+
+	    var highestLevel = 1;
+
             var lives;
 			if(size < 13) lives = 1;
 			else lives = 3;
@@ -181,7 +218,7 @@
 
 				// This targets the camera to scene origin
 				//camera.setTarget(new BABYLON.Vector3(0,2,4));
-				camera.speed = 0.15;
+				camera.speed = 0.16;
 
 				// This attaches the camera to the canvas
 				camera.attachControl(canvas, true);
@@ -237,11 +274,13 @@
 								if(lives == 0)
 								{
 									var getName = prompt("Please enter your first name", "John");
-									if(getName != null){//getName will never be null 
+									alert("Wow, " + getName + "! Your highest level was " + (highestLevel) + "!");
+									window.location.replace("http://people.eecs.ku.edu/~sfulton/MazeWalker/index.html");
+									/*if(getName != null){getName will never be null 
 										document.HighScores.level.value = (highestLevel + 1);
 										document.HighScores.player.value = getName;
 										document.HighScores.submit();
-									}
+									}*/
 									break;
 								}
 								level--;
@@ -256,7 +295,10 @@
 						{
 							exitAud.play();
 							level++;
-							highestLevel++;
+							if(level > highestLevel)
+							{
+								highestLevel++;
+							}
 							size += 2;
 							if(level == mazes.length)
 							{
@@ -313,8 +355,8 @@
 				
 							lowWalls[wallCount].material = new BABYLON.StandardMaterial("texture1", scene);
 							highWalls[wallCount].material = new BABYLON.StandardMaterial("texture1", scene);
-							lowWalls[wallCount].material.diffuseTexture = new BABYLON.Texture("ivy.png", scene);
-							highWalls[wallCount].material.diffuseTexture = new BABYLON.Texture("ivy.png", scene);
+							lowWalls[wallCount].material.diffuseTexture = new BABYLON.Texture("resources/images/ivy.png", scene);
+							highWalls[wallCount].material.diffuseTexture = new BABYLON.Texture("resources/images/ivy.png", scene);
 				
 							lowWalls[wallCount].checkCollisions = true;
 							highWalls[wallCount].checkCollisions = true;
@@ -324,17 +366,19 @@
 						{
 							lowerHoles[holeCount] = BABYLON.Mesh.CreateBox("hole", 4, scene);
 							lowerHoles[holeCount].material = new BABYLON.StandardMaterial("texture1", scene);
-							lowerHoles[holeCount].material.diffuseTexture = new BABYLON.Texture("exit.png", scene);
+							lowerHoles[holeCount].material.diffuseTexture = new BABYLON.Texture("resources/images/uniqueIvy.png", scene);
 							lowerHoles[holeCount].position.x = curX;
 							lowerHoles[holeCount].position.y = lowY;
 							lowerHoles[holeCount].position.z = curZ;
 							upperHoles[holeCount] = BABYLON.Mesh.CreateBox("uHole", 4, scene);
+							upperHoles[holeCount].material = new BABYLON.StandardMaterial("texture1", scene);
+							upperHoles[holeCount].material.diffuseTexture = new BABYLON.Texture("resources/images/ivy.png", scene);
 							upperHoles[holeCount].position.x = curX;
 							upperHoles[holeCount].position.y = highY;
 							upperHoles[holeCount].position.z = curZ;
 				
 							//lowerHoles[holeCount].visibility = 0;
-							upperHoles[holeCount].visibility = 0;
+							//upperHoles[holeCount].visibility = 0;
 				
 							lowerHoles[holeCount].checkCollisions = true;
 							upperHoles[holeCount].checkCollisions = true;
@@ -348,12 +392,18 @@
 						else if (mazes[level][i * size + j] == 'E')
 						{
 							exit = BABYLON.Mesh.CreateBox('exit', 4, scene);
-
+							exit.material = new BABYLON.StandardMaterial("texture1", scene);
+							exit.material.diffuseTexture = new BABYLON.Texture("resources/images/uniqueIvy.png", scene);
 							exit.position.x = curX;
 							exit.position.y = lowY;
 							exit.position.z = curZ;
 
-							exit.visibility = 0;
+							topExit = BABYLON.Mesh.CreateBox('exit', 4, scene);
+							topExit.material = new BABYLON.StandardMaterial("texture1", scene);
+							topExit.material.diffuseTexture = new BABYLON.Texture("resources/images/ivy.png", scene);
+							topExit.position.x = curX;
+							topExit.position.y = highY;
+							topExit.position.z = curZ;
 
 							exit.checkCollisions = true;
 						}
@@ -367,7 +417,7 @@
     			// Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
     			ground = BABYLON.Mesh.CreateGround("ground1", size*4, size*4, 2, scene);
     			ground.material = new BABYLON.StandardMaterial("texture1", scene);
-				ground.material.diffuseTexture = new BABYLON.Texture("floor.png", scene);
+				ground.material.diffuseTexture = new BABYLON.Texture("resources/images/floor.png", scene);
     			ground.position.x = size*2;
     			ground.position.z = -(size*2);
     			ground.checkCollisions = true;
@@ -409,6 +459,7 @@
 				upperHoles = [];
 				exit.dispose();
 				ground.dispose();
+				topExit.dispose();
 				//plane.dispose();
 
 	    	};

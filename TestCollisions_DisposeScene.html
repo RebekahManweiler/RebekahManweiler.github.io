@@ -22,7 +22,7 @@
 	
 	<script src="babylon.js"></script>
 	<script src="hand.js"></script>
-    <script src="cannon.js"></script> <!-- optional physics engine -->
+    <script src="cannon.js"></script> 
 
 </head>
 <body>
@@ -38,7 +38,6 @@
 
     <canvas id="renderCanvas"></canvas>
     <script>
-	//add the rest of stephen's code and make sure it works on the server
         window.addEventListener('DOMContentLoaded', function(){
 		
 			//get chosen difficulty from previous page
@@ -59,6 +58,8 @@
 
             // load the 3D engine
             var engine = new BABYLON.Engine(canvas, true);
+			
+			var testCollisionsOutput = "";
 
             // createScene function that creates and return the scene
             var createScene = function () {
@@ -78,7 +79,8 @@
 	
 				var cameraCube = BABYLON.Mesh.CreateBox("cube", 2, scene);
 				var first = true;
-				var collided = false;
+				var collidedhole = false;
+				var collidedend = false;
 				cameraCube.outlineWidth = 0.15;
 				cameraCube.renderOutline = true;
 				cameraCube.position.y = 0;
@@ -89,27 +91,24 @@
 				cameraCube.material.diffuseTexture = new BABYLON.Texture("floor.png", scene);
 	
 				cameraCube.parent = camera;
-				//cameraCube.checkCollisions = true;
 	
 
 				// This creates a light, aiming 0,1,0 - to the sky (non-mesh)
 				var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
 	
-				// Default intensity is 1. Let's dim the light a small amount
 				light.intensity = 0.5;
 
-				// Our built-in 'sphere' shape. Params: name, subdivs, size, scene
 				var maze = [0, 0, 0, 0, 0, 0, 0,
-					0, 0, 0, 0, 0, 0, 0,
-					0, 2, 1, 1, 1, 0, 0,
-					0, 0, 1, 0, 1, 0, 0,
-					0, 0, 1, 0, 1, 1, 0,
-					0, 0, 3, 0, 0, 0, 0,
-					0, 0, 0, 0, 0, 0, 0];
+							0, 0, 0, 0, 0, 0, 0,
+							0, 2, 1, 1, 1, 0, 0,
+							0, 0, 1, 0, 1, 0, 0,
+							0, 0, 1, 0, 1, 4, 0,
+							0, 0, 3, 0, 0, 0, 0,
+							0, 0, 0, 0, 0, 0, 0];
 				var cubes = [];
 				var cubecount = 0;
 				var cubes2 = [];
-				var hole;
+				var holes = [];
 				var x = 12.5;
 				var z = 12.5;
 				var y = 1;
@@ -137,23 +136,43 @@
 							cubes2[cubecount].checkCollisions = true;
 							cubecount++;
 						}
-			
-						if (maze[j + i * 7] == 3){
+						//create hole
+						else if (maze[j + i * 7] == 3){
 							var temp = x;
 							var temp2 = z;
-							hole = BABYLON.Mesh.CreateBox("cube", 4, scene);
+							holes[0] = BABYLON.Mesh.CreateBox("cube", 4, scene);
 							cubes2[cubecount] = BABYLON.Mesh.CreateBox("cube", 4, scene);
-							hole.position.x = x;
+							holes[0].position.x = x;
 							cubes2[cubecount].position.x = x;
-							hole.position.z = z;
+							holes[0].position.z = z;
 							cubes2[cubecount].position.z = z;
-							hole.position.y = 2;
+							holes[0].position.y = 2;
 							cubes2[cubecount].position.y = 6;
-							hole.material = new BABYLON.StandardMaterial("texture1", scene);
+							holes[0].material = new BABYLON.StandardMaterial("texture1", scene);
 							cubes2[cubecount].material = new BABYLON.StandardMaterial("texture1", scene);
-							hole.material.diffuseTexture = new BABYLON.Texture("textures/grass.png", scene);
+							holes[0].material.diffuseTexture = new BABYLON.Texture("textures/grass.png", scene);
 							cubes2[cubecount].material.diffuseTexture = new BABYLON.Texture("texture/floor.png", scene);
-							hole.checkCollisions = true;
+							holes[0].checkCollisions = true;
+							cubes2[cubecount].checkCollisions = true;
+							cubecount++;
+						}
+						//create end (the other hole)
+						else if (maze[j + i * 7] == 4){
+							var temp = x;
+							var temp2 = z;
+							holes[1] = BABYLON.Mesh.CreateBox("cube", 4, scene);
+							cubes2[cubecount] = BABYLON.Mesh.CreateBox("cube", 4, scene);
+							holes[1].position.x = x;
+							cubes2[cubecount].position.x = x;
+							holes[1].position.z = z;
+							cubes2[cubecount].position.z = z;
+							holes[1].position.y = 2;
+							cubes2[cubecount].position.y = 6;
+							holes[1].material = new BABYLON.StandardMaterial("texture1", scene);
+							cubes2[cubecount].material = new BABYLON.StandardMaterial("texture1", scene);
+							holes[1].material.diffuseTexture = new BABYLON.Texture("textures/grass.png", scene);
+							cubes2[cubecount].material.diffuseTexture = new BABYLON.Texture("texture/floor.png", scene);
+							holes[1].checkCollisions = true;
 							cubes2[cubecount].checkCollisions = true;
 							cubecount++;
 						}
@@ -163,8 +182,6 @@
 					z-= 4;
 		
 				}
-				//cube.material = materialx;
-				// Move the sphere upward 1/2 its height
 
 				// Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
 				var ground = BABYLON.Mesh.CreateGround("ground1", 28.5, 28.5, 2, scene);
@@ -175,22 +192,61 @@
 				scene.collisionsEnabled = true;
 				camera.checkCollisions = true;
 				ground.checkCollisions = true;
-				//cube.checkCollisions = true;
 	
 				scene.registerBeforeRender(function () {
-
+					
+					//Collision and Position Tests 
 					if (first == true)
-					{
+					{	
+						//the first render
 						first = false;
+						testCollisionsOutput += "Start Position Test: ";
+						if(camera.position.x == 8 && camera.position.y == 2 && camera.position.z == 4) testCollisionsOutput += "Successful\n";
+						else testCollisionsOutput += "Failed\n";
+						//move camera to hole
+						camera.position.x = 4;
+						camera.position.z = -4.5;
 					}
 					else {
-						if (cameraCube.intersectsMesh(hole, false) && (!collided)) {
-							collided = true;
-							alert('X:'+camera.position.x+ ' Y: '+camera.position.y+' Z: '+camera.position.z);
+						testCollisionsOutput += "Collision Test - ";
+						if (cameraCube.intersectsMesh(holes[0], false) && (!collidedhole)) {
+							testCollisionsOutput += "Hole: ";
+							collidedhole = true;
+							if(camera.position.x == 4 && camera.position.y == 2 && camera.position.z == -4.5) testCollisionsOutput += "Successful\n";
+							else testCollisionsOutput += "Failed\n";
+							//move camera to end
+							camera.position.x = -4.5;
+							camera.position.z = -1.5;
+						}
+						else if (cameraCube.intersectsMesh(holes[1], false) && (!collidedend)){
+							testCollisionsOutput += "End: ";
+							collidedend = true;
+							if(camera.position.x == -4.5 && camera.position.y == 2 && camera.position.z == -1.5) testCollisionsOutput += "Successful\n";
+							else testCollisionsOutput += "Failed\n";
+							//move camera to hole
+							camera.position.x = 4;
+							camera.position.z = -4.5;
+						}
+						else if (cameraCube.intersectsMesh(holes[0], false) && (collidedhole)) {
+							testCollisionsOutput += "Hole (collision turned off): ";
+							if(camera.position.x == 4 && camera.position.y == 2 && camera.position.z == -4.5) testCollisionsOutput += "Successful\n";
+							else testCollisionsOutput += "Failed\n";
+							//move camera to end
+							camera.position.x = -4.5;
+							camera.position.z = -1.5;
+						}
+						else if (cameraCube.intersectsMesh(holes[1], false) && (collidedend)) {
+							testCollisionsOutput += "End (collision turned off): ";
+							if(camera.position.x == -4.5 && camera.position.y == 2 && camera.position.z == -1.5) testCollisionsOutput += "Successful\n";
+							else testCollisionsOutput += "Failed\n";
+							testCollisionsOutput += "\nCollision and Position Tests Complete\n";
+							//call disposeholes();
+							camera.position.x = 0;
+							camera.position.z = 0;
 						}
 						else {
 							cameraCube.outlineWidth = 0.15;
-						}
+						}	
 					}
 				});
 	

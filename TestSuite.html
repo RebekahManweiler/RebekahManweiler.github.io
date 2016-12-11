@@ -85,7 +85,7 @@
 				// This creates a light, aiming 0,1,0 - to the sky (non-mesh)
 				var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
 	
-				light.intensity = 1;
+				light.intensity = 0;
 
 				var maze = [0, 0, 0, 0, 0, 0, 0,
 							0, 0, 0, 0, 0, 0, 0,
@@ -265,7 +265,6 @@
 					holes = [];
 					if(scene.getActiveMeshes.length == 0) testOutput += "Successful\n";
 					else testOutput += "Failed\n";
-					alert("Tests Complete");
 					document.getElementById("testOutputdiv").innerHTML = testOutput;
 					document.getElementById("renderCanvas").style.display = "none";
 				};

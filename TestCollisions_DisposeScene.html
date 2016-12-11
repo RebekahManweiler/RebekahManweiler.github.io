@@ -12,7 +12,6 @@
             margin  : 0;
             padding : 0;
         }
-
         #renderCanvas {
             width   : 100%;
             height  : 100%;
@@ -56,23 +55,18 @@
 		
             // get the canvas DOM element
             var canvas = document.getElementById('renderCanvas');
-
             // load the 3D engine
             var engine = new BABYLON.Engine(canvas, true);
-
             // createScene function that creates and return the scene
             var createScene = function () {
 				
 				// This creates a basic Babylon Scene object (non-mesh)
 				var scene = new BABYLON.Scene(engine);
-
 				// This creates and positions a free camera (non-mesh)
 				var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(8, 2, 4), scene);
-
 				// This targets the camera to scene origin
 				camera.setTarget(new BABYLON.Vector3(0,2,4));
 				camera.speed = 0.25;
-
 				// This attaches the camera to the canvas
 				camera.attachControl(canvas, true);
 	
@@ -91,13 +85,11 @@
 				cameraCube.parent = camera;
 				//cameraCube.checkCollisions = true;
 	
-
 				// This creates a light, aiming 0,1,0 - to the sky (non-mesh)
 				var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
 	
 				// Default intensity is 1. Let's dim the light a small amount
 				light.intensity = 0.5;
-
 				// Our built-in 'sphere' shape. Params: name, subdivs, size, scene
 				var maze = [0, 0, 0, 0, 0, 0, 0,
 					0, 0, 0, 0, 0, 0, 0,
@@ -161,11 +153,11 @@
 					}
 					x = 12.5;
 					z-= 4;
-		
+					
+					
 				}
 				//cube.material = materialx;
 				// Move the sphere upward 1/2 its height
-
 				// Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
 				var ground = BABYLON.Mesh.CreateGround("ground1", 28.5, 28.5, 2, scene);
 	
@@ -178,7 +170,6 @@
 				//cube.checkCollisions = true;
 	
 				scene.registerBeforeRender(function () {
-
 					if (first == true)
 					{
 						first = false;
@@ -186,32 +177,64 @@
 					else {
 						if (cameraCube.intersectsMesh(hole, false) && (!collided)) {
 							collided = true;
-							alert('X:'+camera.position.x+ ' Y: '+camera.position.y+' Z: '+camera.position.z);
+							//alert('X:'+camera.position.x+ ' Y: '+camera.position.y+' Z: '+camera.position.z);
+							deleteWallsTest();
 						}
 						else {
 							cameraCube.outlineWidth = 0.15;
 						}
 					}
 				});
-	
-	
+				var deleteWallsTest = function(){
+					//alert("Let's delete");
+					//alert(cubecount);
+					for (var x = 0; x < cubecount; x++)
+					{
+						//alert(x);
+						if(x != 28){
+							cubes[x].dispose();
+							cubes2[x].dispose();
+						}
+						else
+						{
+							hole.dispose();
+							cubes2[x].dispose();
+						}
+					}
+				
+					//for (var j = 0; j < lowerHoles.length; j++)
+					//{
+					//	lowerHoles[j].dispose();
+					//	upperHoles[j].dispose();
+					//}
+					cubes = [];
+					cubes2 = [];
+					//exit.dispose();
+					//ground.dispose();
+					//topExit.dispose();
+					//plane.dispose();
+					if(scene.getActiveMeshes.length == 0)
+					{
+						alert("Success");
+					}
+				};
+		
 	
 				return scene;
-
 			};
-
             // call the createScene function
             var scene = createScene();
-
             // run the render loop
             engine.runRenderLoop(function(){
                 scene.render();
             });
-
             // the canvas/window resize event handler
             window.addEventListener('resize', function(){
                 engine.resize();
             });
+			
+			
+			
         });
     </script>
 </body>

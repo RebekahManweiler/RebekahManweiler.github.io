@@ -3,22 +3,6 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
     <title>MazeWalker High Scores</title>
-	
-    <style>
-        html, body {
-            overflow: hidden;
-            width   : 100%;
-            height  : 100%;
-            margin  : 0;
-            padding : 0;
-        }
-
-        #renderCanvas {
-            width   : 100%;
-            height  : 100%;
-            touch-action: none;
-        }
-    </style>
 
 </head>
 <body>
@@ -53,9 +37,7 @@
 		var finalPlayer = getPlayer(value);
 		document.recievedData.level.value = finalLevel;
 		document.recievedData.player.value = finalPlayer;
-		//alert("Player: "+finalPlayer+" Level: "+finalLevel);
-		//document.recievedData.submit();
-		//alert("Player: "+finalPlayer+" Level: "+finalLevel);
+		document.recievedData.submit();
 
 	</script>
 	

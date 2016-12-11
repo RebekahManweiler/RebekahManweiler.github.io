@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
+    <title>MazeWalker</title>
+	
+    <style>
+        html, body {
+            overflow: hidden;
+            width   : 100%;
+            height  : 100%;
+            margin  : 0;
+            padding : 0;
+        }
+
+        #renderCanvas {
+            width   : 100%;
+            height  : 100%;
+            touch-action: none;
+        }
+    </style>
+	
+	<script src="babylon.js"></script>
+	<script src="hand.js"></script>
+    <script src="cannon.js"></script> <!-- optional physics engine -->
+
+</head>
+<body>
+
+	<form name="MazeSize">
+	<input type="hidden" name="recievedData">
+	</form>
+	
+	<form name="HighScores" method="link" action="HighScores.html">
+	<input type="hidden" name="level">
+	<input type="hidden" name="player">
+	</form>
+
+    <canvas id="renderCanvas"></canvas>
+    <script>
+	//add the rest of stephen's code and make sure it works on the server
+        window.addEventListener('DOMContentLoaded', function(){
+		
+			//get chosen difficulty from previous page
+			var locate = window.location;
+			document.MazeSize.recievedData.value = locate;
+			var value = document.MazeSize.recievedData.value;
+			
+			function getData(str){
+					var index = str.lastIndexOf("=") + 1;
+					return(str.substring(index, str.length));
+			}
+		
+			var finalValue = getData(value);
+			//alert(finalValue);
+		
+            // get the canvas DOM element
+            var canvas = document.getElementById('renderCanvas');
+
+            // load the 3D engine
+            var engine = new BABYLON.Engine(canvas, true);
+
+            // createScene function that creates and return the scene
+            var createScene = function () {
+				
+				// This creates a basic Babylon Scene object (non-mesh)
+				var scene = new BABYLON.Scene(engine);
+
+				// This creates and positions a free camera (non-mesh)
+				var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(8, 2, 4), scene);
+
+				// This targets the camera to scene origin
+				camera.setTarget(new BABYLON.Vector3(0,2,4));
+				camera.speed = 0.25;
+
+				// This attaches the camera to the canvas
+				camera.attachControl(canvas, true);
+	
+				var cameraCube = BABYLON.Mesh.CreateBox("cube", 2, scene);
+				var first = true;
+				var collided = false;
+				cameraCube.outlineWidth = 0.15;
+				cameraCube.renderOutline = true;
+				cameraCube.position.y = 0;
+				cameraCube.position.x = 0;
+				cameraCube.position.z = 0;
+	
+				cameraCube.material = new BABYLON.StandardMaterial("texture1", scene);
+				cameraCube.material.diffuseTexture = new BABYLON.Texture("floor.png", scene);
+	
+				cameraCube.parent = camera;
+				//cameraCube.checkCollisions = true;
+	
+
+				// This creates a light, aiming 0,1,0 - to the sky (non-mesh)
+				var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
+	
+				// Default intensity is 1. Let's dim the light a small amount
+				light.intensity = 0.5;
+
+				// Our built-in 'sphere' shape. Params: name, subdivs, size, scene
+				var maze = [0, 0, 0, 0, 0, 0, 0,
+					0, 0, 0, 0, 0, 0, 0,
+					0, 2, 1, 1, 1, 0, 0,
+					0, 0, 1, 0, 1, 0, 0,
+					0, 0, 1, 0, 1, 1, 0,
+					0, 0, 3, 0, 0, 0, 0,
+					0, 0, 0, 0, 0, 0, 0];
+				var cubes = [];
+				var cubecount = 0;
+				var cubes2 = [];
+				var hole;
+				var x = 12.5;
+				var z = 12.5;
+				var y = 1;
+	
+				for (var i = 0; i < 7; i++)
+				{
+					for (var j = 0; j < 7; j++)
+					{
+						if (maze[j + i * 7] == 0){
+							var temp = x;
+							var temp2 = z;
+							cubes[cubecount] = BABYLON.Mesh.CreateBox("cube", 4, scene);
+							cubes2[cubecount] = BABYLON.Mesh.CreateBox("cube", 4, scene);
+							cubes[cubecount].position.x = x;
+							cubes2[cubecount].position.x = x;
+							cubes[cubecount].position.z = z;
+							cubes2[cubecount].position.z = z;
+							cubes[cubecount].position.y = 2;
+							cubes2[cubecount].position.y = 6;
+							cubes[cubecount].material = new BABYLON.StandardMaterial("texture1", scene);
+							cubes2[cubecount].material = new BABYLON.StandardMaterial("texture1", scene);
+							cubes[cubecount].material.diffuseTexture = new BABYLON.Texture("floor.png", scene);
+							cubes2[cubecount].material.diffuseTexture = new BABYLON.Texture("floor.png", scene);
+							cubes[cubecount].checkCollisions = true;
+							cubes2[cubecount].checkCollisions = true;
+							cubecount++;
+						}
+			
+						if (maze[j + i * 7] == 3){
+							var temp = x;
+							var temp2 = z;
+							hole = BABYLON.Mesh.CreateBox("cube", 4, scene);
+							cubes2[cubecount] = BABYLON.Mesh.CreateBox("cube", 4, scene);
+							hole.position.x = x;
+							cubes2[cubecount].position.x = x;
+							hole.position.z = z;
+							cubes2[cubecount].position.z = z;
+							hole.position.y = 2;
+							cubes2[cubecount].position.y = 6;
+							hole.material = new BABYLON.StandardMaterial("texture1", scene);
+							cubes2[cubecount].material = new BABYLON.StandardMaterial("texture1", scene);
+							hole.material.diffuseTexture = new BABYLON.Texture("textures/grass.png", scene);
+							cubes2[cubecount].material.diffuseTexture = new BABYLON.Texture("texture/floor.png", scene);
+							hole.checkCollisions = true;
+							cubes2[cubecount].checkCollisions = true;
+							cubecount++;
+						}
+						x-= 4;
+					}
+					x = 12.5;
+					z-= 4;
+		
+				}
+				//cube.material = materialx;
+				// Move the sphere upward 1/2 its height
+
+				// Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
+				var ground = BABYLON.Mesh.CreateGround("ground1", 28.5, 28.5, 2, scene);
+	
+				scene.gravity = new BABYLON.Vector3(0, -9.81, 0);
+				camera.applyGravity = true;
+				camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
+				scene.collisionsEnabled = true;
+				camera.checkCollisions = true;
+				ground.checkCollisions = true;
+				//cube.checkCollisions = true;
+	
+				scene.registerBeforeRender(function () {
+
+					if (first == true)
+					{
+						first = false;
+					}
+					else {
+						if (cameraCube.intersectsMesh(hole, false) && (!collided)) {
+							collided = true;
+							alert('X:'+camera.position.x+ ' Y: '+camera.position.y+' Z: '+camera.position.z);
+						}
+						else {
+							cameraCube.outlineWidth = 0.15;
+						}
+					}
+				});
+	
+	
+	
+				return scene;
+
+			};
+
+            // call the createScene function
+            var scene = createScene();
+
+            // run the render loop
+            engine.runRenderLoop(function(){
+                scene.render();
+            });
+
+            // the canvas/window resize event handler
+            window.addEventListener('resize', function(){
+                engine.resize();
+            });
+        });
+    </script>
+</body>
+</html>

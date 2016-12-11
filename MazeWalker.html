@@ -39,7 +39,7 @@
 			font-family: mainFont;
 			font-size: 50px;
 			position: absolute;
-			color: #00B9F0;
+			color: #005bef;
 			left: 80px;
 			z-index: 1;
 			display: none;
@@ -49,7 +49,7 @@
 			font-family: mainFont;
 			font-size: 30px;
 			position: absolute;
-			color: #00B9F0;
+			color: #005bef;
 			left: 80px;
 			top: 80px;
 			z-index: 1;
@@ -85,7 +85,7 @@
 			font-family: mainFont;
 			font-size: 30px;
 			position: absolute;
-			color: #00B9F0;
+			color: #005bef;
 			margin-left: auto;
 			margin-right: auto;
 			left: 0;
@@ -202,7 +202,7 @@
             var engine = new BABYLON.Engine(canvas, true);
             var ground;
             var exit;
-	    var topExit;
+			var topExit;
             var plane;
             var cameraCube;
             var lowWalls = [];
@@ -317,11 +317,6 @@
 									var getName = prompt("Please enter your first name", "John");
 									alert("Wow, " + getName + "! Your highest level was " + (highestLevel) + "!");
 									window.location.replace("http://people.eecs.ku.edu/~sfulton/MazeWalker/index.html");
-									/*if(getName != null){getName will never be null 
-										document.HighScores.level.value = (highestLevel + 1);
-										document.HighScores.player.value = getName;
-										document.HighScores.submit();
-									}*/
 									break;
 								}
 								level--;
@@ -523,8 +518,6 @@
             // the canvas/window resize event handler
             window.addEventListener('resize', function(){
                 engine.resize();
-				//plane.position.x = -(window.innerWidth * .000276);
-				//plane.position.y = (window.innerHeight * .000789);
             });
 	    	// deletes all the walls in the current maze
 	    	var deleteWalls = function(){

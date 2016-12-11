@@ -12,7 +12,6 @@
             margin  : 0;
             padding : 0;
         }
-
         #renderCanvas {
             width   : 100%;
             height  : 100%;
@@ -55,25 +54,21 @@
 		
             // get the canvas DOM element
             var canvas = document.getElementById('renderCanvas');
-
             // load the 3D engine
             var engine = new BABYLON.Engine(canvas, true);
-			
-			var testCollisionsOutput = "";
 
+			var testOutput = "";
+			
             // createScene function that creates and return the scene
             var createScene = function () {
 				
 				// This creates a basic Babylon Scene object (non-mesh)
 				var scene = new BABYLON.Scene(engine);
-
 				// This creates and positions a free camera (non-mesh)
 				var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(8, 2, 4), scene);
-
 				// This targets the camera to scene origin
 				camera.setTarget(new BABYLON.Vector3(0,2,4));
 				camera.speed = 0.25;
-
 				// This attaches the camera to the canvas
 				camera.attachControl(canvas, true);
 	
@@ -92,11 +87,10 @@
 	
 				cameraCube.parent = camera;
 	
-
 				// This creates a light, aiming 0,1,0 - to the sky (non-mesh)
 				var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
 	
-				light.intensity = 0.5;
+				light.intensity = 0;
 
 				var maze = [0, 0, 0, 0, 0, 0, 0,
 							0, 0, 0, 0, 0, 0, 0,
@@ -180,9 +174,10 @@
 					}
 					x = 12.5;
 					z-= 4;
-		
+					
+					
 				}
-
+				
 				// Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
 				var ground = BABYLON.Mesh.CreateGround("ground1", 28.5, 28.5, 2, scene);
 	
@@ -194,80 +189,100 @@
 				ground.checkCollisions = true;
 	
 				scene.registerBeforeRender(function () {
-					
+				
 					//Collision and Position Tests 
 					if (first == true)
 					{	
 						//the first render
 						first = false;
-						testCollisionsOutput += "Start Position Test: ";
-						if(camera.position.x == 8 && camera.position.y == 2 && camera.position.z == 4) testCollisionsOutput += "Successful\n";
-						else testCollisionsOutput += "Failed\n";
+						testOutput += "Start Position Test: ";
+						if(camera.position.x == 8 && camera.position.y == 2 && camera.position.z == 4) testOutput += "Successful\n";
+						else testOutput += "Failed\n";
 						//move camera to hole
 						camera.position.x = 4;
 						camera.position.z = -4.5;
 					}
 					else {
-						testCollisionsOutput += "Collision Test - ";
+						testOutput += "Collision Test - ";
 						if (cameraCube.intersectsMesh(holes[0], false) && (!collidedhole)) {
-							testCollisionsOutput += "Hole: ";
+							testOutput += "Hole: ";
 							collidedhole = true;
-							if(camera.position.x == 4 && camera.position.y == 2 && camera.position.z == -4.5) testCollisionsOutput += "Successful\n";
-							else testCollisionsOutput += "Failed\n";
+							if(camera.position.x == 4 && camera.position.y == 2 && camera.position.z == -4.5) testOutput += "Successful\n";
+							else testOutput += "Failed\n";
 							//move camera to end
 							camera.position.x = -4.5;
 							camera.position.z = -1.5;
 						}
 						else if (cameraCube.intersectsMesh(holes[1], false) && (!collidedend)){
-							testCollisionsOutput += "End: ";
+							testOutput += "End: ";
 							collidedend = true;
-							if(camera.position.x == -4.5 && camera.position.y == 2 && camera.position.z == -1.5) testCollisionsOutput += "Successful\n";
-							else testCollisionsOutput += "Failed\n";
+							if(camera.position.x == -4.5 && camera.position.y == 2 && camera.position.z == -1.5) testOutput += "Successful\n";
+							else testOutput += "Failed\n";
 							//move camera to hole
 							camera.position.x = 4;
 							camera.position.z = -4.5;
 						}
 						else if (cameraCube.intersectsMesh(holes[0], false) && (collidedhole)) {
-							testCollisionsOutput += "Hole (collision turned off): ";
-							if(camera.position.x == 4 && camera.position.y == 2 && camera.position.z == -4.5) testCollisionsOutput += "Successful\n";
-							else testCollisionsOutput += "Failed\n";
+							testOutput += "Hole (collision turned off): ";
+							if(camera.position.x == 4 && camera.position.y == 2 && camera.position.z == -4.5) testOutput += "Successful\n";
+							else testOutput += "Failed\n";
 							//move camera to end
 							camera.position.x = -4.5;
 							camera.position.z = -1.5;
 						}
 						else if (cameraCube.intersectsMesh(holes[1], false) && (collidedend)) {
-							testCollisionsOutput += "End (collision turned off): ";
-							if(camera.position.x == -4.5 && camera.position.y == 2 && camera.position.z == -1.5) testCollisionsOutput += "Successful\n";
-							else testCollisionsOutput += "Failed\n";
-							testCollisionsOutput += "\nCollision and Position Tests Complete\n";
-							//call disposeholes();
+							testOutput += "End (collision turned off): ";
+							if(camera.position.x == -4.5 && camera.position.y == 2 && camera.position.z == -1.5) testOutput += "Successful\n";
+							else testOutput += "Failed\n";
+							testOutput += "\nCollision and Position Tests Complete\n";
 							camera.position.x = 0;
 							camera.position.z = 0;
+							deleteWallsTest();
 						}
 						else {
 							cameraCube.outlineWidth = 0.15;
 						}	
 					}
 				});
-	
-	
+				
+				var deleteWallsTest = function(){
+					testOutput += "Disposal Test: ";
+					for (var x = 0; x < cubecount; x++)
+					{
+						if(x != 28){
+							cubes[x].dispose();
+							cubes2[x].dispose();
+						}
+						else
+						{
+							hole.dispose();
+							cubes2[x].dispose();
+						}
+					}
+				
+					cubes = [];
+					cubes2 = [];
+					if(scene.getActiveMeshes.length == 0) testOutput += "Successful\n";
+					else testOutput += "Failed\n";
+					alert("Tests Complete");
+				};
+		
 	
 				return scene;
-
 			};
-
             // call the createScene function
             var scene = createScene();
-
             // run the render loop
             engine.runRenderLoop(function(){
                 scene.render();
             });
-
             // the canvas/window resize event handler
             window.addEventListener('resize', function(){
                 engine.resize();
             });
+			
+			
+			
         });
     </script>
 </body>

@@ -39,73 +39,110 @@
 	<script src="hand.js"></script>
     	<script src="cannon.js"></script>
 	<script>
-		var mazeGen = new mazeGenerator();
-		var passTest = true;
-		testSolver();
-		testGenerator();
-		/*--------------------------------TEST SOLVER----------------------------*/
-		function testSolver(){
-			console.log("-----------------------------TEST SOLVER--------------------");
-			var mazeSolvable = [['W', 'W', 'W', 'W', 'W', 'W', 'W'],
-				    ['W', 'W', 'W', 'W', 'W', 'W', 'W'], 
-				    ['W', 'S', 'V', 'V', 'V', 'W', 'W'], 
-				    ['W', 'W', 'V', 'W', 'V', 'W', 'W'], 
-				    ['W', 'W', 'V', 'W', 'V', 'E', 'W'], 
-				    ['W', 'W', 'W', 'W', 'W', 'W', 'W'], 
-				    ['W', 'W', 'W', 'W', 'W', 'W', 'W']];
-			var mazeUnsolvable = [['W', 'W', 'W', 'W', 'W', 'W', 'W'],
-				    ['W', 'W', 'W', 'W', 'W', 'W', 'W'], 
-				    ['W', 'S', 'V', 'V', 'V', 'W', 'W'], 
-				    ['W', 'W', 'V', 'W', 'V', 'W', 'W'], 
-				    ['W', 'W', 'V', 'W', 'V', 'W', 'W'], 
-				    ['W', 'W', 'W', 'W', 'W', 'W', 'W'], 
-				    ['W', 'W', 'W', 'W', 'W', 'W', 'W']];
-
-			/*------Test Solve------*/
-			var solution = [[2,1],[2,2],[2,3],[2,4],[3,4],[4,4],[4,5]];
-			var mazeGenSolution = mazeGen.mazeSolver(mazeSolvable);
-			if(mazeGenSolution.length == solution.length)
-			{
-				for(var i = 0; i < mazeGenSolution.length; i++)
+		function mazeGeneratorTests(){
+			var outputString = "";
+			var mazeGen = new mazeGenerator();
+			var passTest = true;
+			var sampleMaze = [['W', 'W', 'W', 'W', 'W', 'W', 'W'],
+					    ['W', 'W', 'W', 'W', 'W', 'W', 'W'], 
+					    ['W', 'S', 'V', 'V', 'V', 'W', 'W'], 
+					    ['W', 'W', 'V', 'W', 'V', 'W', 'W'], 
+					    ['W', 'W', 'V', 'W', 'V', 'E', 'W'], 
+					    ['W', 'W', 'W', 'W', 'W', 'W', 'W'], 
+					    ['W', 'W', 'W', 'W', 'W', 'W', 'W']];
+			testSolver();
+			testGenerator();
+			testConverter();
+			testSize();
+			/*--------------------------------TEST SOLVER----------------------------*/
+			function testSolver(){
+				console.log("-----------------------------TEST SOLVER--------------------");
+				var mazeUnsolvable = [['W', 'W', 'W', 'W', 'W', 'W', 'W'],
+					    ['W', 'W', 'W', 'W', 'W', 'W', 'W'], 
+					    ['W', 'S', 'V', 'V', 'V', 'W', 'W'], 
+					    ['W', 'W', 'V', 'W', 'V', 'W', 'W'], 
+					    ['W', 'W', 'V', 'W', 'V', 'W', 'W'], 
+					    ['W', 'W', 'W', 'W', 'W', 'W', 'W'], 
+					    ['W', 'W', 'W', 'W', 'W', 'W', 'W']];
+	
+				/*------Test Solve------*/
+				var solution = [[2,1],[2,2],[2,3],[2,4],[3,4],[4,4],[4,5]];
+				var mazeGenSolution = mazeGen.mazeSolver(sampleMaze);
+				if(mazeGenSolution.length == solution.length)
 				{
-					for(var j = 0; j < 2; j++)
+					for(var i = 0; i < mazeGenSolution.length; i++)
 					{
-						if(mazeGenSolution[i][j] != solution[i][j])
+						for(var j = 0; j < 2; j++)
+						{
+							if(mazeGenSolution[i][j] != solution[i][j])
+							{
+								passTest = false;
+							}
+						}
+					}
+				}else{passTest = false;}
+				outputString+="Test Solved Maze Passed: " + passTest+"\n";
+	
+				/*------Test Unsolvable------*/
+				var mazeGenSolution = mazeGen.mazeSolver(mazeUnsolvable);
+				if(mazeGenSolution.length == 0){
+					outputString+="Test Unsolved Maze Passed: true\n";
+				}else{outputString+="Test Unsolved Maze Passed: false\n");}
+				passTest = true;
+			}
+	
+			/*--------------------------------TEST GENERATOR---------------------------*/
+			/*We know that solver is functional now, so we can use it to verify correctness of generated mazes*/
+			function testGenerator(){
+				console.log("-----------------------------TEST GENERATOR-----------------");
+	
+				var solution = [];
+				for(var i = 0; i < 100; i++)
+				{
+					solution = mazeGen.mazeSolver(mazeGen.generateMaze(13));
+					if(solution.length != 0){
+						outputString+="Maze Generation Successful\n";
+					}else{
+						outputString+="Maze Generation Unsuccessful\n";
+					}
+				}
+			}
+	
+			/*-------------------------------TEST CONVERTER----------------------------*/
+			/*Tests conversion of 2D maze to 1D maze*/
+			function testConverter(){
+				console.log("-----------------------------TEST CONVERTER-----------------");
+				var convertedMaze = mazeGen.twoToOne(sampleMaze);
+				for(var i = 0; i < sampleMaze.length; i++)
+				{
+					for(var j = 0; j < sampleMaze.length; j++)
+					{
+						if(convertedMaze[i*7 + j] != sampleMaze[i][j])
 						{
 							passTest = false;
 						}
 					}
 				}
-			}else{passTest = false;}
-			console.log("Test Solved Maze Passed: " + passTest);
-
-			/*------Test Unsolvable------*/
-			var mazeGenSolution = mazeGen.mazeSolver(mazeUnsolvable);
-			if(mazeGenSolution.length == 0){
-				console.log("Test Unsolved Maze Passed: true");
-			}else{console.log("Test Unsolved Maze Passed: false");}
-			passTest = true;
-		}
-
-		/*--------------------------------TEST GENERATOR---------------------------*/
-		/*We know that solver is functional now, so we can use it to verify correctness of generated mazes*/
-		function testGenerator(){
-			console.log("-----------------------------TEST GENERATOR-----------------");
-
-			var solution = [];
-			for(var i = 0; i < 100; i++)
-			{
-				solution = mazeGen.mazeSolver(mazeGen.generateMaze(13));
-				if(solution.length != 0){
-					console.log("Maze Generation Successful");
-				}else{
-					console.log("Maze Generation Unsuccessful");
-				}
+				outputString+="Conversion of sample maze successful: " + passTest + "\n";
+				passTest = true;
 			}
-		}
-
-
-		
+	
+			/*-------------------------------TEST SIZE---------------------------------*/
+			/*Test getMazeSize in generator using sample maze*/
+			function testSize(){
+				console.log("-----------------------------TEST SIZE OF MAZE--------------");
+				if(mazeGen.getMazeSize(mazeGen.twoToOne(sampleMaze)) == 7)
+				{
+					outputString+="Test sample maze size: Successful\n";
+				}else{outputString+="Test sample maze size: Unsuccessful\n";}
+				if(mazeGen.getMazeSize([]) == 0)
+				{
+					outputString+="Test size 0 maze: Successful\n";
+				}else{outputString+="Test size 0 maze: Unsuccessful"\n;}
+			}
+	
+		return outputString;
+	}		
 
 	</script>
 </head>

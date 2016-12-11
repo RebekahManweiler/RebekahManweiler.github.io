@@ -14,7 +14,7 @@
             padding : 0;
 			
 
-			background: url("StartMenuBackground.png") no-repeat 50% 50% fixed; 
+			background: url("resources/images/background.png") no-repeat 50% 50% fixed; 
 			-webkit-background-size: cover;
 			-moz-background-size: cover;
 			-o-background-size: cover;
@@ -24,7 +24,7 @@
 			font-family: verdana;
         }
 		h1, h2, p, label, tr, th, td{
-			color: white;
+			color: #0089F0;
 		}
 		table.center {
 			margin-left:auto; 
@@ -42,6 +42,7 @@
 	
 		$level = $_POST["level"];
 		$player = $_POST["player"];
+
 		
 		echo "<h1>MazeWalker High Scores</h1>";
 		echo "<p><a href=\"index.html\">Back to Start Menu</a></p>";

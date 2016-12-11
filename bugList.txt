@@ -1,0 +1,3 @@
+- holes and exits do not activate unless the camera has turned at least once on the level
+
+- single spaces can occur off the maze and are not reachable, this does not affect the maze's solvability

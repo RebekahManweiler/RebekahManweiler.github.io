@@ -2,10 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
-    <title>MazeWalker Test Suite</title>
-	<script src="mazeGen.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
+    <title>MazeWalker</title>
 	
     <style>
         body {
@@ -34,11 +31,263 @@
             touch-action: none;
         }
     </style>
-
+	
 	<script src="babylon.js"></script>
 	<script src="hand.js"></script>
-    	<script src="cannon.js"></script>
-	<script>
+    <script src="cannon.js"></script> 
+	<script src="mazeGen.js"></script>
+
+</head>
+<body>
+	<h1>MazeWalker Test Suite</h1>
+	<br/>
+	<div id=testOutputdiv><div>
+	<p><a href="index.html">Return to the Start Menu</a></p>
+    <canvas id="renderCanvas"></canvas>
+    <script>
+        window.addEventListener('DOMContentLoaded', function(){
+		
+            // get the canvas DOM element
+            var canvas = document.getElementById('renderCanvas');
+            // load the 3D engine
+            var engine = new BABYLON.Engine(canvas, true);
+
+			var testOutput = mazeGeneratorTests() + "\n";
+			
+            // createScene function that creates and return the scene
+            var createScene = function () {
+				
+				// This creates a basic Babylon Scene object (non-mesh)
+				var scene = new BABYLON.Scene(engine);
+				// This creates and positions a free camera (non-mesh)
+				var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(8, 2, 4), scene);
+				// This targets the camera to scene origin
+				camera.setTarget(new BABYLON.Vector3(0,2,4));
+				camera.speed = 0.25;
+				// This attaches the camera to the canvas
+				camera.attachControl(canvas, true);
+	
+				var cameraCube = BABYLON.Mesh.CreateBox("cube", 2, scene);
+				var first = true;
+				var collidedhole = false;
+				var collidedend = false;
+				cameraCube.outlineWidth = 0.15;
+				cameraCube.renderOutline = true;
+				cameraCube.position.y = 0;
+				cameraCube.position.x = 0;
+				cameraCube.position.z = 0;
+	
+				cameraCube.material = new BABYLON.StandardMaterial("texture1", scene);
+				cameraCube.material.diffuseTexture = new BABYLON.Texture("floor.png", scene);
+	
+				cameraCube.parent = camera;
+	
+				// This creates a light, aiming 0,1,0 - to the sky (non-mesh)
+				var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
+	
+				light.intensity = 1;
+
+				var maze = [0, 0, 0, 0, 0, 0, 0,
+							0, 0, 0, 0, 0, 0, 0,
+							0, 2, 1, 1, 1, 0, 0,
+							0, 0, 1, 0, 1, 0, 0,
+							0, 0, 1, 0, 1, 4, 0,
+							0, 0, 3, 0, 0, 0, 0,
+							0, 0, 0, 0, 0, 0, 0];
+				var cubes = [];
+				var cubecount = 0;
+				var cubes2 = [];
+				var holes = [];
+				var x = 12.5;
+				var z = 12.5;
+				var y = 1;
+	
+				for (var i = 0; i < 7; i++)
+				{
+					for (var j = 0; j < 7; j++)
+					{
+						if (maze[j + i * 7] == 0){
+							var temp = x;
+							var temp2 = z;
+							cubes[cubecount] = BABYLON.Mesh.CreateBox("cube", 4, scene);
+							cubes2[cubecount] = BABYLON.Mesh.CreateBox("cube", 4, scene);
+							cubes[cubecount].position.x = x;
+							cubes2[cubecount].position.x = x;
+							cubes[cubecount].position.z = z;
+							cubes2[cubecount].position.z = z;
+							cubes[cubecount].position.y = 2;
+							cubes2[cubecount].position.y = 6;
+							cubes[cubecount].material = new BABYLON.StandardMaterial("texture1", scene);
+							cubes2[cubecount].material = new BABYLON.StandardMaterial("texture1", scene);
+							cubes[cubecount].material.diffuseTexture = new BABYLON.Texture("floor.png", scene);
+							cubes2[cubecount].material.diffuseTexture = new BABYLON.Texture("floor.png", scene);
+							cubes[cubecount].checkCollisions = true;
+							cubes2[cubecount].checkCollisions = true;
+							cubecount++;
+						}
+						//create hole
+						else if (maze[j + i * 7] == 3){
+							var temp = x;
+							var temp2 = z;
+							holes[0] = BABYLON.Mesh.CreateBox("cube", 4, scene);
+							cubes2[cubecount] = BABYLON.Mesh.CreateBox("cube", 4, scene);
+							holes[0].position.x = x;
+							cubes2[cubecount].position.x = x;
+							holes[0].position.z = z;
+							cubes2[cubecount].position.z = z;
+							holes[0].position.y = 2;
+							cubes2[cubecount].position.y = 6;
+							holes[0].material = new BABYLON.StandardMaterial("texture1", scene);
+							cubes2[cubecount].material = new BABYLON.StandardMaterial("texture1", scene);
+							holes[0].material.diffuseTexture = new BABYLON.Texture("textures/grass.png", scene);
+							cubes2[cubecount].material.diffuseTexture = new BABYLON.Texture("texture/floor.png", scene);
+							holes[0].checkCollisions = true;
+							cubes2[cubecount].checkCollisions = true;
+							cubecount++;
+						}
+						//create end (the other hole)
+						else if (maze[j + i * 7] == 4){
+							var temp = x;
+							var temp2 = z;
+							holes[1] = BABYLON.Mesh.CreateBox("cube", 4, scene);
+							cubes2[cubecount] = BABYLON.Mesh.CreateBox("cube", 4, scene);
+							holes[1].position.x = x;
+							cubes2[cubecount].position.x = x;
+							holes[1].position.z = z;
+							cubes2[cubecount].position.z = z;
+							holes[1].position.y = 2;
+							cubes2[cubecount].position.y = 6;
+							holes[1].material = new BABYLON.StandardMaterial("texture1", scene);
+							cubes2[cubecount].material = new BABYLON.StandardMaterial("texture1", scene);
+							holes[1].material.diffuseTexture = new BABYLON.Texture("textures/grass.png", scene);
+							cubes2[cubecount].material.diffuseTexture = new BABYLON.Texture("texture/floor.png", scene);
+							holes[1].checkCollisions = true;
+							cubes2[cubecount].checkCollisions = true;
+							cubecount++;
+						}
+						x-= 4;
+					}
+					x = 12.5;
+					z-= 4;
+					
+					
+				}
+				
+				// Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
+				var ground = BABYLON.Mesh.CreateGround("ground1", 28.5, 28.5, 2, scene);
+	
+				scene.gravity = new BABYLON.Vector3(0, -9.81, 0);
+				camera.applyGravity = true;
+				camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
+				scene.collisionsEnabled = true;
+				camera.checkCollisions = true;
+				ground.checkCollisions = true;
+	
+				scene.registerBeforeRender(function () {
+				
+					//Collision and Position Tests 
+					if (first == true)
+					{	
+						//the first render
+						first = false;
+						testOutput += "Start Position Test: ";
+						if(camera.position.x == 8 && camera.position.y == 2 && camera.position.z == 4) testOutput += "Successful\n";
+						else testOutput += "Failed\n";
+						//move camera to hole
+						camera.position.x = 4;
+						camera.position.z = -4.5;
+					}
+					else {
+						testOutput += "Collision Test - ";
+						if (cameraCube.intersectsMesh(holes[0], false) && (!collidedhole)) {
+							testOutput += "Hole: ";
+							collidedhole = true;
+							if(camera.position.x == 4 && camera.position.y == 2 && camera.position.z == -4.5) testOutput += "Successful\n";
+							else testOutput += "Failed\n";
+							//move camera to end
+							camera.position.x = -4.5;
+							camera.position.z = -1.5;
+						}
+						else if (cameraCube.intersectsMesh(holes[1], false) && (!collidedend)){
+							testOutput += "End: ";
+							collidedend = true;
+							if(camera.position.x == -4.5 && camera.position.y == 2 && camera.position.z == -1.5) testOutput += "Successful\n";
+							else testOutput += "Failed\n";
+							//move camera to hole
+							camera.position.x = 4;
+							camera.position.z = -4.5;
+						}
+						else if (cameraCube.intersectsMesh(holes[0], false) && (collidedhole)) {
+							testOutput += "Hole (collision turned off): ";
+							if(camera.position.x == 4 && camera.position.y == 2 && camera.position.z == -4.5) testOutput += "Successful\n";
+							else testOutput += "Failed\n";
+							//move camera to end
+							camera.position.x = -4.5;
+							camera.position.z = -1.5;
+						}
+						else if (cameraCube.intersectsMesh(holes[1], false) && (collidedend)) {
+							testOutput += "End (collision turned off): ";
+							if(camera.position.x == -4.5 && camera.position.y == 2 && camera.position.z == -1.5) testOutput += "Successful\n";
+							else testOutput += "Failed\n";
+							testOutput += "\nCollision and Position Tests Complete\n";
+							camera.position.x = 0;
+							camera.position.z = 0;
+							deleteWallsTest();
+						}
+						else {
+							cameraCube.outlineWidth = 0.15;
+						}	
+					}
+				});
+				
+				var deleteWallsTest = function(){
+					testOutput += "Disposal Test: ";
+					for (var x = 0; x < cubecount; x++)
+					{
+						if(x != 29 && x != 25){
+							cubes[x].dispose();
+							cubes2[x].dispose();
+						}
+						else if(x == 25)
+						{
+							holes[1].dispose();
+							cubes2[x].dispose();
+						}
+						else
+						{
+							holes[0].dispose();
+							cubes2[x].dispose();
+						}
+					}
+				
+					cubes = [];
+					cubes2 = [];
+					holes = [];
+					if(scene.getActiveMeshes.length == 0) testOutput += "Successful\n";
+					else testOutput += "Failed\n";
+					alert("Tests Complete");
+					document.getElementById("testOutputdiv").innerHTML = testOutput;
+					document.getElementById("renderCanvas").style.display = "none";
+				};
+		
+	
+				return scene;
+			};
+            // call the createScene function
+            var scene = createScene();
+            // run the render loop
+            engine.runRenderLoop(function(){
+                scene.render();
+            });
+            // the canvas/window resize event handler
+            window.addEventListener('resize', function(){
+                engine.resize();
+            });
+			
+			
+			
+        });
+		
 		function mazeGeneratorTests(){
 			var outputString = "";
 			var mazeGen = new mazeGenerator();
@@ -56,7 +305,7 @@
 			testSize();
 			/*--------------------------------TEST SOLVER----------------------------*/
 			function testSolver(){
-				console.log("-----------------------------TEST SOLVER--------------------");
+				outputString += "Test Solver\n";
 				var mazeUnsolvable = [['W', 'W', 'W', 'W', 'W', 'W', 'W'],
 					    ['W', 'W', 'W', 'W', 'W', 'W', 'W'], 
 					    ['W', 'S', 'V', 'V', 'V', 'W', 'W'], 
@@ -94,7 +343,7 @@
 			/*--------------------------------TEST GENERATOR---------------------------*/
 			/*We know that solver is functional now, so we can use it to verify correctness of generated mazes*/
 			function testGenerator(){
-				console.log("-----------------------------TEST GENERATOR-----------------");
+				outputString += "Test Generator\n";
 	
 				var solution = [];
 				for(var i = 0; i < 100; i++)
@@ -111,7 +360,7 @@
 			/*-------------------------------TEST CONVERTER----------------------------*/
 			/*Tests conversion of 2D maze to 1D maze*/
 			function testConverter(){
-				console.log("-----------------------------TEST CONVERTER-----------------");
+				outputString += "Test Converter\n";
 				var convertedMaze = mazeGen.twoToOne(sampleMaze);
 				for(var i = 0; i < sampleMaze.length; i++)
 				{
@@ -130,7 +379,7 @@
 			/*-------------------------------TEST SIZE---------------------------------*/
 			/*Test getMazeSize in generator using sample maze*/
 			function testSize(){
-				console.log("-----------------------------TEST SIZE OF MAZE--------------");
+				outputString += "Test Size of Maze\n";
 				if(mazeGen.getMazeSize(mazeGen.twoToOne(sampleMaze)) == 7)
 				{
 					outputString+="Test sample maze size: Successful\n";
@@ -142,13 +391,8 @@
 			}
 	
 		return outputString;
-	}		
-
-	</script>
-</head>
-<body>
-	<h1>MazeWalker Test Suite</h1>
-	<br/>
-	<p><a href="index.html">Return to the Start Menu</a></p>
+	}
+	
+    </script>
 </body>
 </html>

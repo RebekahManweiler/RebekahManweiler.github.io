@@ -41,7 +41,7 @@
 <body>
 	<h1>MazeWalker Test Suite</h1>
 	<br/>
-	<div id=testOutputdiv><div>
+	<div id=testOutputdiv>hello<div>
 	<p><a href="index.html">Return to the Start Menu</a></p>
     <canvas id="renderCanvas"></canvas>
     <script>
@@ -52,7 +52,7 @@
             // load the 3D engine
             var engine = new BABYLON.Engine(canvas, true);
 
-			var testOutput = mazeGeneratorTests() + "\n";
+			var testOutput = mazeGeneratorTests() + "<br>";
 			
             // createScene function that creates and return the scene
             var createScene = function () {
@@ -191,8 +191,8 @@
 						//the first render
 						first = false;
 						testOutput += "Start Position Test: ";
-						if(camera.position.x == 8 && camera.position.y == 2 && camera.position.z == 4) testOutput += "Successful\n";
-						else testOutput += "Failed\n";
+						if(camera.position.x == 8 && camera.position.y == 2 && camera.position.z == 4) testOutput += "Successful<br>";
+						else testOutput += "Failed<br>";
 						//move camera to hole
 						camera.position.x = 4;
 						camera.position.z = -4.5;
@@ -202,8 +202,8 @@
 						if (cameraCube.intersectsMesh(holes[0], false) && (!collidedhole)) {
 							testOutput += "Hole: ";
 							collidedhole = true;
-							if(camera.position.x == 4 && camera.position.y == 2 && camera.position.z == -4.5) testOutput += "Successful\n";
-							else testOutput += "Failed\n";
+							if(camera.position.x == 4 && camera.position.y == 2 && camera.position.z == -4.5) testOutput += "Successful<br>";
+							else testOutput += "Failed<br>";
 							//move camera to end
 							camera.position.x = -4.5;
 							camera.position.z = -1.5;
@@ -211,25 +211,25 @@
 						else if (cameraCube.intersectsMesh(holes[1], false) && (!collidedend)){
 							testOutput += "End: ";
 							collidedend = true;
-							if(camera.position.x == -4.5 && camera.position.y == 2 && camera.position.z == -1.5) testOutput += "Successful\n";
-							else testOutput += "Failed\n";
+							if(camera.position.x == -4.5 && camera.position.y == 2 && camera.position.z == -1.5) testOutput += "Successful<br>";
+							else testOutput += "Failed<br>";
 							//move camera to hole
 							camera.position.x = 4;
 							camera.position.z = -4.5;
 						}
 						else if (cameraCube.intersectsMesh(holes[0], false) && (collidedhole)) {
 							testOutput += "Hole (collision turned off): ";
-							if(camera.position.x == 4 && camera.position.y == 2 && camera.position.z == -4.5) testOutput += "Successful\n";
-							else testOutput += "Failed\n";
+							if(camera.position.x == 4 && camera.position.y == 2 && camera.position.z == -4.5) testOutput += "Successful<br>";
+							else testOutput += "Failed<br>";
 							//move camera to end
 							camera.position.x = -4.5;
 							camera.position.z = -1.5;
 						}
 						else if (cameraCube.intersectsMesh(holes[1], false) && (collidedend)) {
 							testOutput += "End (collision turned off): ";
-							if(camera.position.x == -4.5 && camera.position.y == 2 && camera.position.z == -1.5) testOutput += "Successful\n";
-							else testOutput += "Failed\n";
-							testOutput += "\nCollision and Position Tests Complete\n";
+							if(camera.position.x == -4.5 && camera.position.y == 2 && camera.position.z == -1.5) testOutput += "Successful<br>";
+							else testOutput += "Failed<br>";
+							testOutput += "<br>Collision and Position Tests Complete<br>";
 							camera.position.x = 0;
 							camera.position.z = 0;
 							deleteWallsTest();
@@ -263,8 +263,8 @@
 					cubes = [];
 					cubes2 = [];
 					holes = [];
-					if(scene.getActiveMeshes.length == 0) testOutput += "Successful\n";
-					else testOutput += "Failed\n";
+					if(scene.getActiveMeshes.length == 0) testOutput += "Successful<br>";
+					else testOutput += "Failed<br>";
 					alert("Tests Complete");
 					document.getElementById("testOutputdiv").innerHTML = testOutput;
 					document.getElementById("renderCanvas").style.display = "none";
@@ -305,7 +305,7 @@
 			testSize();
 			/*--------------------------------TEST SOLVER----------------------------*/
 			function testSolver(){
-				outputString += "Test Solver\n";
+				outputString += "Test Solver<br>";
 				var mazeUnsolvable = [['W', 'W', 'W', 'W', 'W', 'W', 'W'],
 					    ['W', 'W', 'W', 'W', 'W', 'W', 'W'], 
 					    ['W', 'S', 'V', 'V', 'V', 'W', 'W'], 
@@ -330,29 +330,29 @@
 						}
 					}
 				}else{passTest = false;}
-				outputString+="Test Solved Maze Passed: " + passTest+"\n";
+				outputString+="Test Solved Maze Passed: " + passTest+"<br>";
 	
 				/*------Test Unsolvable------*/
 				var mazeGenSolution = mazeGen.mazeSolver(mazeUnsolvable);
 				if(mazeGenSolution.length == 0){
-					outputString+="Test Unsolved Maze Passed: true\n";
-				}else{outputString+="Test Unsolved Maze Passed: false\n");}
+					outputString+="Test Unsolved Maze Passed: true<br>";
+				}else{outputString+="Test Unsolved Maze Passed: false<br>";}
 				passTest = true;
 			}
 	
 			/*--------------------------------TEST GENERATOR---------------------------*/
 			/*We know that solver is functional now, so we can use it to verify correctness of generated mazes*/
 			function testGenerator(){
-				outputString += "Test Generator\n";
+				outputString += "Test Generator<br>";
 	
 				var solution = [];
 				for(var i = 0; i < 100; i++)
 				{
 					solution = mazeGen.mazeSolver(mazeGen.generateMaze(13));
 					if(solution.length != 0){
-						outputString+="Maze Generation Successful\n";
+						outputString+="Maze Generation Successful<br>";
 					}else{
-						outputString+="Maze Generation Unsuccessful\n";
+						outputString+="Maze Generation Unsuccessful<br>";
 					}
 				}
 			}
@@ -360,7 +360,7 @@
 			/*-------------------------------TEST CONVERTER----------------------------*/
 			/*Tests conversion of 2D maze to 1D maze*/
 			function testConverter(){
-				outputString += "Test Converter\n";
+				outputString += "Test Converter<br>";
 				var convertedMaze = mazeGen.twoToOne(sampleMaze);
 				for(var i = 0; i < sampleMaze.length; i++)
 				{
@@ -372,22 +372,22 @@
 						}
 					}
 				}
-				outputString+="Conversion of sample maze successful: " + passTest + "\n";
+				outputString+="Conversion of sample maze successful: " + passTest + "<br>";
 				passTest = true;
 			}
 	
 			/*-------------------------------TEST SIZE---------------------------------*/
 			/*Test getMazeSize in generator using sample maze*/
 			function testSize(){
-				outputString += "Test Size of Maze\n";
+				outputString += "Test Size of Maze<br>";
 				if(mazeGen.getMazeSize(mazeGen.twoToOne(sampleMaze)) == 7)
 				{
-					outputString+="Test sample maze size: Successful\n";
-				}else{outputString+="Test sample maze size: Unsuccessful\n";}
+					outputString+="Test sample maze size: Successful<br>";
+				}else{outputString+="Test sample maze size: Unsuccessful<br>";}
 				if(mazeGen.getMazeSize([]) == 0)
 				{
-					outputString+="Test size 0 maze: Successful\n";
-				}else{outputString+="Test size 0 maze: Unsuccessful"\n;}
+					outputString+="Test size 0 maze: Successful<br>";
+				}else{outputString+="Test size 0 maze: Unsuccessful<br>";}
 			}
 	
 		return outputString;

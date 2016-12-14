@@ -481,43 +481,58 @@
 			}
 
             // call the createScene function
-
-	    	function placeFakeWall(curX, curZ, row, col, scene){
+	    /**
+	     * Places a fake wall at the input location
+	     * @param curX is the X position of the fake wall
+	     * @param curZ is the Z position of the fake wall
+	     * @param row is the row in the 2D maze map that the fake wall is at
+	     * @param col is the column in the 2D maze map that the fake wall is at
+	     * @param scene is the current scene
+	     * @post a fake wall is placed at the location
+	     */
+	    function placeFakeWall(curX, curZ, row, col, scene){
 			
-				fakeWalls[fakeWallCount] = BABYLON.Mesh.CreateBox('fwall', 4, scene);
-				fakeWalls[fakeWallCount].material = new BABYLON.StandardMaterial("texture1", scene);
-				fakeWalls[fakeWallCount].material.diffuseTexture = new BABYLON.Texture("resources/images/fakeIvy.png", scene);
+			fakeWalls[fakeWallCount] = BABYLON.Mesh.CreateBox('fwall', 4, scene);
+			fakeWalls[fakeWallCount].material = new BABYLON.StandardMaterial("texture1", scene);
+			fakeWalls[fakeWallCount].material.diffuseTexture = new BABYLON.Texture("resources/images/fakeIvy.png", scene);
+			fakeWalls[fakeWallCount+1] = BABYLON.Mesh.CreateBox('fwall', 4, scene);
+			fakeWalls[fakeWallCount+1].material = new BABYLON.StandardMaterial("texture1", scene);
+			fakeWalls[fakeWallCount+1].material.diffuseTexture = new BABYLON.Texture("resources/images/ivy.png", scene);
 
-				fakeWalls[fakeWallCount+1] = BABYLON.Mesh.CreateBox('fwall', 4, scene);
-				fakeWalls[fakeWallCount+1].material = new BABYLON.StandardMaterial("texture1", scene);
-				fakeWalls[fakeWallCount+1].material.diffuseTexture = new BABYLON.Texture("resources/images/ivy.png", scene);
+			if(mazes[level][row * size + col - 1] == 'V'){
+				setMeshPositions(curX+3, 2, curZ, fakeWalls[fakeWallCount]);
+				setMeshPositions(curX+3, 6, curZ, fakeWalls[fakeWallCount+1]);
+			}
+			else if (mazes[level][row * size + col + 1] == 'V'){
+				setMeshPositions(curX-3, 2, curZ, fakeWalls[fakeWallCount]);
+				setMeshPositions(curX-3, 6, curZ, fakeWalls[fakeWallCount+1]);
+			}else if (mazes[level][(row-1) * size + col] == 'V')
+			{
+				setMeshPositions(curX, 2, curZ-3, fakeWalls[fakeWallCount]);
+				setMeshPositions(curX, 6, curZ-3, fakeWalls[fakeWallCount+1]);
+			}else{
+				setMeshPositions(curX, 2, curZ+3, fakeWalls[fakeWallCount]);
+				setMeshPositions(curX, 6, curZ+3, fakeWalls[fakeWallCount+1]);
+			}
 
-				if(mazes[level][row * size + col - 1] == 'V'){
-					setMeshPositions(curX+3, 2, curZ, fakeWalls[fakeWallCount]);
-					setMeshPositions(curX+3, 6, curZ, fakeWalls[fakeWallCount+1]);
-				}
-				else if (mazes[level][row * size + col + 1] == 'V'){
-					setMeshPositions(curX-3, 2, curZ, fakeWalls[fakeWallCount]);
-					setMeshPositions(curX-3, 6, curZ, fakeWalls[fakeWallCount+1]);
-				}else if (mazes[level][(row-1) * size + col] == 'V')
-				{
-					setMeshPositions(curX, 2, curZ-3, fakeWalls[fakeWallCount]);
-					setMeshPositions(curX, 6, curZ-3, fakeWalls[fakeWallCount+1]);
-				}else{
-					setMeshPositions(curX, 2, curZ+3, fakeWalls[fakeWallCount]);
-					setMeshPositions(curX, 6, curZ+3, fakeWalls[fakeWallCount+1]);
-				}
-
-				fakeWallCount+= 2;
+			fakeWallCount+= 2;
 			
 
-	    	};
+	    };
 
-	    	function setMeshPositions(curX, curY, curZ, mesh){
-				mesh.position.x = curX;
-				mesh.position.y = curY;
-				mesh.position.z = curZ;
-	    	}
+	    /**
+	     * Sets where the mesh will appear in the scene
+	     * @param curX is the X position variable
+	     * @param curY is the Y position variable
+	     * @param curZ is the Z position variable
+	     * @param mesh is the mesh that is having its position set
+	     * @post mesh has its position set
+	     */
+	    function setMeshPositions(curX, curY, curZ, mesh){
+			mesh.position.x = curX;
+			mesh.position.y = curY;
+			mesh.position.z = curZ;
+	    }
 
             var scene = createScene();
 
@@ -530,30 +545,33 @@
             window.addEventListener('resize', function(){
                 engine.resize();
             });
-	    	// deletes all the walls in the current maze
-	    	var deleteWalls = function(){
-	    		for (var i = 0; i < lowWalls.length; i++)
-				{
-					lowWalls[i].dispose();
-					highWalls[i].dispose();
-				}
-				for (var j = 0; j < lowerHoles.length; j++)
-				{
-					lowerHoles[j].dispose();
-					upperHoles[j].dispose();
-				}
-				for (var k = 0; k < fakeWalls.length; k++)
-				{
-					fakeWalls[k].dispose();
-				}
-				fakeWalls = [];
-				lowerHoles = [];
-				upperHoles = [];
-				exit.dispose();
-				ground.dispose();
-				topExit.dispose();
-				//plane.dispose();
-
+	    /**
+	     * Deletes the maze of the current level
+	     * @post The maze is deleted
+	     */
+	    var deleteWalls = function(){
+		//deleting walls
+	    	for (var i = 0; i < lowWalls.length; i++)
+			{
+				lowWalls[i].dispose();
+				highWalls[i].dispose();
+			}
+			for (var j = 0; j < lowerHoles.length; j++)
+			{
+				lowerHoles[j].dispose();
+				upperHoles[j].dispose();
+			}
+			for (var k = 0; k < fakeWalls.length; k++)
+			{
+				fakeWalls[k].dispose();
+			}
+			fakeWalls = [];
+			lowerHoles = [];
+			upperHoles = [];
+			//deleting remainder areas of maze
+			exit.dispose();
+			ground.dispose();
+			topExit.dispose();
 	    	};
         });
     </script>

@@ -476,7 +476,16 @@
 			}
 
             // call the createScene function
-
+	    
+	    /**
+	     * Places a fake wall at the input location
+	     * @param curX is the X position of the fake wall
+	     * @param curZ is the Z position of the fake wall
+	     * @param row is the row in the 2D maze map that the fake wall is at
+	     * @param col is the column in the 2D maze map that the fake wall is at
+	     * @param scene is the current scene
+	     * @post a fake wall is placed at the location
+	     */
 	    function placeFakeWall(curX, curZ, row, col, scene){
 		
 		fakeWalls[fakeWallCount] = BABYLON.Mesh.CreateBox('fwall', 4, scene);
@@ -505,6 +514,14 @@
 
 	    };
 
+	    /**
+	     * Sets where the mesh will appear in the scene
+	     * @param curX is the X position variable
+	     * @param curY is the Y position variable
+	     * @param curZ is the Z position variable
+	     * @param mesh is the mesh that is having its position set
+	     * @post mesh has its position set
+	     */
 	    function setMeshPositions(curX, curY, curZ, mesh){
 		mesh.position.x = curX;
 		mesh.position.y = curY;

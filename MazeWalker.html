@@ -522,31 +522,34 @@
             window.addEventListener('resize', function(){
                 engine.resize();
             });
-	    	// deletes all the walls in the current maze
-	    	var deleteWalls = function(){
-	    		for (var i = 0; i < lowWalls.length; i++)
-				{
-					lowWalls[i].dispose();
-					highWalls[i].dispose();
-				}
-				for (var j = 0; j < lowerHoles.length; j++)
-				{
-					lowerHoles[j].dispose();
-					upperHoles[j].dispose();
-				}
-				for (var k = 0; k < fakeWalls.length; k++)
-				{
-					fakeWalls[k].dispose();
-				}
-				fakeWalls = [];
-				lowerHoles = [];
-				upperHoles = [];
-				exit.dispose();
-				ground.dispose();
-				topExit.dispose();
-				//plane.dispose();
-
-	    	};
+	    /**
+	     * Deletes the maze of the current level
+	     * @post The maze is deleted
+	     */
+	    var deleteWalls = function(){
+		//deleting walls
+	    	for (var i = 0; i < lowWalls.length; i++)
+		{
+			lowWalls[i].dispose();
+			highWalls[i].dispose();
+		}
+		for (var j = 0; j < lowerHoles.length; j++)
+		{
+			lowerHoles[j].dispose();
+			upperHoles[j].dispose();
+		}
+		for (var k = 0; k < fakeWalls.length; k++)
+		{
+			fakeWalls[k].dispose();
+		}
+		fakeWalls = [];
+		lowerHoles = [];
+		upperHoles = [];
+		//deleting remainder areas of maze
+		exit.dispose();
+		ground.dispose();
+		topExit.dispose();
+	    };
         });
     </script>
 </body>

@@ -5,6 +5,3 @@ Background Music:
 
 Textures:
 	http://www.texturemate.com/content/free-texture-ivy-2010080709
-
-Engine:
-	BabylonJS: http://babylonjs.com/

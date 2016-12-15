@@ -1,152 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
-    <title>MazeWalker</title>
-	<script src="mazeGen.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <style>
-        html, body {
-            overflow: hidden;
-            width   : 100%;
-            height  : 100%;
-            margin  : 0;
-            padding : 0;
-        }
+    <meta charset="utf-8">
+    <title>JSDoc: Source: temp.js</title>
 
-        @font-face {
-        	font-family: mainFont;
-        	src: url(resources/fonts/LemonMilk.otf);
-        }
-
-        #renderCanvas {
-            width   : 100%;
-            height  : 100%;
-            touch-action: none;
-        }
-
-
-        .noselect {
-  			-webkit-touch-callout: none; /* iOS Safari */
-    		-webkit-user-select: none; /* Chrome/Safari/Opera */
-     		-khtml-user-select: none; /* Konqueror */
-      	 	-moz-user-select: none; /* Firefox */
-        	-ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
-                                  not supported by any browser */
-		}
-		#level {
-			font-family: mainFont;
-			font-size: 50px;
-			position: absolute;
-			color: #0089F0;
-			left: 80px;
-			z-index: 1;
-			display: none;
-		}
-
-		#lives {
-			font-family: mainFont;
-			font-size: 30px;
-			position: absolute;
-			color: #0089F0;
-			left: 80px;
-			top: 80px;
-			z-index: 1;
-			display: none;
-		}
-		
-		#holeMessage {
-			font-family: mainFont;
-			font-size: 30px;
-			position: absolute;
-			color: #0089F0;
-			margin-left: auto;
-			margin-right: auto;
-			display: none;
-			left: 0;
-			right: 0;
-			top: 60px;
-		}
-
-		#mute {
-			width: 100px;
-			height: 40px;
-			position: absolute;
-			display: none;
-			right: 80px;
-			top: 60px;
-			border: 2px solid;
-			border-radius: 2px;
-			background-color: #FCFCFC;
-			font-family: mainFont;
-		}
-
-		#introText {
-			font-family: mainFont;
-			font-size: 30px;
-			position: absolute;
-			color: #0089F0;
-			margin-left: auto;
-			margin-right: auto;
-			left: 0;
-			right: 0;
-		}
-
-		#playGame {
-			width: 100px;
-			height: 60px;
-			position: absolute;
-			margin-top: auto;
-			margin-bottom: auto;
-			margin-left: auto;
-			margin-right: auto;
-			top: 0;
-			bottom: 0;
-			left: 0;
-			right: 0;
-			border: 2px solid;
-			border-radius: 2px;
-			background-color: #FCFCFC;
-			font-family: mainFont;
-		}
-
-		/*canvas.disabled {
-			pointer-events: none;
-		}*/
-    </style>
-	
-	<script src="babylon.js"></script>
-	<script src="hand.js"></script>
-    <script src="cannon.js"></script> <!-- optional physics engine -->
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
 </head>
+
 <body>
 
-	<form name="sentData">
-		<input type="hidden" name="data">
-	</form>
-	
-	<form name="HighScores" method="link" action="HighScores.html">
-		<input type="hidden" name="level">
-		<input type="hidden" name="player">
-	</form>
+<div id="main">
 
-	<p id="level" class="noselect">Level 1</p>
-	<p id="lives" class="noselect">Lives 5</p>
-	<button id="mute" class="noselect" style="position: absolute; z-index: 1; display: none;">Mute</button>
-	<center><p id="holeMessage" class="noselect">Oh no! There was a hole there!</p></center>
-	
+    <h1 class="page-title">Source: temp.js</h1>
 
-	<div id="intro" style="background:rgba(0,0,0,0); bottom: 0; right: 0; top: 0; left: 0; position: fixed;">
-		<center>
-			<p id="introText" class="noselect">Welcome to the Maze.<br> Use the arrow keys to move, and the mouse to turn the camera.<br>Try to get to the highest level possible without losing lives.<br>You lose lives by falling through holes (false exits).<br>Good luck!<br></p>
-			<button id="playGame" onclick='playGame()'>Play Game</button>
-		</center>	
-	</div>
+    
 
-    <canvas id="renderCanvas"></canvas>
-    <script>
-    	/*Music Handling*/
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>    	/*Music Handling*/
 		var backgroundSongURLs = ['resources/sounds/StartingOver.mp3','resources/sounds/Candlegravity_Song_2.mp3'];
 		var curBackgroundSong = 0;
 		var backgroundSong = new Audio('resources/sounds/StartingOver.mp3');
@@ -196,8 +76,6 @@
 			}
 		});
 		
-        window.addEventListener('DOMContentLoaded', function(){
-
 
         	var exitAud = new Audio('resources/sounds/ding.mp3');
         	
@@ -247,7 +125,7 @@
             var size = parseInt(finalValue);
 
             //if passed in size is not easy (13) medium (23) or hard (33) send user back to home page
-	    	if(size != 13 && size != 23 && size != 33)
+	    	if(size != 13 &amp;&amp; size != 23 &amp;&amp; size != 33)
 	    	{
 				window.location.replace("http://people.eecs.ku.edu/~sfulton/MazeWalker/index.html");
 	    	}
@@ -348,7 +226,7 @@
 						for(let holeMesh of lowerHoles)
 						{
 							//triggers if intersecting, and this code hasn't run once already (collision statement runs as long as contact is made, this limits it)
-							if(holeMesh.intersectsMesh(cameraCube, false) && hitExit == false)
+							if(holeMesh.intersectsMesh(cameraCube, false) &amp;&amp; hitExit == false)
 							{
 								//decrement lives, play dropping audio sound
 								lives--;
@@ -381,7 +259,7 @@
 							}
 						}
 						//triggers if intersecting exit
-						if(exit.intersectsMesh(cameraCube, false) && hitExit == false)
+						if(exit.intersectsMesh(cameraCube, false) &amp;&amp; hitExit == false)
 						{
 							//play level completion sound, increment level
 							exitAud.play();
@@ -456,9 +334,9 @@
 				var highY = 6;
 
 				//loops through maze, loads in all walls, holes, and exit
-				for (var i = 0; i < size; i++)
+				for (var i = 0; i &lt; size; i++)
 				{
-					for (var j = 0; j < size; j++)
+					for (var j = 0; j &lt; size; j++)
 					{
 						if (mazes[level][i * size + j] == "W")
 						{
@@ -480,7 +358,7 @@
 							highWalls[wallCount].checkCollisions = true;
 							wallCount++;
 						}
-						else if (mazes[level][i * size + j] == "H" && level != 0)
+						else if (mazes[level][i * size + j] == "H" &amp;&amp; level != 0)
 						{
 							//holes are transparent, so their texture is set but it never shows on screen
 							lowerHoles[holeCount] = BABYLON.Mesh.CreateBox("hole", 4, scene);
@@ -622,17 +500,17 @@
 	    	 */
 	    	var deleteWalls = function(){
 			//deleting walls
-	    		for (var i = 0; i < lowWalls.length; i++)
+	    		for (var i = 0; i &lt; lowWalls.length; i++)
 				{
 					lowWalls[i].dispose();
 					highWalls[i].dispose();
 				}
-				for (var j = 0; j < lowerHoles.length; j++)
+				for (var j = 0; j &lt; lowerHoles.length; j++)
 				{
 					lowerHoles[j].dispose();
 					upperHoles[j].dispose();
 				}
-				for (var k = 0; k < fakeWalls.length; k++)
+				for (var k = 0; k &lt; fakeWalls.length; k++)
 				{
 					fakeWalls[k].dispose();
 				}
@@ -643,8 +521,26 @@
 				exit.dispose();
 				ground.dispose();
 				topExit.dispose();
-	    	};
-        });
-    </script>
+	    	};</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#createScene">createScene</a></li><li><a href="global.html#deleteWalls">deleteWalls</a></li><li><a href="global.html#generateMaze">generateMaze</a></li><li><a href="global.html#getData">getData</a></li><li><a href="global.html#getMaze">getMaze</a></li><li><a href="global.html#getMazeSize">getMazeSize</a></li><li><a href="global.html#makeMaze">makeMaze</a></li><li><a href="global.html#mazeSolver">mazeSolver</a></li><li><a href="global.html#pathFinder">pathFinder</a></li><li><a href="global.html#placeFakeWall">placeFakeWall</a></li><li><a href="global.html#placeHoles">placeHoles</a></li><li><a href="global.html#playGame">playGame</a></li><li><a href="global.html#printMaze">printMaze</a></li><li><a href="global.html#randomIntFromInterval">randomIntFromInterval</a></li><li><a href="global.html#recurseMaze">recurseMaze</a></li><li><a href="global.html#resetMaze">resetMaze</a></li><li><a href="global.html#setMeshPositions">setMeshPositions</a></li><li><a href="global.html#setupScene">setupScene</a></li><li><a href="global.html#twoToOne">twoToOne</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Wed Dec 14 2016 17:18:24 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
 </body>
 </html>

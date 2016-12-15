@@ -23,8 +23,22 @@
 			text-align: center;
 			font-family: verdana;
         }
+	 @font-face {
+        	font-family: mainFont;
+        	src: url(resources/fonts/LemonMilk.otf);
+        }
+	#start{
+		font-family: mainFont;
+		border: 2px solid;
+		border-radius: 2px;
+		background-color: #FCFCFC;
+		width: 160px;
+		height: 60px;
+	}
+
 		h1, p, label, a:link, a:visited {
 			color: #005bef;
+			font-family: mainFont;
 		}
         #renderCanvas {
             width   : 100%;
@@ -35,7 +49,7 @@
 	
 </head>
 <body>
-	<h1>MazeWalker</h1>
+	<h1>M a z e W a l k e r</h1>
 	<br/>
 	<p>Select difficulty:</p>
 	<form method="link" action="MazeWalker.html">
@@ -44,8 +58,8 @@
 		<input type="radio" name="difficulty" value="23">
 		<label for="Normal"> Normal</label><br/>
 		<input type="radio" name="difficulty" value="33">
-		<label for="Hard"> Hard</label><br/>
-		<input type="submit" value="Begin Game">
+		<label for="Hard"> Hard</label><br/><br>
+		<input id="start" type="submit" value="Begin Game">
 	</form>
 	<p><a href="TestSuite.html">Testing Suite</a></p>
 	<p><a href="UserManual.html">User's Manual</a></p>

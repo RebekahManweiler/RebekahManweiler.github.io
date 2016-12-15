@@ -209,6 +209,7 @@ function mazeGenerator(){
 		console.log(temp);
 	}
 
+	//Source: http://stackoverflow.com/questions/4959975/generate-random-number-between-two-numbers-in-javascript
 	/**
 	 * Returns a random integer between minimum and maximum (both inclusive)
 	 * @param {int} min - minimum number that the random int can be

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
+    <title>MazeWalker</title>
+	
+    <!--background image help http://hellofieldtrip.com/the-feed/css-create-fullscreen-background-image/-->
+    <style>
+        body {
+            overflow: hidden;
+            width   : 100%;
+            height  : 100%;
+            margin  : 0;
+            padding : 0;
+			
+
+			background: url("resources/images/background.png") no-repeat 50% 50% fixed; 
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
+			
+			text-align: center;
+			font-family: verdana;
+        }
+	 @font-face {
+        	font-family: mainFont;
+        	src: url(resources/fonts/LemonMilk.otf);
+        }
+	#start{
+		font-family: mainFont;
+		border: 2px solid;
+		border-radius: 2px;
+		background-color: #FCFCFC;
+		width: 160px;
+		height: 60px;
+	}
+
+		h1, p, label, a:link, a:visited {
+			color: #005bef;
+			font-family: mainFont;
+		}
+        #renderCanvas {
+            width   : 100%;
+            height  : 100%;
+            touch-action: none;
+        }
+    </style>
+	
+</head>
+<body>
+	<h1>M a z e W a l k e r</h1>
+	<br/>
+	<p>Select difficulty:</p>
+	<form method="link" action="MazeWalker.html">
+		<input type="radio" name="difficulty" value="13" checked>
+		<label for="Easy"> Easy</label><br/>
+		<input type="radio" name="difficulty" value="23">
+		<label for="Normal"> Normal</label><br/>
+		<input type="radio" name="difficulty" value="33">
+		<label for="Hard"> Hard</label><br/><br>
+		<input id="start" type="submit" value="Begin Game">
+	</form>
+	<p><a href="TestSuite.html">Testing Suite</a></p>
+	<p><a href="UserManual.html">User's Manual</a></p>
+	<p><a href="DeploymentAndMaintenance.html">Deployment and Maintenance Plans</a></p>
+</body>
+</html>

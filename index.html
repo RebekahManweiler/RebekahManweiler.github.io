@@ -82,9 +82,14 @@
   <!--Project-->
   <div class="w3-container w3-padding-32" id="project">
     <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">PROJECT</h3>
-	<object data="DREUProposal.pdf" type="application/x-pdf" title="DREU Project Proposal" width="500" height="720">
-	  <a href="/resources/documents/DREUProposal.pdf">proposal</a>
-	</object>
+	<div id="projectpdf">
+	  <script src="/js/pdfobject.js"></script>
+	  <script PDFObject.embed("/resources/documents/DREUProposal.pdf", "#example1");</script>
+	  <!--style>
+	    .pdfobject-container { height: 500px;}
+	    .pdfobject { border: 1px solid #666; }
+	  </style-->
+	</div>
   </div>
 </div>  
 

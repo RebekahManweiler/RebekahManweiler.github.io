@@ -1,8 +1,46 @@
 <!DOCTYPE html>
 <html>
 <title>MadisonDREU</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    .dropbtn {
+		background-color: #4CAF50;
+		color: white;
+		padding: 16px;
+		font-size: 16px;
+		border: none;
+	}
+	.dropdown {
+		position: relative;
+		display: inline-block;
+	}
+	.dropdown-content {
+		display: none;
+		position: absolute;
+		background-color: #f1f1f1;
+		min-width: 160px;
+		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+		z-index: 1;
+	}
+	.dropdown-content a {
+		color: black;
+		padding: 12px 16px;
+		text-decoration: none;
+		display: block;
+	}
+	.dropdown-content a:hover {
+		background-color: #ddd;
+	}
+	.dropdown:hover .dropdown-content {
+		display: block;
+	}
+	.dropdown:hover .dropbtn {
+		background-color: #3e8e41;
+	}
+  </style>
+</head>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <body>
 
@@ -40,6 +78,44 @@
   </div>
 </div>
 
+<!--Quick Find-->
+<div class="w3-container w3-center w3-padding-32">
+  <h3>QUICK FIND</h3>
+  <h5>Find a post quickly and easily using its specific date, or for a summary a date range, or a color for the first post of that type.</h5>
+  <div class="w3-cell-row">
+	<div class="w3-container w3-center w3-white w3-cell w3-border-white w3-rightbar">
+	  <div class="dropdown">
+		<button class="dropbtn">ENTRY DATE</button>
+		<div class="dropdown-content">
+		  <a href="#June518">June 5, 2018</a>
+		  <a href="#May2918">May 29, 2018</a>
+		  <a href="#May2018">May 20, 2018</a>
+		</div>
+	  </div>
+	</div>
+	<div class="w3-container w3-center w3-white w3-cell w3-border-white w3-rightbar">
+	  <div class="dropdown">
+	    <button class="dropbtn">SUMMARY DATE RANGE</button>
+		<div class="dropdown-content">
+		  <a href="#May28_June118">May 28 - June 1, 2018</a>
+		  <a href="#May18_2518">May 18 - 25, 2018</a>
+		  <a href="#June4_818">June 4 - 8, 2018</a>
+		</div>
+	  </div>
+	</div>
+	<div class="w3-container w3-center w3-white w3-cell w3-border-white w3-rightbar">
+	  <div class="dropdown">
+	    <button class="dropbtn">ENTRY TYPE COLOR</button>
+		<div class="dropdown-content">
+		  <a href="#June4_818">YELLOW - RESEARCH</a>
+		  <a href="#June518">BLUE - LAB</a>
+		  <a href="#May2018">GREEN - MADISON</a>
+		</div>
+	  </div>
+	</div>
+  </div>
+</div>
+
 <!--blog catchup
 4-8
 -access mysql on lando and look at tables in ghtorrnent database but some are empty
@@ -64,7 +140,25 @@
   <div class="w3-col 18 s12" id="blog">
   
     <!--entry-->
-	<div class="w3-card-4 w3-margin w3-center w3-blue">
+	<div class="w3-card-4 w3-margin w3-center w3-yellow" id="June4_818">
+	  <div class="w3-container">
+	    <h3><b>WEEK THREE</b></h3>
+		<h5> Summary of my third week <span class="w3-opacity">June 4 - 8, 2018</span></h5>
+	  </div>
+	  <div class="w3-container">
+	  <p> This week has been at least semi-productive. I am now able to access the mysql database 
+	  on the lab server which contains one month of the GHTorrent data. I am able to look through 
+	  the tables and make queries on the data but I noticed that not all of the tables contained the 
+	  data they were supposed to. Particularly the user and repositories tables were empty, and those 
+	  are probably the most important tables in the database. The database came with a README file 
+	  that contains code to restore the database, but when I run the executable ght-restore-mysql it fails. 
+	  I have tried several different options to get around this problem like loading individual csv 
+	  files into the table (but I don't have access to the file it reads from), </p>
+	  </div>
+	</div>
+  
+    <!--entry-->
+	<div class="w3-card-4 w3-margin w3-center w3-blue" id="June518">
 	  <div class="w3-container">
 	    <h3><b>MONKEYS!</b></h3>
 		<h5>First Lab Tour - Bennett Lab <span class="w3-opacity">June 5, 2018</span></h5>
@@ -87,7 +181,7 @@
 	</div>
   
     <!--entry-->
-	<div class="w3-card-4 w3-margin w3-center w3-yellow">
+	<div class="w3-card-4 w3-margin w3-center w3-yellow" id="May28_June118">
 	  <div class="w3-container">
 	    <h3><b>WEEK TWO</b></h3>
 		<h5> Summary of my second week <span class="w3-opacity">May 28 - June 1, 2018</span></h5>
@@ -107,7 +201,7 @@
 	</div>
   
     <!--entry-->
-	<div class="w3-card-4 w3-margin w3-center w3-blue">
+	<div class="w3-card-4 w3-margin w3-center w3-blue" id="May2918">
 	  <div class="w3-container">
 	    <h3><b>PREP</b></h3>
 		<h5> The PREP students arrive and their program begins <span class="w3-opacity">May 29, 2018</span></h5>
@@ -152,7 +246,7 @@
 		}
 	  </script>
 	</div>
-	<div class="w3-card-4 w3-margin w3-center w3-green">
+	<div class="w3-card-4 w3-margin w3-center w3-green" id="May2018">
 	  <div class="w3-container">
 	    <h3><b>CAMPUS BIKE RIDE</b></h3>
 		<h5>Pictures from my bike ride around east campus <span class="w3-opacity">May 20, 2018</span></h5>
@@ -168,7 +262,7 @@
 	</div>
 	
     <!--entry-->
-	<div class="w3-card-4 w3-margin w3-center w3-white">
+	<div class="w3-card-4 w3-margin w3-center w3-white" id="May18_2518">
 	  <div class="w3-container">
 	    <h3><b>WEEK ONE</b></h3>
 		<h5>A summary of my first week in Madison <span class="w3-opacity">May 18 - 25, 2018</span></h5>

@@ -63,7 +63,7 @@
 </header>
 
 <!--Key-->
-<div class="w3-container w3-center w3-padding-32">
+<div class="w3-container w3-center w3-padding-32" id="blog">
   <h3>BLOG ENTRY TOPIC KEY</h3>
   <div class="w3-cell-row">
     <div class="w3-container w3-center w3-yellow w3-cell w3-border-white w3-rightbar">
@@ -79,50 +79,49 @@
 </div>
 
 <!--Quick Find-->
-<div class="w3-container w3-center w3-padding-32">
+<div class="w3-container w3-center w3-padding-32" style="width:60%">
   <h3>QUICK FIND</h3>
   <h5>Find a post quickly and easily using its specific date, or for a summary a date range, or a color for the first post of that type.</h5>
   <div class="w3-cell-row">
-	<div class="w3-container w3-center w3-white w3-cell w3-border-white w3-rightbar">
+	<div class="w3-container w3-center w3-white w3-cell">
 	  <div class="dropdown">
 		<button class="dropbtn">ENTRY DATE</button>
 		<div class="dropdown-content">
+		  <a href="#June918">June 9, 2018</a>
 		  <a href="#June518">June 5, 2018</a>
 		  <a href="#May2918">May 29, 2018</a>
 		  <a href="#May2018">May 20, 2018</a>
 		</div>
 	  </div>
 	</div>
-	<div class="w3-container w3-center w3-white w3-cell w3-border-white w3-rightbar">
+	<div class="w3-container w3-center w3-white w3-cell">
 	  <div class="dropdown">
 	    <button class="dropbtn">SUMMARY DATE RANGE</button>
 		<div class="dropdown-content">
+		  <a href="#June4_818">June 4 - 8, 2018</a>
 		  <a href="#May28_June118">May 28 - June 1, 2018</a>
 		  <a href="#May18_2518">May 18 - 25, 2018</a>
-		  <a href="#June4_818">June 4 - 8, 2018</a>
 		</div>
 	  </div>
 	</div>
-	<div class="w3-container w3-center w3-white w3-cell w3-border-white w3-rightbar">
+	<div class="w3-container w3-center w3-white w3-cell">
 	  <div class="dropdown">
 	    <button class="dropbtn">ENTRY TYPE COLOR</button>
 		<div class="dropdown-content">
 		  <a href="#June4_818">YELLOW - RESEARCH</a>
 		  <a href="#June518">BLUE - LAB</a>
-		  <a href="#May2018">GREEN - MADISON</a>
+		  <a href="#June918">GREEN - MADISON</a>
 		</div>
 	  </div>
 	</div>
   </div>
 </div>
 
+<!--ToDo
+fix quick find formatting
+fix slideshow picture formatting, a way to make the pictures fit inside a certain container and the container has variable width (ie 90% of the page)
+
 <!--blog catchup
-4-8
--access mysql on lando and look at tables in ghtorrnent database but some are empty
--having problems restoring tables (see code on my dm)
--nicole leaves
-9
--farmer's market and parade
 11-15
 -second lab tour
 -nicole leaves again
@@ -137,7 +136,58 @@
 <!--Grid-->
 <div class="w3-row">
   <!--Blog entries-->
-  <div class="w3-col 18 s12" id="blog">
+  <div class="w3-col 18 s12">
+  
+    <!--entry-->
+	<div class="w3-card-4 w3-margin w3-center w3-green" id="June918">
+	  <div class="w3-container">
+	    <h3><b>MADISON FARMERS' MARKET AND CHILDREN'S MUSEUM PARADE</b></h3>
+		<h5>Pictures from my trip to the farmers' market where I saw a parade put on by the Madison Children's Museum <span class="w3-opacity">June 9, 2018</span></h5>
+	  </div>
+	  <div class="w3-card-4 w3-margin w3-center w3-white">
+	    <div class="w3-content w3-display-container">
+	      <img class="farmersmarketslides" src="/resources/images/drummers.png" style="width:600px">
+		  <img class="farmersmarketslides" src="/resources/images/magic.jpg" style="width:600px">
+		  <img class="farmersmarketslides" src="/resources/images/parade.jpg" style="width:600px">
+		  <img class="farmersmarketslides" src="/resources/images/parade2.jpg" style="width:600px">
+		  <img class="farmersmarketslides" src="/resources/images/parade3.png" style="width:600px">
+		  <img class="farmersmarketslides" src="/resources/images/farmersmarketmap.png" style="width:600px">
+		  <button class="w3-button w3-opacity w3-display-left" onclick="plusDiv(-1)">&#10094;</button>
+		  <button class="w3-button w3-opacity w3-display-right" onclick="plusDiv(1)">&#10095;</button>
+	    </div>
+	    <!--from w3schools.com-->
+	    <script> 
+	      var slideIndex = 1;
+		  showDiv(slideIndex);
+		  function plusDiv(n) {
+		    showDiv(slideIndex += n);
+		  }
+		  function showDiv(n) {
+		    var i;
+		    var x = document.getElementsByClassName("farmersmarketslides");
+		    if(n > x.length) slideIndex = 1;
+		    if(n < 1) slideIndex = x.length;
+		    for (i=0; i < x.length; i++) {
+		      x[i].style.display = "none";
+		    }
+		    x[slideIndex-1].style.display = "block";
+		  }
+	    </script>
+	  </div>
+	  <div class="w3-container">
+	  <p> The very first full day I was in Madison, Professor Beckage took me up to the Dane County Farmers' Market. I have been told 
+	   that it is one of the largest farmers' markets in the country and encircles Capitol Square. I go every Saturday to pick up 
+	   fresh vegetables, bread, jam, honey, and sometimes gifts to take back home to my friends and family in Lawrence. 
+	   But this Saturday was a bit different. It was still just as busy as usual, but there was a drum line playing 
+	   on one corner, circus performers in another corner, a magician in another, and then a small but energetic parade 
+	   marching around the market with small bands, dancers, stilt walkers, dragons, traditional drums, and the drum line. It was 
+	   really a pleasent surprise. I met some of the PREP students there a little after the parade was finished and they were also 
+	   impressed with the parade and the amazing community we have the opportunity to live with for a short while.</p>
+	   <a href="https://dcfm.org/markets/saturday-on-the-square" target="_blank">Dane County Farmers' Market</a>
+	   </br>
+	   <a href="http://madisonchildrensmuseum.org/" target="_blank">The Madison Children's Museum</a>
+	  </div>
+	</div>
   
     <!--entry-->
 	<div class="w3-card-4 w3-margin w3-center w3-yellow" id="June4_818">
@@ -146,14 +196,21 @@
 		<h5> Summary of my third week <span class="w3-opacity">June 4 - 8, 2018</span></h5>
 	  </div>
 	  <div class="w3-container">
-	  <p> This week has been at least semi-productive. I am now able to access the mysql database 
-	  on the lab server which contains one month of the GHTorrent data. I am able to look through 
-	  the tables and make queries on the data but I noticed that not all of the tables contained the 
-	  data they were supposed to. Particularly the user and repositories tables were empty, and those 
-	  are probably the most important tables in the database. The database came with a README file 
-	  that contains code to restore the database, but when I run the executable ght-restore-mysql it fails. 
-	  I have tried several different options to get around this problem like loading individual csv 
-	  files into the table (but I don't have access to the file it reads from), </p>
+	    <p> This week has been at least semi-productive. I am now able to access the mysql database 
+	    on the lab server which contains one month of the GHTorrent data. I am able to look through 
+	    the tables and make queries on the data but I noticed that not all of the tables contained the 
+	    data they were supposed to. Particularly the user and repositories tables were empty, and those 
+	    are probably the most important tables in the database. The database came with a README file 
+	    that contains code to restore the database, but when I run the executable ght-restore-mysql it fails. 
+	    I have tried several different options to get around this problem like loading individual csv 
+	    files into the table (but I don't have access to the file it reads from), changing the secure file privilege 
+	    option or secure file location (but I don't have the privilege to change these), adding a new user with more privileges
+	    (but I have to have those privileges in order to make a new user with those privileges), and at
+	    this point I'm just frustrated and tired of trying to fix this problem. The best part is that
+		Professor Beckage left for a conference yesterday and won't be back until Sunday night. I will 
+		still be in contact with her while she's gone, but I think she will be too busy to help. So, 
+		I will just keep reading papers and working on my proposal.</p>
+		<a href="/resources/documents/RandomWalksOptimalForaging.pdf" target="_blank">Reading Group Week Three</a> 
 	  </div>
 	</div>
   
@@ -165,10 +222,10 @@
 	  </div>
 	  <div class="w3-cell-row">
 	    <div class="w3-container w3-cell">
-		  <img src="/resources/images/monkey1.jpg" style="width:500px">
+		  <img src="/resources/images/monkey1.jpg" style="width:100%">
 		</div>
 		<div class="w3-container w3-cell">
-		  <img src="/resources/images/monkey2.jpg" style="width:500px">
+		  <img src="/resources/images/monkey2.jpg" style="width:100%">
 		</div>
 	  </div>
 	  <div class="w3-container">
@@ -282,11 +339,11 @@
   </div>
 </div>  
 
-<!-- Footer -->
+<!-- Footer >
 <footer class="w3-container w3-dark-grey w3-padding-32 w3-margin-top">
   <button class="w3-button w3-black w3-disabled w3-padding-large w3-margin-bottom">Previous</button>
   <button class="w3-button w3-black w3-padding-large w3-margin-bottom">Next »</button>
-</footer>
+</footer-->
 
 </body>
 </html>

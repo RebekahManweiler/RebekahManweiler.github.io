@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     .dropbtn {
-		background-color: white;
+		background-color: #ccffff;
 		color: black;
 		padding: 16px;
 		font-size: 16px;
@@ -23,6 +23,9 @@
 		min-width: 160px;
 		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 		z-index: 1;
+		max-height: 200px;
+		overflow-y: scroll;
+		overflow-x: hidden;
 	}
 	.dropdown-content a {
 		color: black;
@@ -31,7 +34,7 @@
 		display: block;
 	}
 	.dropdown-content a:hover {
-		background-color: #ddd;
+		background-color: #00cccc;
 	}
 	.dropdown:hover .dropdown-content {
 		display: block;
@@ -70,7 +73,7 @@
 <!--Key-->
 <div class="w3-container w3-center w3-padding-32" id="blog">
   <h3>BLOG ENTRY TOPIC KEY</h3>
-  <div class="w3-cell-row">
+  <div class="w3-cell-row w3-center">
     <div class="w3-container w3-center w3-yellow w3-cell w3-border-white w3-rightbar">
       <p>RESEARCH</p>
     </div>
@@ -92,6 +95,11 @@
 	  <div class="dropdown">
 		<button class="dropbtn">ENTRY DATE</button>
 		<div class="dropdown-content">
+		  <a href="#July3118">July 31</a>
+		  <a href="#July3018">July 30</a>
+		  <a href="#July2318">July 23</a>
+		  <a href="#July1918">July 19</a>
+		  <a href="#July1718">July 17</a>
 		  <a href="#July1218">July 12</a>
 		  <a href="#July1018">July 10</a>
 		  <a href="#July718">July 7</a>
@@ -121,6 +129,11 @@
 	  <div class="dropdown">
 	    <button class="dropbtn">SUMMARY DATE RANGE</button>
 		<div class="dropdown-content">
+		  <a href="#July30_Aug318">July 30 - August 3 </a>
+		  <a href="#July23_2718">July 23 - 27 </a>
+		  <a href="#July25_2718">July 25 - 27 </a>
+		  <a href="#July21_2218">July 21 - 22 </a>
+		  <a href="#July16_2018">July 16 - 20 </a>
 		  <a href="#July9_1318">July 9 - 13</a>
 		  <a href="#July1_818">July 1 - 8</a>
 		  <a href="#June25_2918">June 25 - 29</a>
@@ -145,20 +158,207 @@
   </div>
 </div>
 
-<!--ToDo
-fix picture sizes!
-add scrolling bar to drop-down menu 
-
-<!--blog catchup
-july 17
--lab tour
-
--->
 
 <!--Grid-->
 <div class="w3-row">
   <!--Blog entries-->
   <div class="w3-col 18 s12">
+  
+    <!--entry-->
+	<div class="w3-card-4 w3-margin w3-center w3-yellow" id="July30_Aug318">
+	  <div class="w3-container">
+	    <h3><b>WEEK TEN</b></h3>
+		<h5>Summary of my final week <span class="w3-opacity">July 30 - August 3, 2018</span></h5>
+	  </div>
+	  <div class="w3-container">
+		<p> met with joe and jenny, met with nicole and interpreted my results, finished my presentation 
+		and practiced my presentation, had dinner with nicole, met with jon and erick, had lunch with xian and jeff, 
+		thursday gave my presentation at the sypmosium and went to the PREP party at Professor Postle's house, 
+		left Friday morning, so thankful that I got to spend my summer in madison, really changed me and my 
+		career, met so many good people that i hope to stay in contact with, that's a rap for my distributed 
+		research experience!</p>
+	  </div>
+	</div>
+  
+    <!--entry-->
+	<div class="w3-card-4 w3-margin w3-center w3-blue" id="July3118">
+	  <div class="w3-container">
+	    <h3><b>The Final Tour</b></h3>
+		<h5>Eighth Lab Tour - Lupyan Lab <span class="w3-opacity">July 31, 2018</span></h5>
+	  </div>
+	  <div class="w3-container">
+		<p> This week's lab tour was our final lab tour of Dr. Lupyan's lab. In his lab he focuses on research of 
+		how language shapes us and our world. I was immediately interested because it seemed like the opposite 
+		question that most would ask, including myself. </p>
+		<a href="http://sapir.psych.wisc.edu/" target="_blank">Lupyan Lab</a>
+	  </div>
+	</div>
+  
+    <!--entry-->
+	<div class="w3-card-4 w3-margin w3-center w3-blue" id="July3018">
+	  <div class="w3-container">
+	    <h3><b>Faculty Talk No.9</b></h3>
+		<h5>Our last faculty presentation by Dr. Curtin <span class="w3-opacity">July 30, 2018</span></h5>
+	  </div>
+	  <div class="w3-container">
+		<p> For our final faculty lecture, Dr. John Curtin showed us his research in addiction rehabilitation 
+		and lapse prediction. There are several projects he has worked on that use individual's passive information 
+		(ie. heart rate, geolocation, etc.) as input to a machine learning algorithm that would predict when they might 
+		lapse from their rehabilitation. </p>
+		<a href="https://arc.psych.wisc.edu/staff/curtin-john/" target="_blank">Dr. Curtin's Faculty Page</a>
+	  </div>
+	</div>
+  
+    <!--entry-->
+	<div class="w3-card-4 w3-margin w3-center w3-yellow" id="July23_2718">
+	  <div class="w3-container">
+	    <h3><b>WEEK NINE</b></h3>
+		<h5>Summary of my ninth week <span class="w3-opacity">July 23 - 27, 2018</span></h5>
+	  </div>
+	  <div class="w3-container">
+		<p> two conferences, no lab tour or faculty talk, worked with nicole on three different models 
+		as examples i could use to make my own, very helpful to sit and pair-program with her, determine 
+		hypotheses and how to create models to test them, gave resources on how to visualize my results, 
+		talked about grad school and taking a year off and the gre and she gave lots of helpful advice, 
+		was successful in creating two different models for one of my hypotheses but am not sure how to 
+		compare the models and get my result, met one of Nicole's advisors insert name here and enjoyed 
+		talking with her, worked on presentation slides</p>
+	  </div>
+	</div>
+  
+    <!--entry-->
+	<div class="w3-card-4 w3-margin w3-center w3-blue" id="July25_2718">
+	  <div class="w3-container">
+	    <h3><b>CogSci 2018 </b></h3>
+		<h5>Attending the CogSci Conference <span class="w3-opacity">July 25 - 27, 2018</span></h5>
+	  </div>
+	  <div class="w3-container">
+		<p> Not only did I get to attend MathPsych this week, but I also got to attend CogSci! For three 
+		days I attended workshops, talks, and symposiums about sever different topics within cognitive science, 
+		and here I will mention a few that I felt were the best. First was the all-day workshop I attended on 
+		Learning as Program Induction. Program induction is when a program (or function) writes another program(function). 
+		I have always thought of this idea as a bit weird, but I liked using it as a metaphor for learning. The talks on 
+		this subject were all very interesting, but some of them were much too technical for me to follow and understand. 
+		The next were some short research talks during a session called Emerging Language. All of the talks were very well 
+		done and extremely interesting to me. In particular, there was one talk about linguistic accommodation made when 
+		speaking to foreigners and how it can lead to language simplification in extreme contexts. I asked if they were thinking 
+		of using a similar model to represent child directed speech and to understand how it changes over time, and the speaker 
+		told us that they are currently working on those kinds of questions. The last one I will mention here was a set of talks 
+		by invited speakers on false news. Many interesting subsets of this topic were discussed including how false information 
+		may manifest and how to prevent it, the role of information bias in making individual's views more extreme, the role of 
+		curiosity and intelligence in the spread of false news, the ability to distinguish false news from real news on social 
+		media, and a comparison of two different theories (models) of how and by whom false information is spread. These talks 
+		were so amazing and inspiring that I considered changing my own field of research! This topic is fascinating to me anyway, 
+		but the work they did, and the conclusions they found were so interesting that I couldn't help but imagine myself doing 
+		the same thing in graduate school.</p>
+		<p> All said and done, I am so thankful that I got to go to CogSci. I really enjoyed myself and during the poster session 
+		on the last day of the conference I got the chance to meet Professor Feldman! I feel so lucky that CogSci was in Madison 
+		this summer and hopefully I will get the chance to go again next summer.</p>
+	  </div>
+	</div>
+  
+    <!--entry-->
+	<div class="w3-card-4 w3-margin w3-center w3-blue" id="July2318">
+	  <div class="w3-container">
+	    <h3><b>MathPsych 2018 </b></h3>
+		<h5>Volunteering at the MathPsych Conference <span class="w3-opacity">July 23, 2018</span></h5>
+	  </div>
+	  <div class="w3-container">
+		<p> Today I volunteered at the MathPsych Conference. There wasn't very much that the organizers needed 
+		help with so I got to enjoy myself and attend the talks. There were several that I enjoyed, but the one 
+		I enjoyed the most was a talk by Professor Naomi Feldman from the University of Maryland. Her talk, titled: 
+		From Real to Idea: How Listeners Cope with Variable Linguistic Input, discussed the existence of an input 
+		filter that allows listeners to create an idealized input from the original speech stream. This filter was 
+		modeled with a noisy channel model and was able to produce accurate representations of both vowel perception 
+		(the perceptual magnet effect) and consonant discrimination (categorical perception) by only changing a single 
+		variable. She discussed how children might use this filter while learning language to remove bad or unlikely 
+		data from the speech signal. I think I enjoyed her talk so much because everything she proposed made sense. 
+		Maybe the reason we misunderstand someone while they are speaking is because our filter created an incorrect 
+		representation of what the speaker said, and why we find in some cases that we can still interpret what people 
+		say when they mess up their speech. I am very interested to see if their model can be expanded, and if it could 
+		help us understand how we parse a speech stream.</p>
+		<p> I was hoping I would get the chance to meet Professor Feldman and ask her some questions about her talk and 
+		her research, but it did not arise. One thing is certain in my mind, and that is I would like to work with her 
+		some day.</p>
+	  </div>
+	</div>
+  
+    <!--entry-->
+	<div class="w3-card-4 w3-margin w3-center w3-white" id="July21_2218">
+	  <div class="w3-container">
+	    <h3><b>Visiting Family</b></h3>
+		<h5>My trip to Minoqua <span class="w3-opacity">July 21 - 22, 2018</span></h5>
+	  </div>
+	    <div class="w3-container w3-cell">
+	      <img src="/resources/images/minoqua.jpg" style="width:75%">
+		</div>
+	  <div class="w3-container">
+		<p> This weekend I drove up to Minoqua Wisconsin to visit my Aunt Kathy and Uncle Marty and a few of my 
+		cousins. I had such a great time swimming in their freezing cold lake while it was raining, catching up 
+		with my cousins while sitting next to a fire, and going to church with my aunt and uncle. It was absolutely 
+		gorgeous up there! Their lake was so clear and so calm, I felt like I was in a completely different world 
+		just sitting on the dock with my feet in the water. I feel like I could have stayed there forever. But, I 
+		could only stay for the weekend. I am very glad I went and visited them because it gave me a chance to really 
+		relax and forget about my work so that I could come back to Madison refreshed and ready to finish the summer!</p>
+	  </div>
+	</div>
+  
+    <!--entry-->
+	<div class="w3-card-4 w3-margin w3-center w3-yellow" id="July16_2018">
+	  <div class="w3-container">
+	    <h3><b>WEEK EIGHT</b></h3>
+		<h5>Summary of my eighth week <span class="w3-opacity">July 16 - 20, 2018</span></h5>
+	  </div>
+	  <div class="w3-container">
+		<p> nicole is gone for the darpa challenge, missed the reading group, SROP Graduate School Resource Fair, looking for examples of models predicting categorical variables, 
+		started working on my presentation, was in the PREP group picture, tried running a linear binomial model 
+		but couldn't get it to work, short lab meeting</p>
+	  </div>
+	</div>
+  
+    <!--entry-->
+	<div class="w3-card-4 w3-margin w3-center w3-blue" id="July1918">
+	  <div class="w3-container">
+	    <h3><b>Faculty Talk No.8</b></h3>
+		<h5>Our eighth faculty presentation by Dr. Saffran <span class="w3-opacity">July 19, 2018</span></h5>
+	  </div>
+	  <div class="w3-container">
+		<p> Today's faculty research talk was by Dr. Saffran where she gave a nice overview of what she studies in her lab. 
+		Her main focus is on how children learn language, but her research and her graduate student's research can vary within 
+		this field. The first thing she had us do together was make a list of things that people know about their native language 
+		that they don't know about a foreign language. We made a good list including things like syntax, vocabulary, intonation, tone, 
+		word frequency, word boundaries, pragmatics, phonetics, morphology, and phonology, and we discussed each. The reason we 
+		made this list is because these are things we intuitively understand with our native language. It is a lot of information, and 
+		some of this information are things that most people are not aware of either. So, how do children figure it all out so easily?
+		Dr. Saffran believes it is largely due to infants' incredible perception of statistical patterns, of which natural language is 
+		riddled with! Her example was a study she did in 1996 about how children identify word boundaries. They found that children 
+		are very good a tracking the probabilities of different sound combinations. For example, a child might hear "pretty baby". The 
+		child must determine which sounds go together to make words, so how do they know that we aren't saying "pre tyba by"? From a 
+		corpora of infant directed speech, Dr. Saffran did the math and found that the syllable 'pre' was followed by 'ty' 80% of the 
+		time and the syllable 'ty' was followed by 'ba' only 0.02% of the time. This definitely showed that there was some </p>
+		<a href="https://psych.wisc.edu/staff/saffran-jenny/" target="_blank">Dr. Saffran's Faculty Page</a>
+	  </div>
+	</div>
+  
+    <!--entry-->
+	<div class="w3-card-4 w3-margin w3-center w3-blue" id="July1718">
+	  <div class="w3-container">
+	    <h3><b>Cognition in Action!</b></h3>
+		<h5>Seventh Lab Tour - Rosengren Lab <span class="w3-opacity">July 17, 2018</span></h5>
+	  </div>
+	  <div class="w3-container">
+		<p> This week's lab tour was of the Cognition In Action Lab run by Dr. Rosengren. Most of the focus in this lab is 
+		the intersection of cognitive and motor development, for example one study in the lab looks at certain errors that 
+		children make like when they try and fit their bodies into something too small or when they try to grab an image that 
+		looks real from a book or even a tablet. Another is a study looking at the paper folding test: a method used in many 
+		schools to test children's spacial reasoning skills. They hope to determine if this test is a good measure for 
+		spacial reasoning and use the method to improve children's spacial reasoning. The last was a study on health and 
+		illness in different cultures. This study looks at how children understand the common cold and the influence of their 
+		parents and their culture in this understanding. The two groups they are working with currently are American families 
+		and Latin American families. </p>
+		<a href="https://rosengrenlab.psych.wisc.edu/" target="_blank">Cognition In Action!</a>
+	  </div>
+	</div>
   
     <!--entry-->
 	<div class="w3-card-4 w3-margin w3-center w3-yellow" id="July9_1318">
@@ -167,7 +367,30 @@ july 17
 		<h5>Summary of my seventh week <span class="w3-opacity">July 9 - 13, 2018</span></h5>
 	  </div>
 	  <div class="w3-container">
-		<p> check slack, missed lab meeting! :(</p>
+		<p> This week I was able to run the kmeans clustering analysis successfully! I used a few different 
+		methods to determine the best number of clusters to use and decided that three clusters fit the data 
+		best. In my three clusters, I found that the individual users were not separated from the organizations 
+		in any of the clusters which is very interesting! If I could I would look to see if those individuals who 
+		were included in the smaller cluster of mainly organizations represented an organization or if the 
+		organizations that were included in the large group of mainly individual users were small startup companies.
+		I think it would definitely be an interesting result, but I don't have a way to go back to the original data 
+		and determine what kind of individual user or organization the users are. I also had a meeting with Joe early 
+		on in the week. He asked me how my project was going and how I was doing, and I asked him about applying to 
+		graduate schools. We talked for quite a while and he gave me a hefty list of names and schools to look into! 
+		I certainly should start working on that list while I'm here while it's easy to find and discuss things with him and 
+		with Nicole. I also met with Nicole this week where we talked about what I had found and what my next steps were.
+		I made a new table that contains information from both the user and the event tables to see if I can combine 
+		information about an event and its author and owner to predict the event type. So I started with the event table 
+		and replaced the author id and owner id with their respective information from the user table. I also included 
+		each user's kmeans cluster group as a source of 'cognitive' information about the user. I was able to create 
+		the table, but because of how I ran the kmeans analysis I didn't have all of the users included in the event 
+		table and subsequently was missing about half the events from the event table. Because of this, I decided to rerun 
+		the kmeans analysis in a way that allowed me to include all of the users from the user table, and then 
+		began the process of making the new table again. The process ran overnight and finished Saturday morning, so I 
+		probably won't look at it until Monday of next week. Because of all my hard work on Friday, I accidentally missed 
+		the lab meeting! I messaged Joe about it and he assured me it wasn't a big deal, but I still felt guilty about it. 
+		I believe that there were MathPsych practice presentations that day and I hope they went well. </p>
+		<a href="/resources/documents/Palminteri2017.pdf" target="_blank">Reading Group Week Seven</a>
 	  </div>
 	</div>
   
@@ -178,7 +401,15 @@ july 17
 		<h5>Our seventh faculty presentation by Dr. Saalmann <span class="w3-opacity">July 12, 2018</span></h5>
 	  </div>
 	  <div class="w3-container">
-		<p> Consciousness</p>
+		<p> For our seventh faculty talk, we learned about Dr. Saalmann's research in consciousness. He is interested 
+		in how information in the brain is transmitted and more specifically how it flows through the thalamo-cortical 
+		network, which is the network of pathways from areas like the frontal and parietal lobes to each other and 
+		through the thalamus. They have found that the thalamus regulates the cortical activity and flow of information 
+		in this network. They have also found that stimulation of the central thalamic region results in arousal when 
+		under anesthesia. But is this merely arousal or is there also awareness? Dr. Saalmann hopes to continue to 
+		investigate this question and more regarding the role of the thalamus in our conscious minds. This kind of research 
+		is so interesting and I intend on following Dr. Saalmann's research to see the strides he and his students make 
+		in this field.</p>
 		<a href="https://psych.wisc.edu/staff/saalmann-yuri/" target="_blank">Dr. Saalmann's Faculty Page</a>
 	  </div>
 	</div>
@@ -245,7 +476,14 @@ july 17
 		</div>
 	  </div>
 	  <div class="w3-container">
-		<p> all of that stuff</p>
+		<p> My goodness this week has been busy! I came home with the intention of relaxing and spending some necessary 
+		time with friends and family, and I did do a bit of that but there was also doctors' appointments, traveling to 
+		Hoisington, Kansas to get a new car from my Uncle's dealership because my truck had completely died, packing up 
+		all of my belongings so that Ethan can move us out of our current house while I'm gone so that we can move into 
+		a new apartment a couple days after I get back, going wedding dress shopping with my bridesmaids, and of course 
+		worrying about all of the work I have left to finish here. In the end it was extremely difficult to leave home 
+		again, especially because it felt like the week just flew by and I didn't get any time to really relax. But, now 
+		that I am back I just need to keep chugging along at a good pace and I will be back home again before I realize it!</p>
 	  </div>
 	</div>
   
@@ -256,7 +494,11 @@ july 17
 		<h5>My meeting with Erick and Jon at KU <span class="w3-opacity">July 7, 2018</span></h5>
 	  </div>
 	  <div class="w3-container">
-		<p> what i talked about with nicole before i left, plans for next week</p>
+		<p> While on vacation at home, I had a meeting with Erick and Jon on campus. It was really nice to see them 
+		again and talk about everything we want to finish this coming semester. I told them about what Nicole and I talked 
+		about a few days before I left, Erick told us about where he was with his side of the project, and we talked about 
+		our plans for the poster we will be presenting at the upcoming Tapia conference. Jon also told us that he will be 
+		out of town for the next couple weeks, so we probably won't meet again until my last week here in Madison.</p>
 	  </div>
 	</div>
 	
@@ -341,16 +583,20 @@ july 17
 	    <h3><b>Happy Birthday!</b></h3>
 		<h5>A Celebration of Sophie's 21st Birthday <span class="w3-opacity">June 30, 2018</span></h5>
 	  </div>
-	  <div class="w3-cell-row">
+	  <div class="w3-cell-row w3-center">
 	    <div class="w3-container w3-cell">
 		  <img src="/resources/images/birthday1.jpg" style="width:75%">
 		</div>
 		<div class="w3-container w3-cell">
-		  <img src="/resources/images/birthday2.jpg" style="width:75%">
+		  <img src="/resources/images/birthday2.jpg" style="width:65%">
 		</div>
 	  </div>
 	  <div class="w3-container">
-		<p> almost messed everthing up!</p>
+		<p> This week the other PREP students and I have been planning a little surprise party for Sophie's Birthday. 
+		She knew that we would be going out to eat but what she didn't know is that when we got back to the Regent there 
+		was cake and drinks and games and music! She was so surprised when she walked in because she and I had gone downstairs 
+		so see if she received any mail while Pamela and Chelsea got everything set up. We all had fun talking and playing 
+		Cards Against Humanity and I'm really glad we got to do something special for her!</p>
 	  </div>
 	</div>
   
@@ -361,11 +607,17 @@ july 17
 		<h5>Summary of my sixth week <span class="w3-opacity">June 25 - 29, 2018</span></h5>
 	  </div>
 	  <div class="w3-container">
-		<p> submitted DREU progress report, hopefully requirements for third stipend will be done at the end of the week, 
-		requested funding for CogSci, awarded funding to cover registration for CogSci, awarded Tapia Travel Scholarship, completed DARPA privacy training, registered for Tapia and CogSci, 
-		found tutorial on kmeans using cluster and factoextra packages to visualize and determine how many clusters we should have for the data, how i split up the data, 
-		finished coding monte carlo simulations and met with erick and jon, see CREU blog, want to start a jupyter notebook to keep tack of my research methods, its really cool, 
-		reading group entropy</p>
+		<p> This week I submitted my DREU progress report, so the only requirement left for my third stipend is for 
+		Nicole to submit her progress report as well. I requested funding for CogSci and was awarded funding to cover 
+		the registration. I was also awarded the Tapia Travel Scholarship, completed DARPA privacy training, registered 
+		for both Tapia and CogSci, and found a tutorial on kmeans clustering analysis using the cluster and factoextra packages. 
+		If I follow the tutorial I should be able to visualize and determine how many clusters we should use for the data and 
+		find the clusters. I also finished coding the Monte Carlo simulations and showed Erick and Jon my results during our 
+		skype meeting (which can be found on my website). One thing I learned about this week was Jupyter notebooks. Dr. Rogers 
+		showed us one of his notebooks while telling us about his project and I really liked the idea. I really want to start 
+		my own and transfer all of my R code to the notebook in order to keep my code better organized, but we will see if 
+		I have any time to do that.</p>
+		<a href="/resources/documents/sims2018.pdf" target="_blank">Reading Group Week Six</a>
 	  </div>
 	</div>
   
